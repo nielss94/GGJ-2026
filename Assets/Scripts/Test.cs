@@ -2,15 +2,26 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
+    public FmodEventAsset testEvent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-
+        AudioService.Instance.PlayOneShot(testEvent);
+        EventBus.PlayerDied += OnPlayerDied;
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
+        EventBus.RaisePlayerDied();
+    }
 
+    void OnDestroy()
+    {
+        EventBus.PlayerDied -= OnPlayerDied;
+    }
+
+    private void OnPlayerDied()
+    {
+        AudioService.Instance.PlayOneShot(testEvent);
     }
 }
