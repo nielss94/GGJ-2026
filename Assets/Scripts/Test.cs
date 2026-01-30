@@ -1,21 +1,26 @@
+using System.Collections;
 using UnityEngine;
 
 public class Test : MonoBehaviour
 {
     public FmodEventAsset testEvent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    void OnEnable()
     {
-        AudioService.Instance.PlayOneShot(testEvent);
         EventBus.PlayerDied += OnPlayerDied;
     }
 
     void Start()
     {
-        EventBus.RaisePlayerDied();
+        StartCoroutine(TestCoroutine());
+    }
+    IEnumerator TestCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+        AudioService.Instance.PlayOneShot(testEvent);
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         EventBus.PlayerDied -= OnPlayerDied;
     }
