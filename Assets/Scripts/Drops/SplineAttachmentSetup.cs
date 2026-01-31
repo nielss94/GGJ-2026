@@ -9,12 +9,20 @@ using UnityEngine.Splines;
 [System.Serializable]
 public class SplineAttachmentSetup
 {
+    public enum RotationMode
+    {
+        Tangent,
+        OutwardAndBackward
+    }
+
     [Tooltip("Drop type this setup applies to (e.g. Feather).")]
     [SerializeField] private DropTypeId dropType;
     [Tooltip("Spline to place items along. Add a SplineContainer to your mask and draw the path in the scene view.")]
     [SerializeField] private SplineContainer splineContainer;
-    [Tooltip("If true, item's forward aligns with spline direction at that point.")]
-    [SerializeField] private bool alignRotationToSpline = true;
+    [Tooltip("How to orient items: Tangent = along spline direction; OutwardAndBackward = point away from mask and backward.")]
+    [SerializeField] private RotationMode rotationMode = RotationMode.OutwardAndBackward;
+    [Tooltip("If true, item's forward is set by rotation mode. If false, rotation is left unchanged.")]
+    [SerializeField] private bool applyRotation = true;
     [Tooltip("Which spline in the container to use (0 = first).")]
     [SerializeField] private int splineIndex;
 
@@ -32,7 +40,24 @@ public class SplineAttachmentSetup
 
         item.position = pos;
 
-        if (alignRotationToSpline && math.lengthsq(tangent) > 0.0001f)
+        if (!applyRotation)
+            return;
+
+        if (rotationMode == RotationMode.Tangent && math.lengthsq(tangent) > 0.0001f)
+        {
             item.rotation = Quaternion.LookRotation(tangent);
+            return;
+        }
+
+        if (rotationMode == RotationMode.OutwardAndBackward)
+        {
+            Vector3 position = pos;
+            Transform refTransform = splineContainer.transform;
+            Vector3 outward = (position - refTransform.position).normalized;
+            Vector3 backward = -refTransform.forward;
+            Vector3 direction = (outward + backward).normalized;
+            if (direction.sqrMagnitude > 0.01f)
+                item.rotation = Quaternion.LookRotation(direction);
+        }
     }
 }

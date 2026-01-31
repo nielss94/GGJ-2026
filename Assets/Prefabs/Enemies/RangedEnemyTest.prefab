@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 372195058438693580}
   - component: {fileID: 8100702676942816361}
   - component: {fileID: -505013028834295143}
+  - component: {fileID: 7685509854110114509}
   m_Layer: 7
   m_Name: RangedEnemyTest
   m_TagString: Untagged
@@ -170,6 +171,21 @@ MonoBehaviour:
   projectileSpeed: 12
   projectileDamage: 15
   firePoint: {fileID: 7935027171719819570}
+--- !u!114 &7685509854110114509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2559445342049017312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7d56c6bac06490090459689721b91f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDropper
+  dropDatabase: {fileID: 11400000, guid: 3bd9fcaca37a1448d8d0e3c14b81ad3e, type: 2}
+  maskReceiver: {fileID: 0}
+  spawnOffset: {x: 0, y: 0.5, z: 0}
 --- !u!1 &3028043041645726519
 GameObject:
   m_ObjectHideFlags: 0

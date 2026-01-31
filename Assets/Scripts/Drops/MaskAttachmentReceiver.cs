@@ -58,18 +58,22 @@ public class MaskAttachmentReceiver : MonoBehaviour
         list.Add(item.transform);
         attachedCountByType[type] = list.Count;
 
-        // Parent under mask and disable physics/colliders
+        // Parent under mask
         item.transform.SetParent(Mask, worldPositionStays: true);
+
+        Quaternion rotationBeforePlace = item.transform.rotation;
 
         if (TryGetSplineSetup(type, out var spline))
         {
             RedistributeSpline(type, spline);
+            item.AnimateSettleRotation(rotationBeforePlace, item.SettleRotationDuration);
             return;
         }
 
         if (TryGetSlotSetup(type, out var slot))
         {
             PlaceInSlot(item.transform, index, slot);
+            item.AnimateSettleRotation(rotationBeforePlace, item.SettleRotationDuration);
             return;
         }
 
