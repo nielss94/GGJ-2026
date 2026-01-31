@@ -84,7 +84,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Foam_Texture:
         m_Texture: {fileID: 2800000, guid: 0f56389eb56180042afd7e2994b1c01b, type: 3}
-        m_Scale: {x: 50, y: 50}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
         m_Texture: {fileID: 0}
@@ -200,12 +200,12 @@ Material:
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
     - _ExcludeFromTUAndAA: 0
-    - _Floating_Foam_Strength: 0.156
-    - _Foam_Bands: 15
-    - _Foam_Fall_Off: 2.51
-    - _Foam_Removal: 1.99
-    - _Foam_Width: 0.46
-    - _Fresnel_Strength: 1
+    - _Floating_Foam_Strength: 0.223
+    - _Foam_Bands: 0.5
+    - _Foam_Fall_Off: 112.32
+    - _Foam_Removal: 0.12
+    - _Foam_Width: 10.6
+    - _Fresnel_Strength: 2
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -276,9 +276,9 @@ Material:
     - _UVEmissive: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
-    - _Water_Depth_Strength: 0.5
+    - _Water_Depth_Strength: 0.6
     - _Wave_Speed: 0.05
-    - _Wave_Strength: 0.8
+    - _Wave_Strength: 1
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
@@ -302,7 +302,7 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - _Wave_Size_1: {r: 80, g: 80, b: 0, a: 0}
-    - _Wave_Size_2: {r: 40, g: 40, b: 0, a: 0}
+    - _Wave_Size_1: {r: 4, g: 4, b: 0, a: 0}
+    - _Wave_Size_2: {r: 2, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
