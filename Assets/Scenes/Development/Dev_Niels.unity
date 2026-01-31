@@ -8301,6 +8301,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e154efd2080d4a5428625397b879d618, type: 2}
     - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxShape
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxOffset
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxSize.x
+      value: 6.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxSize.y
+      value: 4.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxSize.z
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
       propertyPath: enableLogging
       value: 0
       objectReference: {fileID: 0}

@@ -270,9 +270,10 @@ public class LightAttackAbility : PlayerAbility
         if (hitboxShape == HitboxShape.Sphere)
         {
             float radius = (hitboxSize.x + hitboxSize.y + hitboxSize.z) / 3f * scale;
-            Collider[] hits = Physics.OverlapSphere(origin, radius, damageableLayers);
+            Collider[] overlaps = Physics.OverlapSphere(origin, radius, damageableLayers);
+            Collider[] hits = FilterToFrontHalfSphere(overlaps, origin, forward);
             int damagedCount = DamageTargets(hits, damageThisSwing);
-            if (enableLogging) Debug.Log($"[LightAttack] Swing {swingNumber} hitbox (sphere r={radius:F2}): {hits?.Length ?? 0} overlaps, {damagedCount} damaged.");
+            if (enableLogging) Debug.Log($"[LightAttack] Swing {swingNumber} hitbox (sphere r={radius:F2}): {overlaps?.Length ?? 0} overlaps, {hits?.Length ?? 0} in front half, {damagedCount} damaged.");
         }
         else
         {
@@ -316,6 +317,22 @@ public class LightAttackAbility : PlayerAbility
         }
 
         return damaged.Count;
+    }
+
+    /// <summary>For sphere hitbox: only colliders in the front half of the sphere (in front of the player) are considered.</summary>
+    private static Collider[] FilterToFrontHalfSphere(Collider[] overlaps, Vector3 origin, Vector3 forward)
+    {
+        if (overlaps == null || overlaps.Length == 0) return overlaps;
+        Vector3 f = forward.sqrMagnitude > 0.01f ? forward.normalized : Vector3.forward;
+        var list = new List<Collider>(overlaps.Length);
+        foreach (Collider c in overlaps)
+        {
+            if (c == null) continue;
+            Vector3 closest = c.ClosestPoint(origin);
+            if (Vector3.Dot(closest - origin, f) >= 0f)
+                list.Add(c);
+        }
+        return list.ToArray();
     }
 
     private Vector3 GetHitboxOrigin()
