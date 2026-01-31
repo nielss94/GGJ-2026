@@ -930,11 +930,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5316550571398323379, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -314.6249
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5316550571398323379, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -176.9764
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5316550571398323379, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -966,11 +966,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5316550571398323379, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -746.29364
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5316550571398323379, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -421
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5316550571398323379, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -987,6 +987,10 @@ PrefabInstance:
     - target: {fileID: 9025468766607950868, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
       propertyPath: m_Name
       value: UpgradePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 9025468766607950868, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
