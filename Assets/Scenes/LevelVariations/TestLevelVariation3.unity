@@ -151,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Encounter
   budget: 20
   initialSpendRatio: 0.7
+  spawnStartDelay: 1
   enemyPrefabs:
   - {fileID: 5233339675524473751, guid: 159d741c8a91a6449a519bf5273c0738, type: 3}
   - {fileID: 2559445342049017312, guid: 5994a61e796efc44b8bd727d39ff76cd, type: 3}
@@ -196,6 +197,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelCompleteDetector
   encounter: {fileID: 154210608}
+  doors:
+  - {fileID: 1981414896722260527}
+  - {fileID: 1487330262}
 --- !u!1001 &258219874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -864,6 +868,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1d5b6ccc9c06364c89dd54eb17d3dce, type: 3}
+--- !u!114 &1487330262 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 961964209775554807, guid: a1d5b6ccc9c06364c89dd54eb17d3dce, type: 3}
+  m_PrefabInstance: {fileID: 1487330261}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c48d3b50b1f54148aab7c6d4cac83d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDoor
 --- !u!1 &1789696626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,6 +1269,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1d5b6ccc9c06364c89dd54eb17d3dce, type: 3}
+--- !u!114 &1981414896722260527 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 961964209775554807, guid: a1d5b6ccc9c06364c89dd54eb17d3dce, type: 3}
+  m_PrefabInstance: {fileID: 1981414896722260526}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c48d3b50b1f54148aab7c6d4cac83d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDoor
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
