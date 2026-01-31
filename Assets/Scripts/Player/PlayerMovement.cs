@@ -64,6 +64,12 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        // Skip applying movement when input is blocked (e.g. during dash) so other systems can control position.
+        if (PlayerInputBlocker.IsInputBlocked)
+        {
+            return;
+        }
+
         Vector3 cameraForward = virtualCamera.transform.forward;
         Vector3 cameraRight = virtualCamera.transform.right;
         cameraForward.y = 0f;

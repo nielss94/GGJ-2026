@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -10,12 +11,22 @@ public class DashAbility : PlayerAbility
     [Tooltip("Assign the same Ability Stat Id asset as used by 'Dash Distance' ability upgrades in the database.")]
     [SerializeField] private AbilityStatId dashDistanceStatId;
 
-    [Header("Dash (placeholder)")]
+    [Header("Dash")]
     [SerializeField] private float dashDistance = 5f;
     [SerializeField] private float dashDuration = 0.2f;
+    [Tooltip("Optional. If set, dash direction is this transform's forward (e.g. character model). Otherwise uses player root forward.")]
+    [SerializeField] private Transform dashDirectionSource;
+    [Tooltip("Stop dash when hitting a wall. If false, dash continues but movement is clamped each frame.")]
+    [SerializeField] private bool stopDashOnWallHit = true;
+    [Tooltip("Distance buffer from hit surface to avoid overlap (meters).")]
+    [SerializeField] private float wallHitBuffer = 0.02f;
+    [Tooltip("Only end dash when wall hit is at least this far (m). If already against wall (hit closer), we don't end early—dash fizzles for full duration. Set to 0 to always end on any wall hit.")]
+    [SerializeField] private float minWallHitDistanceToEndDash = 0.05f;
 
     /// <summary>Current dash distance (base + values applied from upgrades).</summary>
     public float DashDistance => dashDistance;
+
+    private bool _isDashing;
 
     private void Reset()
     {
@@ -34,12 +45,78 @@ public class DashAbility : PlayerAbility
             dashDistance += value;
     }
 
+    public override bool CanPerform => !_isDashing && base.CanPerform;
+
     public override bool TryPerform()
     {
-        if (!CanPerform) return false;
+        Debug.Log($"[DashAbility] TryPerform called. CanPerform={CanPerform}, _isDashing={_isDashing}");
+        if (!CanPerform)
+        {
+            Debug.Log("[DashAbility] TryPerform aborted: CanPerform is false.");
+            return false;
+        }
 
-        Debug.Log("Dash performed");
-        // TODO: Implement dash (e.g. move player forward, disable input briefly, add i-frames).
+        var rb = PlayerRigidbody;
+        if (rb == null)
+        {
+            Debug.Log("[DashAbility] TryPerform aborted: PlayerRigidbody is null.");
+            return false;
+        }
+
+        Vector3 forward = (dashDirectionSource != null ? dashDirectionSource.forward : PlayerTransform.forward);
+        forward.y = 0f;
+        if (forward.sqrMagnitude < 0.01f)
+            forward = Vector3.forward;
+        else
+            forward.Normalize();
+
+        Debug.Log($"[DashAbility] TryPerform starting dash. direction={forward}, distance={dashDistance}, duration={dashDuration}, speed={dashDistance / dashDuration}");
+        StartCoroutine(PerformDashCoroutine(rb, forward));
         return true;
+    }
+
+    private IEnumerator PerformDashCoroutine(Rigidbody rb, Vector3 direction)
+    {
+        _isDashing = true;
+        EventBus.RaisePlayerInputBlockRequested(this);
+        // TODO: i-frames during dash — e.g. add EventBus.InvincibilityRequested(object source, bool invincible) and raise it here / at end; have health/damage script subscribe and ignore damage while any source has requested invincibility (same pattern as PlayerInputBlocker).
+
+        float speed = dashDistance / dashDuration;
+        float elapsed = 0f;
+        int frameCount = 0;
+        Debug.Log($"[DashAbility] PerformDashCoroutine started. speed={speed}, dashDuration={dashDuration}");
+
+        while (elapsed < dashDuration)
+        {
+            yield return new WaitForFixedUpdate();
+            float step = Mathf.Min(Time.fixedDeltaTime, dashDuration - elapsed);
+            float desiredDistance = speed * step;
+            float actualDistance = desiredDistance;
+
+            if (desiredDistance > 0.001f && rb.SweepTest(direction, out RaycastHit hit, desiredDistance))
+            {
+                if (!hit.collider.isTrigger)
+                {
+                    actualDistance = Mathf.Max(0f, hit.distance - wallHitBuffer);
+                    bool farEnoughToCountAsWallHit = hit.distance >= minWallHitDistanceToEndDash;
+                    if (stopDashOnWallHit && farEnoughToCountAsWallHit)
+                    {
+                        rb.MovePosition(rb.position + direction * actualDistance);
+                        elapsed += dashDuration;
+                        break;
+                    }
+                }
+            }
+
+            rb.MovePosition(rb.position + direction * actualDistance);
+            elapsed += step;
+            frameCount++;
+            if (frameCount <= 3 || frameCount % 5 == 0)
+                Debug.Log($"[DashAbility] Dash frame {frameCount}: step={step}, actualDistance={actualDistance}, elapsed={elapsed}/{dashDuration}");
+        }
+
+        Debug.Log($"[DashAbility] PerformDashCoroutine finished after {frameCount} fixed updates.");
+        EventBus.RaisePlayerInputUnblockRequested(this);
+        _isDashing = false;
     }
 }

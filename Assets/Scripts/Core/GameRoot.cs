@@ -1,32 +1,22 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Single entry point when the game starts. Lives in Bootstrap (first scene).
-/// Why GameRoot?
-/// 1. Something must run first — the first scene needs one object that owns startup.
-/// 2. DontDestroyOnLoad — services (e.g. AudioService) live on this object so they
-///    survive when we load Game.unity; without a persistent root they would be destroyed.
-/// 3. Init order — we do one-time setup (mark as persistent), then load the real game
-///    scene in a controlled way instead of random Awake/Start order.
-/// 4. One-time load — _done guards so we only load Game once (no double load / race).
+/// Persistent root object. Ensures only one exists and survives scene loads.
+/// Children (e.g. AudioSource) stay alive across scenes via DontDestroyOnLoad.
 /// </summary>
 public class GameRoot : MonoBehaviour
 {
-    [SerializeField] private string _gameSceneName = "Game";
-
-    private static bool _done;
+    public static GameRoot Instance { get; private set; }
 
     private void Awake()
     {
-        if (_done) return;
-        DontDestroyOnLoad(gameObject);
-    }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-    private void Start()
-    {
-        if (_done) return;
-        _done = true;
-        SceneManager.LoadScene(_gameSceneName);
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 }

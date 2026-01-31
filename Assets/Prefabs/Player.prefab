@@ -289,9 +289,14 @@ MonoBehaviour:
   abilityName: Dash
   description: DASH
   preferredSlot: 0
+  playerRigidbodyOverride: {fileID: 0}
   dashDistanceStatId: {fileID: 11400000, guid: 6d638d9c3753043bc812e065247f5641, type: 2}
   dashDistance: 5
   dashDuration: 0.2
+  dashDirectionSource: {fileID: 0}
+  stopDashOnWallHit: 1
+  wallHitBuffer: 0.02
+  minWallHitDistanceToEndDash: 0.05
 --- !u!1 &5175298160320208185
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +639,7 @@ MonoBehaviour:
   abilityName: Light Attack
   description: ATAK
   preferredSlot: 2
+  playerRigidbodyOverride: {fileID: 0}
   damage: 10
   attackDuration: 0.3
 --- !u!1 &9216222891843173901
