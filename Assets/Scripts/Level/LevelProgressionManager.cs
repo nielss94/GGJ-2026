@@ -122,6 +122,9 @@ public class LevelProgressionManager : MonoBehaviour
         isLoading = true;
         currentLevelBudget = baseBudget + levelDepth * budgetIncrementPerLevel;
 
+        if (playerTransform != null)
+            playerTransform.gameObject.SetActive(true);
+
         if (currentLevelScene.HasValue && currentLevelScene.Value.isLoaded)
         {
             var unload = SceneManager.UnloadSceneAsync(currentLevelScene.Value);

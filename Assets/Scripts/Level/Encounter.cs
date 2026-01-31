@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Scene-local encounter: spawns enemies from a power budget. Majority spawn at start; more can spawn during the level.
@@ -15,6 +16,8 @@ public class Encounter : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float initialSpendRatio = 0.7f;
 
     [Header("Spawning")]
+    [Tooltip("Seconds to wait after the level loads before spawning the first wave. Gives the player a moment before enemies appear.")]
+    [SerializeField] private float spawnStartDelay = 1f;
     [Tooltip("Prefabs to spawn (must have Health and EnemyTypeApplier for cost).")]
     [SerializeField] private GameObject[] enemyPrefabs = Array.Empty<GameObject>();
     [Tooltip("Where to spawn enemies. Uses this transform's position if empty.")]
@@ -46,6 +49,14 @@ public class Encounter : MonoBehaviour
         if (LevelProgressionManager.Instance != null)
             SetBudget(LevelProgressionManager.Instance.GetBudgetForCurrentLevel());
         remainingBudget = budget;
+        if (spawnStartDelay > 0f)
+            Invoke(nameof(StartSpawning), spawnStartDelay);
+        else
+            StartSpawning();
+    }
+
+    private void StartSpawning()
+    {
         SpawnInitialWave();
         if (spawnDuringLevel && spawnInterval > 0f)
             InvokeRepeating(nameof(TrySpawnOne), spawnInterval, spawnInterval);
@@ -90,6 +101,7 @@ public class Encounter : MonoBehaviour
         }
 
         GameObject instance = Instantiate(prefab, position, rotation);
+        SceneManager.MoveGameObjectToScene(instance, gameObject.scene);
         if (instance.TryGetComponent(out Health health))
         {
             Track(health);
