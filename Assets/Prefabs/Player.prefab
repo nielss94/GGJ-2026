@@ -362,8 +362,8 @@ MonoBehaviour:
   model: {fileID: 1649450783481899337}
   virtualCamera: {fileID: 6085969187623512814}
   inputActions: {fileID: -944628639613478452, guid: 35845fe01580c41289b024647b1d1c53, type: 3}
-  moveSpeed: 2
-  rotationSpeed: 0.15
+  moveSpeed: 7.5
+  rotationSpeed: 0.8
 --- !u!54 &5766441260869216408
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -389,7 +389,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &2114751411203063132
 MonoBehaviour:
@@ -486,13 +486,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9216222891843173901}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4178568, y: 0.000000038012924, z: -0.000000024691131, w: 0.90851295}
-  m_LocalPosition: {x: 0, y: 7, z: -6}
+  m_LocalRotation: {x: 0.46193978, y: 0.33141357, z: -0.19134171, w: 0.8001032}
+  m_LocalPosition: {x: -7, y: 18, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1147164317180401782}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 45, z: 0}
 --- !u!114 &6085969187623512814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,7 +517,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 60
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -554,7 +554,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 7, z: -6}
+  FollowOffset: {x: -7, y: 18, z: -7}
 --- !u!114 &3621786245262931226
 MonoBehaviour:
   m_ObjectHideFlags: 0
