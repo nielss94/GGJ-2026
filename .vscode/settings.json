@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "GGJ-2026.sln"
+    "dotnet.defaultSolution": "GGJ-2026.sln",
+    "dotnet.server.useOmnisharp": true
 }
