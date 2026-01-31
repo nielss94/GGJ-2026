@@ -10,6 +10,8 @@ public class EnemyType : ScriptableObject
 {
     [Header("Identity")]
     [SerializeField] private string displayName = "Enemy";
+    [Tooltip("Power cost for spawn budget. Higher = harder; encounter budget gates how much can spawn.")]
+    [SerializeField] private int powerCost = 1;
 
     [Header("Base")]
     [SerializeField] private float maxHealth = 50f;
@@ -27,6 +29,7 @@ public class EnemyType : ScriptableObject
     [SerializeField] private float rangedProjectileSpeed = 12f;
 
     public string DisplayName => displayName;
+    public int PowerCost => powerCost;
     public float MaxHealth => maxHealth;
     public float MoveSpeed => moveSpeed;
     public float ContactDamage => contactDamage;

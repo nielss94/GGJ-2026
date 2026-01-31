@@ -22,6 +22,10 @@ public class Health : MonoBehaviour
     public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
     public bool IsDead => isDead;
+    public bool IsPlayer => isPlayer;
+
+    /// <summary>Raised when this Health dies. Use for local listeners (e.g. level enemy registration).</summary>
+    public event Action Died;
 
     private void Awake()
     {
@@ -58,8 +62,11 @@ public class Health : MonoBehaviour
             isDead = true;
             onDeath?.Invoke();
             if (isPlayer)
-            {
                 EventBus.RaisePlayerDied();
+            else
+            {
+                Died?.Invoke();
+                EventBus.RaiseEnemyDied();
             }
             return true;
         }
