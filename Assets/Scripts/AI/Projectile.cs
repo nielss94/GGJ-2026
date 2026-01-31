@@ -2,8 +2,8 @@ using UnityEngine;
 
 /// <summary>
 /// Fireball-style projectile: moves in a straight line. Init(damage, speed, owner) is called by RangedAttack when spawned.
-/// Uses Rigidbody.MovePosition in FixedUpdate so the physics engine detects collisions with environment (Is Trigger = false).
-/// Uses layers: Projectile on spawn; ignores Enemy and owner. Ensure Projectile collides with Default (environment) in Physics matrix.
+/// Moves with transform.position (not MovePosition) so the player is not pushed when hit. Rigidbody is kept for trigger detection only.
+/// Uses layers: Projectile on spawn; ignores Enemy and owner.
 /// </summary>
 [RequireComponent(typeof(Collider))]
 public class Projectile : MonoBehaviour
@@ -36,15 +36,15 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (!initialized || rb == null) return;
+        if (!initialized) return;
         Vector3 move = transform.forward;
         if (move.y < 0f) move.y = 0f;
         if (move.sqrMagnitude > 0.001f)
         {
             move.Normalize();
-            rb.MovePosition(transform.position + move * (speed * Time.fixedDeltaTime));
+            transform.position += move * (speed * Time.deltaTime);
         }
     }
 
@@ -64,6 +64,10 @@ public class Projectile : MonoBehaviour
         if (health != null && !health.IsDead)
         {
             health.TakeDamage(damage);
+            Destroy(gameObject);
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }
