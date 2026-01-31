@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
-/// Attack behaviour: deal damage at range. Either hitscan (raycast) or spawn a projectile.
-/// Uses Enemy.PlayerTarget for aim. Add with ChaseMovement for enemies that chase and shoot.
+/// Telegraphed ranged attack: channel (telegraph) then fire. Requires line of sight; does not shoot through walls.
+/// Stops movement during telegraph via EnemyAttackState. Uses Enemy.PlayerTarget for aim.
 /// </summary>
 public class RangedAttack : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class RangedAttack : MonoBehaviour
     [Tooltip("Leave 0 for no range limit.")]
     [SerializeField] private float range = 15f;
     [SerializeField] private float fireInterval = 1.5f;
+    [Tooltip("Telegraph/channel duration before firing. Player can see intent before shot.")]
+    [SerializeField] private float telegraphDuration = 0.3f;
 
     [Header("Attack type")]
     [SerializeField] private AttackType attackType = AttackType.Hitscan;
@@ -30,26 +33,63 @@ public class RangedAttack : MonoBehaviour
     [Tooltip("Where to spawn the projectile. Leave empty to use this transform.")]
     [SerializeField] private Transform firePoint;
 
-    /// <summary>Set damage, fire interval, and projectile speed from EnemyType (e.g. via EnemyTypeApplier).</summary>
-    public void SetFromEnemyType(float damage, float fireInterval, float projectileSpeedValue)
+    [Header("Telegraph events (optional)")]
+    [Tooltip("Fired when telegraph/channel starts. Use for aim warning VFX or sound.")]
+    [SerializeField] private UnityEvent onTelegraphStarted;
+
+    /// <summary>Set damage, fire interval, range, and projectile speed from EnemyType (e.g. via EnemyTypeApplier).</summary>
+    public void SetFromEnemyType(float damage, float fireInterval, float projectileSpeedValue, float rangeValue = -1f)
     {
         hitscanDamage = damage;
         projectileDamage = damage;
-        fireInterval = fireInterval;
+        this.fireInterval = fireInterval;
         projectileSpeed = projectileSpeedValue;
+        if (rangeValue >= 0f)
+            range = rangeValue;
     }
 
+    /// <summary>Set telegraph duration (e.g. from EnemyType).</summary>
+    public void SetTelegraphDuration(float duration)
+    {
+        telegraphDuration = Mathf.Max(0.01f, duration);
+    }
+
+    private enum State { Idle, Telegraphing }
+
+    private State state = State.Idle;
+    private float telegraphEndTime;
+    private Transform cachedTargetForTelegraph;
     private Enemy enemy;
+    private EnemySight sight;
+    private EnemyAttackState attackState;
     private float nextFireTime;
 
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
+        sight = GetComponent<EnemySight>();
+        attackState = GetComponent<EnemyAttackState>();
     }
 
     private void Update()
     {
         Transform target = enemy != null ? enemy.PlayerTarget : null;
+
+        if (state == State.Telegraphing)
+        {
+            if (Time.time >= telegraphEndTime)
+            {
+                if (attackState != null)
+                    attackState.IsChanneling = false;
+                if (cachedTargetForTelegraph != null)
+                    FireAt(cachedTargetForTelegraph);
+                cachedTargetForTelegraph = null;
+                state = State.Idle;
+                nextFireTime = Time.time + fireInterval;
+            }
+            return;
+        }
+
         if (target == null || Time.time < nextFireTime)
             return;
 
@@ -57,6 +97,20 @@ public class RangedAttack : MonoBehaviour
         if (range > 0f && distSq > range * range)
             return;
 
+        bool hasLos = sight == null || sight.HasLineOfSightTo(target);
+        if (!hasLos)
+            return;
+
+        state = State.Telegraphing;
+        telegraphEndTime = Time.time + telegraphDuration;
+        cachedTargetForTelegraph = target;
+        if (attackState != null)
+            attackState.IsChanneling = true;
+        onTelegraphStarted?.Invoke();
+    }
+
+    private void FireAt(Transform target)
+    {
         Vector3 origin = firePoint != null ? firePoint.position : transform.position;
         Vector3 aimDir = (target.position - origin).normalized;
 
@@ -80,7 +134,5 @@ public class RangedAttack : MonoBehaviour
                 }
                 break;
         }
-
-        nextFireTime = Time.time + fireInterval;
     }
 }

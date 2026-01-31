@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8100702676942816361}
   - component: {fileID: -505013028834295143}
   - component: {fileID: 7685509854110114509}
+  - component: {fileID: 6875757041293066871}
   m_Layer: 7
   m_Name: RangedEnemyTest
   m_TagString: Untagged
@@ -53,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e6b4891b2407747854e0b4ec61d6b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTypeApplier
-  type: {fileID: 11400000, guid: eae92a5c81557a348a4ce00b4da87f96, type: 2}
+  type: {fileID: 11400000, guid: 2d53a158949354387a598acf0449808a, type: 2}
 --- !u!195 &6867115238488282163
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -122,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChaseMovement
   target: {fileID: 0}
+  stopWhenInAttackRange: 0
 --- !u!114 &8100702676942816361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,12 +167,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RangedAttack
   range: 15
   fireInterval: 1.5
+  telegraphDuration: 0.3
   attackType: 1
   hitscanDamage: 15
   projectilePrefab: {fileID: 6241768995985242709, guid: 4d98bd4bc203ee7409c84861e5496d48, type: 3}
   projectileSpeed: 12
   projectileDamage: 15
   firePoint: {fileID: 7935027171719819570}
+  onTelegraphStarted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7685509854110114509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +192,18 @@ MonoBehaviour:
   dropDatabase: {fileID: 11400000, guid: 3bd9fcaca37a1448d8d0e3c14b81ad3e, type: 2}
   maskReceiver: {fileID: 0}
   spawnOffset: {x: 0, y: 0.5, z: 0}
+--- !u!114 &6875757041293066871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2559445342049017312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c3d4e5f60718293a4b5c6d7e8f901a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackState
 --- !u!1 &3028043041645726519
 GameObject:
   m_ObjectHideFlags: 0
