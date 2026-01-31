@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using PrimeTween;
 using TMPro;
+using System.Collections.Generic;
 
 public class Card : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
@@ -33,6 +34,8 @@ public class Card : MonoBehaviour, ISelectHandler, IDeselectHandler
     private Tween scaleTween;
     private UpgradeOffer upgradeOffer;
 
+    private readonly Dictionary<string, string> eventParameters = new Dictionary<string, string> { };
+
     private void Awake()
     {
         button = GetComponent<Button>();
@@ -52,6 +55,7 @@ public class Card : MonoBehaviour, ISelectHandler, IDeselectHandler
     public void Initialize(UpgradeOffer offer)
     {
         upgradeOffer = offer;
+        eventParameters.Clear();
         if (offer == null) return;
 
         if (titleText != null)
@@ -66,6 +70,9 @@ public class Card : MonoBehaviour, ISelectHandler, IDeselectHandler
         }
         if (rarityBorderImage != null && offer.Rarity != null)
             rarityBorderImage.color = offer.Rarity.DisplayColor;
+
+        eventParameters.Add("rarity", offer.RarityFmodEventName.ToLower());
+        eventParameters.Add("upgrade_type", offer.DefinitionFmodEventName.ToLower());
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -94,8 +101,8 @@ public class Card : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     private void OnCardClicked()
     {
-        if (clickSound != null && AudioService.Instance != null)
-            AudioService.Instance.PlayOneShot(clickSound);
+        if (clickSound != null && AudioService.Instance != null && eventParameters.Count > 0)
+            AudioService.Instance.PlayOneShotWithParameters(clickSound, eventParameters);
         Clicked?.Invoke(upgradeOffer);
     }
 }

@@ -27,6 +27,14 @@ public class UpgradeOffer
     /// <summary>Rarity display name.</summary>
     public string RarityName => Rarity != null ? Rarity.DisplayName : "";
 
+    /// <summary>FMOD event/parameter name for this offer's rarity. Use when sending parameters to FMOD (e.g. setParameterByNameWithLabel).</summary>
+    public string RarityFmodEventName => Rarity != null ? Rarity.FmodEventName : "";
+
+    /// <summary>FMOD event/parameter name for this offer's upgrade (ability or stat). Use when sending parameters to FMOD.</summary>
+    public string DefinitionFmodEventName => IsAbility
+        ? (AbilityDefinition != null ? AbilityDefinition.FmodEventName : "")
+        : (StatDefinition != null ? StatDefinition.FmodEventName : "");
+
     /// <summary>Ability slot (only for ability upgrades).</summary>
     public PlayerAbilityManager.AbilitySlot? AbilitySlot => IsAbility ? AbilityDefinition.AbilitySlot : null;
 

@@ -202,7 +202,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -293,7 +293,7 @@ MonoBehaviour:
   dashDistanceStatId: {fileID: 11400000, guid: 6d638d9c3753043bc812e065247f5641, type: 2}
   dashDistance: 5
   dashDuration: 0.2
-  dashDirectionSource: {fileID: 0}
+  dashDirectionSource: {fileID: 8327455610066247939}
   stopDashOnWallHit: 1
   wallHitBuffer: 0.02
   minWallHitDistanceToEndDash: 0.05
@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 2203496732461088381}
   - component: {fileID: 6731190559124809214}
   - component: {fileID: 4200191816472261527}
+  - component: {fileID: 6176219080056381527}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -560,7 +561,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &2114751411203063132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,6 +631,29 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!136 &6176219080056381527
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045543100017386537}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8718913515318963313
 GameObject:
   m_ObjectHideFlags: 0

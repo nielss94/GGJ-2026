@@ -16,3 +16,4 @@ MonoBehaviour:
   probabilityWeight: 70
   valueMultiplier: 1
   displayColor: {r: 0.08962262, g: 0.5464431, b: 1, a: 1}
+  fmodEventName: rare
