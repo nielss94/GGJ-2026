@@ -46,6 +46,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (PlayerInputBlocker.IsInputBlocked)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
         if (moveAction != null)
         {
             moveInput = moveAction.ReadValue<Vector2>();

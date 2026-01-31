@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public abstract class PlayerAbility : MonoBehaviour
 {
+    public int level = 1;
     [Header("Ability Info")]
     [SerializeField] protected string abilityName = "Ability";
     [SerializeField][TextArea(1, 3)] private string description = "";
@@ -16,6 +17,11 @@ public abstract class PlayerAbility : MonoBehaviour
     [SerializeField] protected PlayerAbilityManager.AbilitySlot preferredSlot = PlayerAbilityManager.AbilitySlot.A;
 
     private Rigidbody _playerRigidbody;
+
+    private void Start()
+    {
+        ApplyLevel();
+    }
 
     /// <summary>
     /// Display name for UI or debugging.
@@ -41,6 +47,51 @@ public abstract class PlayerAbility : MonoBehaviour
     /// Cached Rigidbody on the player (this GameObject or parent). Use for movement abilities (e.g. dash). May be null if player uses CharacterController.
     /// </summary>
     protected Rigidbody PlayerRigidbody => _playerRigidbody != null ? _playerRigidbody : _playerRigidbody = GetComponent<Rigidbody>() ?? GetComponentInParent<Rigidbody>();
+
+    /// <summary>
+    /// Evaluates an animation curve at the current level. Level is clamped to the curve's key range,
+    /// so if level exceeds the curve's max time, the value at the max time is used.
+    /// </summary>
+    /// <param name="curve">The curve to evaluate (level on X, value on Y).</param>
+    /// <returns>Curve value at the clamped level, or 0 if curve is null or has no keys.</returns>
+    protected float EvaluateCurveAtLevel(AnimationCurve curve)
+    {
+        if (curve == null || curve.keys.Length == 0)
+            return 0f;
+
+        float minTime = curve.keys[0].time;
+        float maxTime = curve.keys[curve.keys.Length - 1].time;
+        float clampedLevel = Mathf.Clamp(level, minTime, maxTime);
+        return curve.Evaluate(clampedLevel);
+    }
+
+    /// <summary>
+    /// Called when level changes. Override to apply animation curves (via EvaluateCurveAtLevel) to this ability's parameters.
+    /// </summary>
+    public virtual void ApplyLevel() { }
+
+    /// <summary>
+    /// Sets the ability level and reapplies level-based parameters (calls ApplyLevel).
+    /// </summary>
+    public void SetLevel(int newLevel)
+    {
+        level = newLevel;
+        ApplyLevel();
+    }
+
+    /// <summary>
+    /// Increases level by one and reapplies level-based parameters.
+    /// </summary>
+    public void LevelUp()
+    {
+        SetLevel(level + 1);
+    }
+
+    /// <summary>
+    /// Called when an upgrade is applied that targets this ability. statId is the ScriptableObject from the upgrade definition;
+    /// value is the database curve evaluated at current level, multiplied by rarity. Override to apply (e.g. add to dash distance).
+    /// </summary>
+    public virtual void ApplyUpgradeValue(AbilityStatId statId, float value) { }
 
     /// <summary>
     /// Called when the player triggers this ability (button pressed). Return true if the ability was performed.

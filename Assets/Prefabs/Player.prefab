@@ -285,9 +285,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be708a371ec4b4d7c9c0774f21e6ed79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DashAbility
+  level: 1
   abilityName: Dash
   description: DASH
   preferredSlot: 0
+  dashDistanceStatId: {fileID: 11400000, guid: 6d638d9c3753043bc812e065247f5641, type: 2}
   dashDistance: 5
   dashDuration: 0.2
 --- !u!1 &5175298160320208185
@@ -482,6 +484,7 @@ GameObject:
   - component: {fileID: 821960428016917775}
   - component: {fileID: 5766441260869216408}
   - component: {fileID: 2114751411203063132}
+  - component: {fileID: 2203496732461088381}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -567,9 +570,22 @@ MonoBehaviour:
   abilitiesContainer: {fileID: 3329017028835715742}
   autoAssignFromSameObject: 1
   abilitySlotA: {fileID: 3699979859993747153}
-  abilitySlotB: {fileID: 3699979859993747153}
+  abilitySlotB: {fileID: 0}
   abilitySlotX: {fileID: 3495186614016676912}
   abilitySlotY: {fileID: 0}
+--- !u!114 &2203496732461088381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045543100017386537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9423a650fce64259b2724ae3414ee0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeApplier
+  abilityManager: {fileID: 0}
 --- !u!1 &8718913515318963313
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,6 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6019b07b024ac43e394815f0c2a8d3a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightAttackAbility
+  level: 1
   abilityName: Light Attack
   description: ATAK
   preferredSlot: 2
