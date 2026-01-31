@@ -16,6 +16,13 @@ public class Health : MonoBehaviour
     [Header("Events")]
     [SerializeField] private UnityEvent onDeath;
 
+    /// <summary>Add a runtime listener for death (e.g. EnemyDropper). Same as wiring OnDeath in the inspector.</summary>
+    public void AddOnDeathListener(UnityAction callback)
+    {
+        if (callback != null)
+            onDeath.AddListener(callback);
+    }
+
     private float currentHealth;
     private bool isDead;
 

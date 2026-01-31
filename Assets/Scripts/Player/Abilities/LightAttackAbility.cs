@@ -362,8 +362,8 @@ public class LightAttackAbility : PlayerAbility
     {
         if (AudioService.Instance == null || fmodSwing == null || fmodSwing.IsNull) return;
         int comboValue = Mathf.Clamp(comboIndex, 0, 2);
-        var parameters = new Dictionary<string, string> { { fmodSwingComboParameterName, comboValue.ToString() } };
-        AudioService.Instance.PlayOneShotWithParameters(fmodSwing, parameters);
+        var parameters = new Dictionary<string, int> { { fmodSwingComboParameterName, comboValue } };
+        AudioService.Instance.PlayOneShotWithParametersInt(fmodSwing, parameters);
     }
 
     private void OnDrawGizmos()
