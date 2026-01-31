@@ -69,12 +69,10 @@ public class LightAttackAbility : PlayerAbility
     [SerializeField] private bool enableLogging;
 
     [Header("FMOD (optional)")]
-    [Tooltip("Played at start of swing 1.")]
-    [SerializeField] private FmodEventAsset fmodSwing1;
-    [Tooltip("Played at start of swing 2.")]
-    [SerializeField] private FmodEventAsset fmodSwing2;
-    [Tooltip("Played at start of swing 3.")]
-    [SerializeField] private FmodEventAsset fmodSwing3;
+    [Tooltip("Played at start of each swing. Use Combo Parameter to differentiate (0, 1, 2).")]
+    [SerializeField] private FmodEventAsset fmodSwing;
+    [Tooltip("FMOD parameter name for combo swing (value 0, 1, or 2). Set in inspector to match your event.")]
+    [SerializeField] private string fmodSwingComboParameterName = "Combo";
     [Tooltip("Optional: played when an enemy is damaged (hook for later).")]
     [SerializeField] private FmodEventAsset fmodOnHit;
 
@@ -122,7 +120,7 @@ public class LightAttackAbility : PlayerAbility
         EventBus.PlayerDashStarted -= OnPlayerDashStarted;
         if (state != State.Idle)
         {
-            EventBus.RaisePlayerInputUnblockRequested(this);
+            EventBus.RaisePlayerMovementUnblockRequested(this);
             state = State.Idle;
         }
     }
@@ -205,7 +203,7 @@ public class LightAttackAbility : PlayerAbility
 
     private void StartSwing(int comboIndex)
     {
-        EventBus.RaisePlayerInputBlockRequested(this);
+        EventBus.RaisePlayerMovementBlockRequested(this);
 
         state = comboIndex == 0 ? State.Swing0 : (comboIndex == 1 ? State.Swing1 : State.Swing2);
 
@@ -237,14 +235,14 @@ public class LightAttackAbility : PlayerAbility
             state = State.BetweenSwings0;
             nextSwingAllowedAt = now + minBetween;
             comboWindowEndTime = now + comboLinkWindow;
-            EventBus.RaisePlayerInputUnblockRequested(this);
+            EventBus.RaisePlayerMovementUnblockRequested(this);
         }
         else if (state == State.Swing1)
         {
             state = State.BetweenSwings1;
             nextSwingAllowedAt = now + minBetween;
             comboWindowEndTime = now + comboLinkWindow;
-            EventBus.RaisePlayerInputUnblockRequested(this);
+            EventBus.RaisePlayerMovementUnblockRequested(this);
         }
     }
 
@@ -252,13 +250,13 @@ public class LightAttackAbility : PlayerAbility
     {
         state = State.Idle;
         cooldownUntil = Time.time + Mathf.Max(0f, cooldown);
-        EventBus.RaisePlayerInputUnblockRequested(this);
+        EventBus.RaisePlayerMovementUnblockRequested(this);
     }
 
     private void EndComboWithoutCooldown()
     {
         state = State.Idle;
-        EventBus.RaisePlayerInputUnblockRequested(this);
+        EventBus.RaisePlayerMovementUnblockRequested(this);
     }
 
     private void ApplyHitbox(int swingNumber)
@@ -345,13 +343,13 @@ public class LightAttackAbility : PlayerAbility
 
     private void PlaySwingSound(int comboIndex)
     {
-        if (AudioService.Instance == null) return;
-        FmodEventAsset evt = comboIndex == 0 ? fmodSwing1 : (comboIndex == 1 ? fmodSwing2 : fmodSwing3);
-        if (evt != null && !evt.IsNull)
-            AudioService.Instance.PlayOneShot(evt, PlayerTransform.position);
+        if (AudioService.Instance == null || fmodSwing == null || fmodSwing.IsNull) return;
+        int comboValue = Mathf.Clamp(comboIndex, 0, 2);
+        var parameters = new Dictionary<string, string> { { fmodSwingComboParameterName, comboValue.ToString() } };
+        AudioService.Instance.PlayOneShotWithParameters(fmodSwing, parameters);
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (!drawHitboxGizmo) return;
 
