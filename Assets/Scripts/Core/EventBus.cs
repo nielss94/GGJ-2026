@@ -36,6 +36,20 @@ public static class EventBus
     public static void RaisePlayerInputUnblockRequested(object source) => PlayerInputUnblockRequested?.Invoke(source);
 
     /// <summary>
+    /// Raised when something (e.g. light attack during swing) wants to block only movement, not ability input. Allows dash cancel mid-attack.
+    /// </summary>
+    public static event Action<object> PlayerMovementBlockRequested;
+
+    /// <summary>
+    /// Raised when a source that previously blocked movement no longer does.
+    /// </summary>
+    public static event Action<object> PlayerMovementUnblockRequested;
+
+    public static void RaisePlayerMovementBlockRequested(object source) => PlayerMovementBlockRequested?.Invoke(source);
+
+    public static void RaisePlayerMovementUnblockRequested(object source) => PlayerMovementUnblockRequested?.Invoke(source);
+
+    /// <summary>
     /// Raised when the player starts a dash. Use for dodge cancel (e.g. LightAttackAbility cancels attack and hitboxes).
     /// </summary>
     public static event Action<object> PlayerDashStarted;
