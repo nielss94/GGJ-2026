@@ -48,6 +48,19 @@ public class AudioService : MonoBehaviour
         instance.release();
     }
 
+
+    public void PlayOneShotWithParametersInt(FmodEventAsset fmodEvent, Dictionary<string, int> parameters)
+    {
+        if (fmodEvent == null || fmodEvent.IsNull) return;
+        var instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent.EventReference);
+        foreach (var parameter in parameters)
+        {
+            instance.setParameterByName(parameter.Key, parameter.Value);
+        }
+        instance.start();
+        instance.release();
+    }
+
     public void PlayOneShot(FmodEventAsset fmodEvent)
     {
         if (fmodEvent == null || fmodEvent.IsNull) return;

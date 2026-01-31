@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 5540874516573651722}
   - component: {fileID: 1012473572634576439}
   - component: {fileID: -2296621646114750256}
+  - component: {fileID: 6271211890732130023}
   m_Layer: 7
   m_Name: MeleeEnemyTest
   m_TagString: Untagged
@@ -264,7 +265,34 @@ MonoBehaviour:
   isPlayer: 0
   onDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5233339675524473751}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6271211890732130023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5233339675524473751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7d56c6bac06490090459689721b91f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDropper
+  dropDatabase: {fileID: 11400000, guid: 3bd9fcaca37a1448d8d0e3c14b81ad3e, type: 2}
+  maskReceiver: {fileID: 0}
+  spawnOffset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &6290256332954324988
 GameObject:
   m_ObjectHideFlags: 0
