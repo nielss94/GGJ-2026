@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FmodEventAsset
   _eventReference:
     Guid:
-      Data1: 420739844
-      Data2: 1208459284
-      Data3: -525137007
-      Data4: -2080376761
-    Path: event:/p3_choose
+      Data1: -1527639979
+      Data2: 1146609230
+      Data3: -2086165084
+      Data4: -101592979
+    Path: event:/UI_choose_upgrade

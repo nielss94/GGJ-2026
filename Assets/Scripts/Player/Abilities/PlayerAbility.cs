@@ -16,6 +16,10 @@ public abstract class PlayerAbility : MonoBehaviour
     [Tooltip("If PlayerAbilityManager has Auto-Assign enabled, this ability is assigned to this button slot.")]
     [SerializeField] protected PlayerAbilityManager.AbilitySlot preferredSlot = PlayerAbilityManager.AbilitySlot.A;
 
+    [Header("References (optional)")]
+    [Tooltip("Player Rigidbody for movement (e.g. dash). If unset, resolved from grandparent (parent of parent) once and cached.")]
+    [SerializeField] private Rigidbody playerRigidbodyOverride;
+
     private Rigidbody _playerRigidbody;
 
     private void Start()
@@ -44,9 +48,15 @@ public abstract class PlayerAbility : MonoBehaviour
     protected Transform PlayerTransform => PlayerRigidbody != null ? PlayerRigidbody.transform : transform.root;
 
     /// <summary>
-    /// Cached Rigidbody on the player (this GameObject or parent). Use for movement abilities (e.g. dash). May be null if player uses CharacterController.
+    /// Rigidbody on the player. Uses playerRigidbodyOverride if assigned; otherwise resolved from grandparent once and cached. Use for movement abilities (e.g. dash). May be null if player uses CharacterController.
     /// </summary>
-    protected Rigidbody PlayerRigidbody => _playerRigidbody != null ? _playerRigidbody : _playerRigidbody = GetComponent<Rigidbody>() ?? GetComponentInParent<Rigidbody>();
+    protected Rigidbody PlayerRigidbody => playerRigidbodyOverride != null ? playerRigidbodyOverride : (_playerRigidbody != null ? _playerRigidbody : _playerRigidbody = ResolvePlayerRigidbody());
+
+    private Rigidbody ResolvePlayerRigidbody()
+    {
+        Transform grandparent = transform.parent != null ? transform.parent.parent : null;
+        return grandparent != null ? grandparent.GetComponent<Rigidbody>() : GetComponent<Rigidbody>() ?? GetComponentInParent<Rigidbody>();
+    }
 
     /// <summary>
     /// Evaluates an animation curve at the current level. Level is clamped to the curve's key range,
