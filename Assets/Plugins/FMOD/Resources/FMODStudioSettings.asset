@@ -562,6 +562,7 @@ MonoBehaviour:
   - Master
   Banks:
   - EnemySounds
+  - Musicbank
   - Player
   - UI
   BanksToLoad: []

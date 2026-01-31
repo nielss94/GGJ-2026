@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FMOD.Studio;
 using UnityEngine;
 
 /// <summary>
@@ -8,7 +9,11 @@ public class AudioService : MonoBehaviour
 {
     public static AudioService Instance { get; private set; }
 
+    public FmodEventAsset fmodMusic;
+
     private const string PausedParam = "Paused";
+
+    private EventInstance musicInstance;
 
     private void Awake()
     {
@@ -19,6 +24,12 @@ public class AudioService : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    void Start()
+    {
+        musicInstance = FMODUnity.RuntimeManager.CreateInstance(fmodMusic.EventReference);
+        musicInstance.start();
     }
 
     private void OnDestroy()

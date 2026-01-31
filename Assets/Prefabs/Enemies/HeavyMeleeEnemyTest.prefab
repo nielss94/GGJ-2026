@@ -131,10 +131,10 @@ GameObject:
   - component: {fileID: 1012473572634576439}
   - component: {fileID: -2296621646114750256}
   - component: {fileID: 6271211890732130023}
-  - component: {fileID: -4598927087755072705}
-  - component: {fileID: 314939295844022831}
+  - component: {fileID: 2203206081751695596}
+  - component: {fileID: -837520875910850123}
   m_Layer: 7
-  m_Name: MeleeEnemyTest
+  m_Name: HeavyMeleeEnemyTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e6b4891b2407747854e0b4ec61d6b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTypeApplier
-  type: {fileID: 11400000, guid: eae92a5c81557a348a4ce00b4da87f96, type: 2}
+  type: {fileID: 11400000, guid: 111a0b16a65a34a0894e063f57e34ca0, type: 2}
 --- !u!195 &5080526275173526206
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
   dropDatabase: {fileID: 11400000, guid: 3bd9fcaca37a1448d8d0e3c14b81ad3e, type: 2}
   maskReceiver: {fileID: 0}
   spawnOffset: {x: 0, y: 0.5, z: 0}
---- !u!114 &-4598927087755072705
+--- !u!114 &2203206081751695596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3d4e5f60718293a4b5c6d7e8f901a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackState
---- !u!114 &314939295844022831
+--- !u!114 &-837520875910850123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
