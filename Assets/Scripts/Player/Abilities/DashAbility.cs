@@ -48,19 +48,10 @@ public class DashAbility : PlayerAbility
 
     public override bool TryPerform()
     {
-        Debug.Log($"[DashAbility] TryPerform called. CanPerform={CanPerform}, isDashing={isDashing}");
-        if (!CanPerform)
-        {
-            Debug.Log("[DashAbility] TryPerform aborted: CanPerform is false.");
-            return false;
-        }
+        if (!CanPerform) return false;
 
         var rb = PlayerRigidbody;
-        if (rb == null)
-        {
-            Debug.Log("[DashAbility] TryPerform aborted: PlayerRigidbody is null.");
-            return false;
-        }
+        if (rb == null) return false;
 
         Vector3 forward = (dashDirectionSource != null ? dashDirectionSource.forward : PlayerTransform.forward);
         forward.y = 0f;
@@ -69,7 +60,6 @@ public class DashAbility : PlayerAbility
         else
             forward.Normalize();
 
-        Debug.Log($"[DashAbility] TryPerform starting dash. direction={forward}, distance={dashDistance}, duration={dashDuration}, speed={dashDistance / dashDuration}");
         StartCoroutine(PerformDashCoroutine(rb, forward));
         return true;
     }
@@ -77,13 +67,12 @@ public class DashAbility : PlayerAbility
     private IEnumerator PerformDashCoroutine(Rigidbody rb, Vector3 direction)
     {
         isDashing = true;
+        EventBus.RaisePlayerDashStarted(this);
         EventBus.RaisePlayerInputBlockRequested(this);
         // TODO: i-frames during dash — e.g. add EventBus.InvincibilityRequested(object source, bool invincible) and raise it here / at end; have health/damage script subscribe and ignore damage while any source has requested invincibility (same pattern as PlayerInputBlocker).
 
         float speed = dashDistance / dashDuration;
         float elapsed = 0f;
-        int frameCount = 0;
-        Debug.Log($"[DashAbility] PerformDashCoroutine started. speed={speed}, dashDuration={dashDuration}");
 
         while (elapsed < dashDuration)
         {
@@ -109,12 +98,8 @@ public class DashAbility : PlayerAbility
 
             rb.MovePosition(rb.position + direction * actualDistance);
             elapsed += step;
-            frameCount++;
-            if (frameCount <= 3 || frameCount % 5 == 0)
-                Debug.Log($"[DashAbility] Dash frame {frameCount}: step={step}, actualDistance={actualDistance}, elapsed={elapsed}/{dashDuration}");
         }
 
-        Debug.Log($"[DashAbility] PerformDashCoroutine finished after {frameCount} fixed updates.");
         EventBus.RaisePlayerInputUnblockRequested(this);
         isDashing = false;
     }

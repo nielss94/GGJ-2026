@@ -711,6 +711,27 @@ MonoBehaviour:
   attackSpeed: 1
   cooldown: 1
   damage: 10
+  damageMultiplierPerSwing: {x: 1, y: 1.2, z: 1.5}
+  baseSwingDuration: 0.3
+  baseMinTimeBetweenHits: 0.2
+  comboLinkWindow: 1
+  attackDirectionSource: {fileID: 0}
+  hitboxShape: 0
+  hitboxOffset: 0.5
+  hitboxSize: {x: 0.5, y: 0.5, z: 0.5}
+  damageableLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  excludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  forwardStepPerSwing: 0.3
+  drawHitboxGizmo: 1
+  enableLogging: 0
+  fmodSwing1: {fileID: 0}
+  fmodSwing2: {fileID: 0}
+  fmodSwing3: {fileID: 0}
+  fmodOnHit: {fileID: 0}
 --- !u!1 &9216222891843173901
 GameObject:
   m_ObjectHideFlags: 0

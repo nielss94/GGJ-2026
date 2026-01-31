@@ -36,6 +36,13 @@ public static class EventBus
     public static void RaisePlayerInputUnblockRequested(object source) => PlayerInputUnblockRequested?.Invoke(source);
 
     /// <summary>
+    /// Raised when the player starts a dash. Use for dodge cancel (e.g. LightAttackAbility cancels attack and hitboxes).
+    /// </summary>
+    public static event Action<object> PlayerDashStarted;
+
+    public static void RaisePlayerDashStarted(object source) => PlayerDashStarted?.Invoke(source);
+
+    /// <summary>
     /// Raised when the player has chosen an upgrade (e.g. from UpgradePanel). Subscribers apply the upgrade (e.g. ability/stat from UpgradeOffer).
     /// </summary>
     public static event Action<UpgradeOffer> UpgradeChosen;

@@ -567,6 +567,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 46009103}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &49577551 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8327455610066247939, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+  m_PrefabInstance: {fileID: 1871054114}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &59974914
 GameObject:
   m_ObjectHideFlags: 0
@@ -8186,9 +8191,53 @@ PrefabInstance:
       propertyPath: cooldown
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxShape
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxOffset
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxSize.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxSize.y
+      value: 4.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: hitboxSize.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: enableLogging
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: comboLinkWindow
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: excludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: attackDirectionSource
+      value: 
+      objectReference: {fileID: 49577551}
+    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: damageableLayers.m_Bits
+      value: 439
+      objectReference: {fileID: 0}
     - target: {fileID: 8045543100017386537, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718913515318963313, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9735,7 +9784,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 974525638}
-  - {fileID: 1701229148}
   - {fileID: 2130374134}
   - {fileID: 1235741793}
   - {fileID: 1871054114}
@@ -9770,4 +9818,5 @@ SceneRoots:
   - {fileID: 1285829384}
   - {fileID: 1278123542}
   - {fileID: 1591927793}
+  - {fileID: 1701229148}
   - {fileID: 5437379122309194599}
