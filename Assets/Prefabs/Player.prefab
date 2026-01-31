@@ -285,9 +285,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be708a371ec4b4d7c9c0774f21e6ed79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DashAbility
+  level: 1
   abilityName: Dash
   description: DASH
   preferredSlot: 0
+  dashDistanceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.04845047
+      value: 2.2859268
+      inSlope: 0.06878123
+      outSlope: 0.06878123
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.11061284
+    - serializedVersion: 3
+      time: 1.7581437
+      value: 2.7884498
+      inSlope: -0.38410652
+      outSlope: -0.38410652
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 9.998688
+      value: 0.06207657
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   dashDistance: 5
   dashDuration: 0.2
 --- !u!1 &5175298160320208185
@@ -614,6 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6019b07b024ac43e394815f0c2a8d3a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightAttackAbility
+  level: 1
   abilityName: Light Attack
   description: ATAK
   preferredSlot: 2

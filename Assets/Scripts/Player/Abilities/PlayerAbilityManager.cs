@@ -123,6 +123,9 @@ public class PlayerAbilityManager : MonoBehaviour
 
     private void OnAbilityPerformed(InputAction.CallbackContext context)
     {
+        if (PlayerInputBlocker.IsInputBlocked)
+            return;
+
         PlayerAbility ability = null;
         if (context.action == _abilityActionA) ability = abilitySlotA;
         else if (context.action == _abilityActionB) ability = abilitySlotB;
