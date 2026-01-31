@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3501052235324102703}
   - component: {fileID: 2711946967655726004}
   m_Layer: 0
-  m_Name: BO_Wall3x5_D
+  m_Name: Wall3x5_D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

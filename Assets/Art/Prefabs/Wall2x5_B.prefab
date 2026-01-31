@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3321640306412459146}
   - component: {fileID: 8465900466976175742}
   m_Layer: 0
-  m_Name: BO_Wall2x5_B
+  m_Name: Wall2x5_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
