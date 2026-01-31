@@ -9,13 +9,13 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class UpgradePanel : MonoBehaviour
 {
-    private static UpgradePanel _instance;
+    private static UpgradePanel instance;
 
     /// <summary>
     /// Singleton; resolved lazily so the panel can start disabled and still be found when opening.
     /// </summary>
     public static UpgradePanel Instance =>
-        _instance != null ? _instance : (_instance = FindFirstObjectByType<UpgradePanel>(FindObjectsInactive.Include));
+        instance != null ? instance : (instance = FindFirstObjectByType<UpgradePanel>(FindObjectsInactive.Include));
 
     [Header("Database")]
     [Tooltip("Designer-created database of rarities and upgrades. Used to draw random offers when opening the panel.")]
@@ -39,18 +39,18 @@ public class UpgradePanel : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
+        if (instance != null && instance != this)
         {
             Debug.LogWarning($"[UpgradePanel] Duplicate instance on {gameObject.name}; keeping existing.");
             return;
         }
-        _instance = this;
+        instance = this;
     }
 
     private void OnDestroy()
     {
-        if (_instance == this)
-            _instance = null;
+        if (instance == this)
+            instance = null;
         UnsubscribeAndClearCards();
     }
 

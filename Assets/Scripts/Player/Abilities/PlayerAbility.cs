@@ -20,7 +20,7 @@ public abstract class PlayerAbility : MonoBehaviour
     [Tooltip("Player Rigidbody for movement (e.g. dash). If unset, resolved from grandparent (parent of parent) once and cached.")]
     [SerializeField] private Rigidbody playerRigidbodyOverride;
 
-    private Rigidbody _playerRigidbody;
+    private Rigidbody playerRigidbody;
 
     private void Start()
     {
@@ -50,7 +50,7 @@ public abstract class PlayerAbility : MonoBehaviour
     /// <summary>
     /// Rigidbody on the player. Uses playerRigidbodyOverride if assigned; otherwise resolved from grandparent once and cached. Use for movement abilities (e.g. dash). May be null if player uses CharacterController.
     /// </summary>
-    protected Rigidbody PlayerRigidbody => playerRigidbodyOverride != null ? playerRigidbodyOverride : (_playerRigidbody != null ? _playerRigidbody : _playerRigidbody = ResolvePlayerRigidbody());
+    protected Rigidbody PlayerRigidbody => playerRigidbodyOverride != null ? playerRigidbodyOverride : (playerRigidbody != null ? playerRigidbody : playerRigidbody = ResolvePlayerRigidbody());
 
     private Rigidbody ResolvePlayerRigidbody()
     {

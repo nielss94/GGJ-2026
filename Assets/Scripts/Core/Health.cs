@@ -16,24 +16,24 @@ public class Health : MonoBehaviour
     [Header("Events")]
     [SerializeField] private UnityEvent onDeath;
 
-    private float _currentHealth;
-    private bool _isDead;
+    private float currentHealth;
+    private bool isDead;
 
-    public float CurrentHealth => _currentHealth;
+    public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
-    public bool IsDead => _isDead;
+    public bool IsDead => isDead;
 
     private void Awake()
     {
-        _currentHealth = maxHealth;
+        currentHealth = maxHealth;
     }
 
     private void OnEnable()
     {
         if (isPlayer)
         {
-            EventBus.SetPlayerHealthProvider(() => (_currentHealth, maxHealth));
-            EventBus.RaisePlayerHealthChanged(_currentHealth, maxHealth);
+            EventBus.SetPlayerHealthProvider(() => (currentHealth, maxHealth));
+            EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
         }
     }
 
@@ -48,14 +48,14 @@ public class Health : MonoBehaviour
     /// </summary>
     public bool TakeDamage(float amount)
     {
-        if (_isDead || amount <= 0f) return false;
+        if (isDead || amount <= 0f) return false;
 
-        _currentHealth = Mathf.Max(0f, _currentHealth - amount);
+        currentHealth = Mathf.Max(0f, currentHealth - amount);
         if (isPlayer)
-            EventBus.RaisePlayerHealthChanged(_currentHealth, maxHealth);
-        if (_currentHealth <= 0f)
+            EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
+        if (currentHealth <= 0f)
         {
-            _isDead = true;
+            isDead = true;
             onDeath?.Invoke();
             if (isPlayer)
             {
@@ -70,7 +70,7 @@ public class Health : MonoBehaviour
     public void SetMaxHealth(float value)
     {
         maxHealth = Mathf.Max(1f, value);
-        _currentHealth = maxHealth;
+        currentHealth = maxHealth;
     }
 
     /// <summary>
@@ -78,9 +78,9 @@ public class Health : MonoBehaviour
     /// </summary>
     public void Heal(float amount)
     {
-        if (_isDead || amount <= 0f) return;
-        _currentHealth = Mathf.Min(maxHealth, _currentHealth + amount);
+        if (isDead || amount <= 0f) return;
+        currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
         if (isPlayer)
-            EventBus.RaisePlayerHealthChanged(_currentHealth, maxHealth);
+            EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
     }
 }

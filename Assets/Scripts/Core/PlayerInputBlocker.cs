@@ -9,7 +9,7 @@ using System.Collections.Generic;
 public static class PlayerInputBlocker
 {
     private static readonly HashSet<object> Blockers = new HashSet<object>();
-    private static bool _subscribed;
+    private static bool subscribed;
 
     /// <summary>
     /// True when any source has requested input to be blocked.
@@ -25,8 +25,8 @@ public static class PlayerInputBlocker
 
     private static void EnsureSubscribed()
     {
-        if (_subscribed) return;
-        _subscribed = true;
+        if (subscribed) return;
+        subscribed = true;
         EventBus.PlayerInputBlockRequested += OnBlockRequested;
         EventBus.PlayerInputUnblockRequested += OnUnblockRequested;
     }

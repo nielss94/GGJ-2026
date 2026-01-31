@@ -15,7 +15,7 @@ public class ContactDamage : MonoBehaviour
         cooldown = cd;
     }
 
-    private float _lastHitTime = float.NegativeInfinity;
+    private float lastHitTime = float.NegativeInfinity;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -29,7 +29,7 @@ public class ContactDamage : MonoBehaviour
 
     private void TryDamage(GameObject other)
     {
-        if (Time.time - _lastHitTime < cooldown)
+        if (Time.time - lastHitTime < cooldown)
             return;
 
         var health = other.GetComponent<Health>();
@@ -37,6 +37,6 @@ public class ContactDamage : MonoBehaviour
             return;
 
         health.TakeDamage(damage);
-        _lastHitTime = Time.time;
+        lastHitTime = Time.time;
     }
 }

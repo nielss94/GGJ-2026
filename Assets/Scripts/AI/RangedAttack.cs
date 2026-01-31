@@ -39,18 +39,18 @@ public class RangedAttack : MonoBehaviour
         projectileSpeed = projectileSpeedValue;
     }
 
-    private Enemy _enemy;
-    private float _nextFireTime;
+    private Enemy enemy;
+    private float nextFireTime;
 
     private void Awake()
     {
-        _enemy = GetComponent<Enemy>();
+        enemy = GetComponent<Enemy>();
     }
 
     private void Update()
     {
-        Transform target = _enemy != null ? _enemy.PlayerTarget : null;
-        if (target == null || Time.time < _nextFireTime)
+        Transform target = enemy != null ? enemy.PlayerTarget : null;
+        if (target == null || Time.time < nextFireTime)
             return;
 
         float distSq = (target.position - transform.position).sqrMagnitude;
@@ -81,6 +81,6 @@ public class RangedAttack : MonoBehaviour
                 break;
         }
 
-        _nextFireTime = Time.time + fireInterval;
+        nextFireTime = Time.time + fireInterval;
     }
 }

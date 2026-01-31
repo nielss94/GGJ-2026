@@ -11,22 +11,22 @@ public class ChaseMovement : MonoBehaviour
     [Tooltip("Leave empty to use Enemy.PlayerTarget on this GameObject.")]
     [SerializeField] private Transform target;
 
-    private NavMeshAgent _agent;
-    private Enemy _enemy;
+    private NavMeshAgent agent;
+    private Enemy enemy;
 
     private void Awake()
     {
-        _agent = GetComponent<NavMeshAgent>();
-        _enemy = GetComponent<Enemy>();
+        agent = GetComponent<NavMeshAgent>();
+        enemy = GetComponent<Enemy>();
     }
 
     private void Update()
     {
-        Transform t = target != null ? target : (_enemy != null ? _enemy.PlayerTarget : null);
-        if (t == null || !_agent.enabled || !_agent.isOnNavMesh)
+        Transform t = target != null ? target : (enemy != null ? enemy.PlayerTarget : null);
+        if (t == null || !agent.enabled || !agent.isOnNavMesh)
             return;
 
         
-        _agent.SetDestination(t.position);
+        agent.SetDestination(t.position);
     }
 }

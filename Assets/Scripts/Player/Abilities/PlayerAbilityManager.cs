@@ -35,10 +35,10 @@ public class PlayerAbilityManager : MonoBehaviour
     [SerializeField] private PlayerAbility abilitySlotX;
     [SerializeField] private PlayerAbility abilitySlotY;
 
-    private InputAction _abilityActionA;
-    private InputAction _abilityActionB;
-    private InputAction _abilityActionX;
-    private InputAction _abilityActionY;
+    private InputAction abilityActionA;
+    private InputAction abilityActionB;
+    private InputAction abilityActionX;
+    private InputAction abilityActionY;
 
     private void Awake()
     {
@@ -47,10 +47,10 @@ public class PlayerAbilityManager : MonoBehaviour
         var playerMap = inputActions.FindActionMap("Player");
         if (playerMap != null)
         {
-            _abilityActionA = playerMap.FindAction("AbilityA");
-            _abilityActionB = playerMap.FindAction("AbilityB");
-            _abilityActionX = playerMap.FindAction("AbilityX");
-            _abilityActionY = playerMap.FindAction("AbilityY");
+            abilityActionA = playerMap.FindAction("AbilityA");
+            abilityActionB = playerMap.FindAction("AbilityB");
+            abilityActionX = playerMap.FindAction("AbilityX");
+            abilityActionY = playerMap.FindAction("AbilityY");
         }
 
         AssignAbilitiesToEmptySlots();
@@ -89,18 +89,18 @@ public class PlayerAbilityManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Subscribe(_abilityActionA, abilitySlotA);
-        Subscribe(_abilityActionB, abilitySlotB);
-        Subscribe(_abilityActionX, abilitySlotX);
-        Subscribe(_abilityActionY, abilitySlotY);
+        Subscribe(abilityActionA, abilitySlotA);
+        Subscribe(abilityActionB, abilitySlotB);
+        Subscribe(abilityActionX, abilitySlotX);
+        Subscribe(abilityActionY, abilitySlotY);
     }
 
     private void OnDisable()
     {
-        Unsubscribe(_abilityActionA, abilitySlotA);
-        Unsubscribe(_abilityActionB, abilitySlotB);
-        Unsubscribe(_abilityActionX, abilitySlotX);
-        Unsubscribe(_abilityActionY, abilitySlotY);
+        Unsubscribe(abilityActionA, abilitySlotA);
+        Unsubscribe(abilityActionB, abilitySlotB);
+        Unsubscribe(abilityActionX, abilitySlotX);
+        Unsubscribe(abilityActionY, abilitySlotY);
     }
 
     private void Subscribe(InputAction action, PlayerAbility ability)
@@ -127,10 +127,10 @@ public class PlayerAbilityManager : MonoBehaviour
             return;
 
         PlayerAbility ability = null;
-        if (context.action == _abilityActionA) ability = abilitySlotA;
-        else if (context.action == _abilityActionB) ability = abilitySlotB;
-        else if (context.action == _abilityActionX) ability = abilitySlotX;
-        else if (context.action == _abilityActionY) ability = abilitySlotY;
+        if (context.action == abilityActionA) ability = abilitySlotA;
+        else if (context.action == abilityActionB) ability = abilitySlotB;
+        else if (context.action == abilityActionX) ability = abilitySlotX;
+        else if (context.action == abilityActionY) ability = abilitySlotY;
 
         if (ability != null && ability.CanPerform)
         {

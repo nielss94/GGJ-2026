@@ -26,7 +26,7 @@ public class DashAbility : PlayerAbility
     /// <summary>Current dash distance (base + values applied from upgrades).</summary>
     public float DashDistance => dashDistance;
 
-    private bool _isDashing;
+    private bool isDashing;
 
     private void Reset()
     {
@@ -45,11 +45,11 @@ public class DashAbility : PlayerAbility
             dashDistance += value;
     }
 
-    public override bool CanPerform => !_isDashing && base.CanPerform;
+    public override bool CanPerform => !isDashing && base.CanPerform;
 
     public override bool TryPerform()
     {
-        Debug.Log($"[DashAbility] TryPerform called. CanPerform={CanPerform}, _isDashing={_isDashing}");
+        Debug.Log($"[DashAbility] TryPerform called. CanPerform={CanPerform}, isDashing={isDashing}");
         if (!CanPerform)
         {
             Debug.Log("[DashAbility] TryPerform aborted: CanPerform is false.");
@@ -77,7 +77,7 @@ public class DashAbility : PlayerAbility
 
     private IEnumerator PerformDashCoroutine(Rigidbody rb, Vector3 direction)
     {
-        _isDashing = true;
+        isDashing = true;
         EventBus.RaisePlayerInputBlockRequested(this);
         // TODO: i-frames during dash — e.g. add EventBus.InvincibilityRequested(object source, bool invincible) and raise it here / at end; have health/damage script subscribe and ignore damage while any source has requested invincibility (same pattern as PlayerInputBlocker).
 
@@ -117,6 +117,6 @@ public class DashAbility : PlayerAbility
 
         Debug.Log($"[DashAbility] PerformDashCoroutine finished after {frameCount} fixed updates.");
         EventBus.RaisePlayerInputUnblockRequested(this);
-        _isDashing = false;
+        isDashing = false;
     }
 }

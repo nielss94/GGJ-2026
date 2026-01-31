@@ -14,11 +14,11 @@ public class VoodooDebug : MonoBehaviour
     [Header("Debug controls")]
     [SerializeField]
     [TextArea(2, 8)]
-    private string _controlSummary = "Assign Input Actions to see bindings.";
+    private string controlSummary = "Assign Input Actions to see bindings.";
 
-    private InputAction _openUpgradePanelAction;
-    private string _cachedGuiText;
-    private bool _showDebugGui = true;
+    private InputAction openUpgradePanelAction;
+    private string cachedGuiText;
+    private bool showDebugGui = true;
 
     private void Awake()
     {
@@ -27,8 +27,8 @@ public class VoodooDebug : MonoBehaviour
             var debugMap = inputActions.FindActionMap("Debug");
             if (debugMap != null)
             {
-                _openUpgradePanelAction = debugMap.FindAction("OpenUpgradePanel");
-                _cachedGuiText = BuildControlSummary(debugMap);
+                openUpgradePanelAction = debugMap.FindAction("OpenUpgradePanel");
+                cachedGuiText = BuildControlSummary(debugMap);
             }
         }
     }
@@ -40,7 +40,7 @@ public class VoodooDebug : MonoBehaviour
         {
             var debugMap = inputActions.FindActionMap("Debug");
             if (debugMap != null)
-                _controlSummary = BuildControlSummary(debugMap);
+                controlSummary = BuildControlSummary(debugMap);
         }
     }
 #endif
@@ -71,22 +71,22 @@ public class VoodooDebug : MonoBehaviour
         if (inputActions != null)
         {
             var debugMap = inputActions.FindActionMap("Debug");
-            if (debugMap != null && string.IsNullOrEmpty(_cachedGuiText))
-                _cachedGuiText = BuildControlSummary(debugMap);
+            if (debugMap != null && string.IsNullOrEmpty(cachedGuiText))
+                cachedGuiText = BuildControlSummary(debugMap);
         }
-        if (_openUpgradePanelAction != null)
+        if (openUpgradePanelAction != null)
         {
-            _openUpgradePanelAction.performed += OnOpenUpgradePanelPerformed;
-            _openUpgradePanelAction.Enable();
+            openUpgradePanelAction.performed += OnOpenUpgradePanelPerformed;
+            openUpgradePanelAction.Enable();
         }
     }
 
     private void OnDisable()
     {
-        if (_openUpgradePanelAction != null)
+        if (openUpgradePanelAction != null)
         {
-            _openUpgradePanelAction.performed -= OnOpenUpgradePanelPerformed;
-            _openUpgradePanelAction.Disable();
+            openUpgradePanelAction.performed -= OnOpenUpgradePanelPerformed;
+            openUpgradePanelAction.Disable();
         }
     }
 
@@ -102,11 +102,11 @@ public class VoodooDebug : MonoBehaviour
         float x = padding;
         float y = Screen.height - padding;
 
-        if (_showDebugGui && !string.IsNullOrEmpty(_cachedGuiText))
+        if (showDebugGui && !string.IsNullOrEmpty(cachedGuiText))
         {
             float width = 280f;
             int lineCount = 1;
-            foreach (char c in _cachedGuiText)
+            foreach (char c in cachedGuiText)
                 if (c == '\n') lineCount++;
             float lineHeight = GUI.skin.box.lineHeight;
             float buttonHeight = 22f;
@@ -114,9 +114,9 @@ public class VoodooDebug : MonoBehaviour
             float height = contentHeight + buttonHeight + padding;
             y -= height;
             GUI.Box(new Rect(x, y, width, height), "");
-            GUI.Label(new Rect(x + padding, y + padding, width - padding * 2, contentHeight - padding), _cachedGuiText);
+            GUI.Label(new Rect(x + padding, y + padding, width - padding * 2, contentHeight - padding), cachedGuiText);
             if (GUI.Button(new Rect(x + padding, y + contentHeight, width - padding * 2, buttonHeight), "Hide"))
-                _showDebugGui = false;
+                showDebugGui = false;
         }
         else
         {
@@ -124,7 +124,7 @@ public class VoodooDebug : MonoBehaviour
             float buttonWidth = 80f;
             y -= buttonHeight;
             if (GUI.Button(new Rect(x, y, buttonWidth, buttonHeight), "Debug"))
-                _showDebugGui = true;
+                showDebugGui = true;
         }
     }
 }

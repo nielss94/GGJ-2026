@@ -10,10 +10,10 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "New Fmod Event", menuName = "GGJ/FMOD Event", order = 0)]
 public class FmodEventAsset : ScriptableObject
 {
-    [SerializeField] private FMODUnity.EventReference _eventReference;
+    [SerializeField] private FMODUnity.EventReference eventReference;
 
-    public FMODUnity.EventReference EventReference => _eventReference;
-    public bool IsNull => _eventReference.IsNull;
+    public FMODUnity.EventReference EventReference => eventReference;
+    public bool IsNull => eventReference.IsNull;
 }
 
 #if UNITY_EDITOR
@@ -23,7 +23,7 @@ public class FmodEventAssetEditor : Editor
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("_eventReference"), new GUIContent("Event"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("eventReference"), new GUIContent("Event"));
         serializedObject.ApplyModifiedProperties();
     }
 }
