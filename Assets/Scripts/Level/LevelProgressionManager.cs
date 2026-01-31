@@ -7,20 +7,18 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Additive level loading: keeps persistent scene, loads/unloads level scenes only.
 /// Holds level variations and assigns two random next levels to doors when a level completes.
-/// Place in persistent scene (e.g. on GameRoot).
+/// Place in persistent scene (e.g. on GameRoot). Call LoadFirstLevel() when the player presses Start Game (e.g. from main menu).
 /// </summary>
 public class LevelProgressionManager : MonoBehaviour
 {
     public static LevelProgressionManager Instance { get; private set; }
 
     [Header("Setup")]
-    [Tooltip("Scene to load additively when the game starts (e.g. first level).")]
-    [SerializeField] private string firstLevelSceneName = "Level_01";
     [Tooltip("Player transform to move to each level's PlayerSpawn. Leave empty to skip.")]
     [SerializeField] private Transform playerTransform;
 
     [Header("Level variations")]
-    [Tooltip("Scene names to choose from for the next level.")]
+    [Tooltip("Scene names for levels. First level is a random pick from this list; after that two are picked for doors.")]
     [SerializeField] private string[] levelVariations = Array.Empty<string>();
 
     [Header("Power budget")]
@@ -57,10 +55,15 @@ public class LevelProgressionManager : MonoBehaviour
         EventBus.LevelComplete -= AssignNextLevelsToDoors;
     }
 
-    private void Start()
+    /// <summary>
+    /// Loads the first level (a random pick from level variations). Call when the player presses Start Game (e.g. from your main menu).
+    /// Does nothing if level variations is empty or a load is already in progress.
+    /// </summary>
+    public void LoadFirstLevel()
     {
-        if (!string.IsNullOrEmpty(firstLevelSceneName))
-            LoadLevel(firstLevelSceneName);
+        var chosen = PickRandomVariations(1);
+        if (chosen.Count == 0) return;
+        LoadLevel(chosen[0]);
     }
 
     private void AssignNextLevelsToDoors()
