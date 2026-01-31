@@ -555,7 +555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _introDuration: 5
-  _nextSceneName: Bootstrap
+  _nextSceneName: BaseGame
 --- !u!114 &1406288795
 MonoBehaviour:
   m_ObjectHideFlags: 0

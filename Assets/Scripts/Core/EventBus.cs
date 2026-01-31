@@ -62,4 +62,14 @@ public static class EventBus
     public static event Action<UpgradeOffer> UpgradeChosen;
 
     public static void RaiseUpgradeChosen(UpgradeOffer offer) => UpgradeChosen?.Invoke(offer);
+
+    /// <summary>Raised when a non-player Health dies (e.g. encounter enemy). For audio, VFX, UI.</summary>
+    public static event Action EnemyDied;
+
+    public static void RaiseEnemyDied() => EnemyDied?.Invoke();
+
+    /// <summary>Raised when the current encounter/level is complete (budget depleted and all enemies defeated). For UI, progression, audio.</summary>
+    public static event Action LevelComplete;
+
+    public static void RaiseLevelComplete() => LevelComplete?.Invoke();
 }

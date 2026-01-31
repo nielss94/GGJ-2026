@@ -10,6 +10,9 @@ public class EnemyTypeApplier : MonoBehaviour
 {
     [SerializeField] private EnemyType type;
 
+    /// <summary>Power cost for spawn budget (from EnemyType). Used by Encounter when spawning.</summary>
+    public int PowerCost => type != null ? type.PowerCost : 0;
+
     private void Start()
     {
         if (type == null) return;
