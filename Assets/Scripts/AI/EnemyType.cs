@@ -5,7 +5,7 @@ using UnityEngine;
 /// (e.g. "Goblin", "Orc"). EnemyTypeApplier applies base stats and, if present, melee/ranged stats to
 /// ContactDamage and RangedAttack. Attack style (hitscan vs projectile, prefab) stays on the component.
 /// </summary>
-[CreateAssetMenu(fileName = "EnemyType", menuName = "AI/Enemy Type", order = 0)]
+[CreateAssetMenu(fileName = "EnemyType", menuName = "GGJ-2026/Enemy Type", order = 0)]
 public class EnemyType : ScriptableObject
 {
     [Header("Identity")]

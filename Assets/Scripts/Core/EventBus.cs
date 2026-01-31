@@ -9,6 +9,18 @@ public static class EventBus
 
     public static void RaisePlayerDied() => PlayerDied?.Invoke();
 
+    /// <summary>Raised when the player's health changes (current, max). Subscribe in OnEnable, unsubscribe in OnDisable.</summary>
+    public static event Action<float, float> PlayerHealthChanged;
+
+    public static void RaisePlayerHealthChanged(float current, float max) => PlayerHealthChanged?.Invoke(current, max);
+
+    /// <summary>Optional: set by the player's Health when enabled so UI can get initial value without a direct reference.</summary>
+    public static Func<(float current, float max)> GetPlayerHealth;
+
+    public static void SetPlayerHealthProvider(Func<(float current, float max)> provider) => GetPlayerHealth = provider;
+
+    public static void ClearPlayerHealthProvider() => GetPlayerHealth = null;
+
     /// <summary>
     /// Raised when something (e.g. UI) wants to block player input. Pass the requesting source (e.g. this).
     /// </summary>

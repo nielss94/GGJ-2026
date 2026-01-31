@@ -26,6 +26,7 @@ public class ChaseMovement : MonoBehaviour
         if (t == null || !_agent.enabled || !_agent.isOnNavMesh)
             return;
 
+        
         _agent.SetDestination(t.position);
     }
 }

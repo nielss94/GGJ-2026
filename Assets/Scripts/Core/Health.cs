@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
 /// Simple health component. Use on player and enemies. When current health reaches zero, invokes OnDeath
-/// and, if IsPlayer is set, raises EventBus.PlayerDied.
+/// and, if IsPlayer is set, raises EventBus.PlayerDied. When IsPlayer, raises EventBus.PlayerHealthChanged on change
+/// and registers a health provider so UI can get initial value without a direct reference.
 /// </summary>
 public class Health : MonoBehaviour
 {
@@ -26,6 +28,21 @@ public class Health : MonoBehaviour
         _currentHealth = maxHealth;
     }
 
+    private void OnEnable()
+    {
+        if (isPlayer)
+        {
+            EventBus.SetPlayerHealthProvider(() => (_currentHealth, maxHealth));
+            EventBus.RaisePlayerHealthChanged(_currentHealth, maxHealth);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (isPlayer)
+            EventBus.ClearPlayerHealthProvider();
+    }
+
     /// <summary>
     /// Apply damage. Returns true if this instance was killed (health reached zero).
     /// </summary>
@@ -34,6 +51,8 @@ public class Health : MonoBehaviour
         if (_isDead || amount <= 0f) return false;
 
         _currentHealth = Mathf.Max(0f, _currentHealth - amount);
+        if (isPlayer)
+            EventBus.RaisePlayerHealthChanged(_currentHealth, maxHealth);
         if (_currentHealth <= 0f)
         {
             _isDead = true;
@@ -61,5 +80,7 @@ public class Health : MonoBehaviour
     {
         if (_isDead || amount <= 0f) return;
         _currentHealth = Mathf.Min(maxHealth, _currentHealth + amount);
+        if (isPlayer)
+            EventBus.RaisePlayerHealthChanged(_currentHealth, maxHealth);
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 408775187256594840}
   - component: {fileID: 5420602644632939863}
   - component: {fileID: 6502822500257874130}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 446446081386958390}
   - component: {fileID: 505333766525790904}
   - component: {fileID: 585892225846173740}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3329017028835715742}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Abilities
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5867297786077719209}
   - component: {fileID: 3699979859993747153}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DashAbility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 8865651461362676899}
   - component: {fileID: 9053541119914495670}
   - component: {fileID: 8658145672917442262}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 6482841152987409871}
   - component: {fileID: 2686186436582227200}
   - component: {fileID: 7208849503761192054}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -485,9 +485,11 @@ GameObject:
   - component: {fileID: 5766441260869216408}
   - component: {fileID: 2114751411203063132}
   - component: {fileID: 2203496732461088381}
-  m_Layer: 0
+  - component: {fileID: 6731190559124809214}
+  - component: {fileID: 4200191816472261527}
+  m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -586,6 +588,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeApplier
   abilityManager: {fileID: 0}
+--- !u!114 &6731190559124809214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045543100017386537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ce767a2b0dcc5943acb714c90c3030e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 100
+  isPlayer: 1
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4200191816472261527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045543100017386537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &8718913515318963313
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,7 +635,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5700637127844627495}
   - component: {fileID: 3495186614016676912}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LightAttackAbility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -648,7 +687,7 @@ GameObject:
   - component: {fileID: 6085969187623512814}
   - component: {fileID: 7828147533303680716}
   - component: {fileID: 3621786245262931226}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CinemachineCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
