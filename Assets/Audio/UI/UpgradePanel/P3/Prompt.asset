@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FmodEventAsset
   _eventReference:
     Guid:
-      Data1: 1370234996
-      Data2: 1138411990
-      Data3: 1656545416
-      Data4: -1706684599
-    Path: event:/p3_prompt
+      Data1: -1055520457
+      Data2: 1337682268
+      Data3: 1850475650
+      Data4: 1150342207
+    Path: event:/UI_lvlup_prompt

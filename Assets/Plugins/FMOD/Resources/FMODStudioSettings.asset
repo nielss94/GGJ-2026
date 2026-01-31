@@ -561,7 +561,6 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
-  - TestBank
   - UI
   BanksToLoad: []
   LiveUpdatePort: 9264
