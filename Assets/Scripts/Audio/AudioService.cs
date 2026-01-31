@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -24,6 +25,27 @@ public class AudioService : MonoBehaviour
     {
         if (Instance == this)
             Instance = null;
+    }
+
+    public void PlayOneShotWithParameter(FmodEventAsset fmodEvent, string parameterName, string parameterValue)
+    {
+        if (fmodEvent == null || fmodEvent.IsNull) return;
+        var instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent.EventReference);
+        instance.setParameterByNameWithLabel(parameterName, parameterValue.ToLower());
+        instance.start();
+        instance.release();
+    }
+
+    public void PlayOneShotWithParameters(FmodEventAsset fmodEvent, Dictionary<string, string> parameters)
+    {
+        if (fmodEvent == null || fmodEvent.IsNull) return;
+        var instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent.EventReference);
+        foreach (var parameter in parameters)
+        {
+            instance.setParameterByNameWithLabel(parameter.Key, parameter.Value.ToLower());
+        }
+        instance.start();
+        instance.release();
     }
 
     public void PlayOneShot(FmodEventAsset fmodEvent)

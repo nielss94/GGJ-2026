@@ -16,3 +16,4 @@ MonoBehaviour:
   probabilityWeight: 100
   valueMultiplier: 1
   displayColor: {r: 0, g: 0, b: 0, a: 1}
+  fmodEventName: common
