@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Legendary
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeRarity
   displayName: Legendary
-  probabilityWeight: 1
+  probabilityWeight: 5
   valueMultiplier: 1
   displayColor: {r: 0.745283, g: 0.5432861, b: 0.045701336, a: 1}
   fmodEventName: legendary

@@ -104,6 +104,18 @@ public abstract class PlayerAbility : MonoBehaviour
     public virtual void ApplyUpgradeValue(AbilityStatId statId, float value) { }
 
     /// <summary>
+    /// Helper for derived abilities: if incomingStatId matches myStatId (by reference), invokes apply(value) and returns true.
+    /// Use in ApplyUpgradeValue to keep stat-id checking in one place.
+    /// </summary>
+    protected bool TryApplyUpgrade(AbilityStatId myStatId, AbilityStatId incomingStatId, float value, System.Action<float> apply)
+    {
+        if (myStatId == null || incomingStatId == null || myStatId != incomingStatId)
+            return false;
+        apply(value);
+        return true;
+    }
+
+    /// <summary>
     /// Called when the player triggers this ability (button pressed). Return true if the ability was performed.
     /// </summary>
     public abstract bool TryPerform();
