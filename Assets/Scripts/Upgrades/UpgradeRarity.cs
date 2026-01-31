@@ -20,8 +20,14 @@ public class UpgradeRarity : ScriptableObject
     [Tooltip("Color used to visualise this rarity in the upgrade panel (e.g. rarity text or card tint).")]
     [SerializeField] private Color displayColor = Color.white;
 
+    [Tooltip("Optional. FMOD event/parameter name sent for this rarity (e.g. parameter label). If empty, DisplayName (lowercase) is used.")]
+    [SerializeField] private string fmodEventName = "";
+
     /// <summary>Display name for UI.</summary>
     public string DisplayName => displayName;
+
+    /// <summary>FMOD event/parameter name for this rarity. If not set, use DisplayName (lowercase) when sending parameters.</summary>
+    public string FmodEventName => string.IsNullOrEmpty(fmodEventName) ? displayName : fmodEventName;
 
     /// <summary>Color for rarity visualisation in the upgrade panel.</summary>
     public Color DisplayColor => displayColor;

@@ -24,8 +24,14 @@ public class AbilityUpgradeDefinition : ScriptableObject
     [Tooltip("Curve: X = level, Y = base value. Evaluated at the ability's current level; rarity multiplier is applied separately.")]
     [SerializeField] private AnimationCurve curve = AnimationCurve.Linear(1f, 0f, 10f, 1f);
 
+    [Tooltip("Optional. FMOD event/parameter name sent for this upgrade (e.g. parameter label). If empty, DisplayName (lowercase) is used.")]
+    [SerializeField] private string fmodEventName = "";
+
     /// <summary>Display name for UI.</summary>
     public string DisplayName => displayName;
+
+    /// <summary>FMOD event/parameter name for this ability upgrade. If not set, use DisplayName (lowercase) when sending parameters.</summary>
+    public string FmodEventName => string.IsNullOrEmpty(fmodEventName) ? displayName : fmodEventName;
 
     /// <summary>Description for the card.</summary>
     public string Description => description;
