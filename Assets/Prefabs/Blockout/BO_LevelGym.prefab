@@ -2894,7 +2894,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4808190850035647326}
   m_Layer: 0
-  m_Name: Blockout_LevelGym
+  m_Name: BO_LevelGym
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
