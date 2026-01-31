@@ -292,7 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDropper
   dropDatabase: {fileID: 11400000, guid: 3bd9fcaca37a1448d8d0e3c14b81ad3e, type: 2}
   maskReceiver: {fileID: 0}
-  spawnOffset: {x: 0, y: 1.5, z: 0}
+  spawnOffset: {x: 0, y: 0.5, z: 0}
 --- !u!1 &6290256332954324988
 GameObject:
   m_ObjectHideFlags: 0

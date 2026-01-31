@@ -1112,6 +1112,7 @@ MonoBehaviour:
   splineSetups:
   - dropType: {fileID: 11400000, guid: 998b74f2fd66d4cccbb2b37b0a9aec93, type: 2}
     splineContainer: {fileID: 8808857471956636481}
-    alignRotationToSpline: 1
+    rotationMode: 1
+    applyRotation: 1
     splineIndex: 0
   slotSetups: []

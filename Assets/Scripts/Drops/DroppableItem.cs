@@ -3,7 +3,7 @@ using PrimeTween;
 
 /// <summary>
 /// Put on drop prefabs (any mesh, no colliders). After a short drop animation, flies towards the
-/// assigned mask and then attaches via MaskAttachmentReceiver. Init() is called when spawned by EnemyDropper.
+/// assigned mask until it reaches it, then attaches and the receiver sets final position and rotation.
 /// </summary>
 [RequireComponent(typeof(Transform))]
 public class DroppableItem : MonoBehaviour
@@ -17,17 +17,29 @@ public class DroppableItem : MonoBehaviour
     [SerializeField] private float bounceHeight = 0.4f;
 
     [Header("Fly to mask")]
-    [Tooltip("Duration of the flight towards the mask.")]
-    [SerializeField] private float flyDuration = 0.5f;
-    [SerializeField] private Ease flyEase = Ease.OutQuad;
+    [Tooltip("Max speed (units per second) when flying towards the mask. Slows down as it gets close for a soft arrival.")]
+    [SerializeField] private float flySpeed = 4f;
+    [Tooltip("When closer than this, speed eases out so the item glides in instead of snapping. Ghost-like.")]
+    [SerializeField] private float slowDownDistance = 2f;
+    [Tooltip("Distance to target at which the item is considered arrived and attaches.")]
+    [SerializeField] private float attachDistance = 0.05f;
+
+    [Header("Settle")]
+    [Tooltip("Duration to rotate from arrival rotation to final placement rotation after attaching.")]
+    [SerializeField] private float settleRotationDuration = 0.6f;
+    [SerializeField] private Ease settleRotationEase = Ease.OutQuad;
 
     private DropTypeId dropType;
     private MaskAttachmentReceiver targetReceiver;
     private Sequence currentSequence;
     private Vector3 targetScale;
+    private bool isFlyingTowardsMask;
 
     /// <summary>Drop type for this item. Set by Init(); used by MaskAttachmentReceiver to choose strategy.</summary>
     public DropTypeId DropType => dropType;
+
+    /// <summary>Duration of the settle rotation after attach. Used by MaskAttachmentReceiver.</summary>
+    public float SettleRotationDuration => settleRotationDuration;
 
     /// <summary>
     /// Call after instantiating the drop. Sets type and target; starts drop animation then flight to mask.
@@ -61,18 +73,58 @@ public class DroppableItem : MonoBehaviour
             seq.ChainDelay(dropAnimDuration * 0.5f);
         }
 
-        seq.Chain(Tween.Position(transform, targetReceiver.FlyToPosition, flyDuration, flyEase))
-          .ChainCallback(OnReachedMask);
+        seq.ChainCallback(StartFlyingTowardsMask);
         return seq;
+    }
+
+    private void StartFlyingTowardsMask()
+    {
+        currentSequence = default;
+        if (targetReceiver != null)
+            isFlyingTowardsMask = true;
+        else
+            OnReachedMask();
+    }
+
+    private void Update()
+    {
+        if (!isFlyingTowardsMask || targetReceiver == null)
+            return;
+
+        Vector3 target = targetReceiver.FlyToPosition;
+        float distance = Vector3.Distance(transform.position, target);
+        if (distance <= attachDistance)
+        {
+            isFlyingTowardsMask = false;
+            transform.position = target;
+            OnReachedMask();
+            return;
+        }
+
+        // Ease-out near target: speed scales down so it glides in softly (ghost-like)
+        float speedMultiplier = 1f;
+        if (slowDownDistance > 0f && distance < slowDownDistance)
+            speedMultiplier = Mathf.Clamp01(distance / slowDownDistance);
+
+        float step = flySpeed * speedMultiplier * Time.deltaTime;
+        if (step >= distance)
+            transform.position = target;
+        else
+            transform.position = Vector3.MoveTowards(transform.position, target, step);
+    }
+
+    /// <summary>Called by MaskAttachmentReceiver after placing. Smoothly rotates from arrival rotation to final. Then done.</summary>
+    public void AnimateSettleRotation(Quaternion fromRotation, float duration)
+    {
+        Quaternion to = transform.rotation;
+        transform.rotation = fromRotation;
+        Tween.Rotation(transform, to, duration, settleRotationEase);
     }
 
     private void OnReachedMask()
     {
-        currentSequence = default;
         if (targetReceiver != null)
-        {
             targetReceiver.Attach(this);
-        }
     }
 
     private void OnDestroy()
