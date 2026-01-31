@@ -10,11 +10,18 @@ public class DashAbility : PlayerAbility
     [Header("Dash stats")]
     [Tooltip("Assign the same Ability Stat Id asset as used by 'Dash Distance' ability upgrades in the database.")]
     [SerializeField] private AbilityStatId dashDistanceStatId;
+    [Tooltip("Assign the same Ability Stat Id asset as used by 'Dash Speed' ability upgrades in the database.")]
+    [SerializeField] private AbilityStatId dashSpeedStatId;
 
     [Header("Dash")]
     [SerializeField] private float dashDistance = 5f;
+    [Tooltip("Speed in m/s. Initial value should match dashDistance/dashDuration so dash covers the full distance. Upgrades add to this.")]
+    [SerializeField] private float dashSpeed = 25f;
+    [Tooltip("Used only to derive initial dashSpeed if desired (dashDistance/dashDuration). Movement ends when dashDistance is covered or wall hit.")]
     [SerializeField] private float dashDuration = 0.2f;
-    [Tooltip("Optional. If set, dash direction is this transform's forward (e.g. character model). Otherwise uses player root forward.")]
+    [Tooltip("When true, dash goes in the movement input direction (WASD / left stick) instead of look direction. Useful when attacks lock rotation but you can cancel with dash.")]
+    [SerializeField] private bool useMovementDirectionForDash;
+    [Tooltip("Optional. If set and not using movement direction, dash direction is this transform's forward (e.g. character model). Otherwise uses player root forward.")]
     [SerializeField] private Transform dashDirectionSource;
     [Tooltip("Stop dash when hitting a wall. If false, dash continues but movement is clamped each frame.")]
     [SerializeField] private bool stopDashOnWallHit = true;
@@ -23,8 +30,15 @@ public class DashAbility : PlayerAbility
     [Tooltip("Only end dash when wall hit is at least this far (m). If already against wall (hit closer), we don't end early—dash fizzles for full duration. Set to 0 to always end on any wall hit.")]
     [SerializeField] private float minWallHitDistanceToEndDash = 0.05f;
 
+    [Header("Audio")]
+    [Tooltip("Played when dash starts.")]
+    [SerializeField] private FmodEventAsset fmodDash;
+
     /// <summary>Current dash distance (base + values applied from upgrades).</summary>
     public float DashDistance => dashDistance;
+
+    /// <summary>Current dash speed in m/s (base + values applied from upgrades).</summary>
+    public float DashSpeed => dashSpeed;
 
     private bool isDashing;
 
@@ -42,6 +56,7 @@ public class DashAbility : PlayerAbility
     public override void ApplyUpgradeValue(AbilityStatId statId, float value)
     {
         TryApplyUpgrade(dashDistanceStatId, statId, value, v => dashDistance += v);
+        TryApplyUpgrade(dashSpeedStatId, statId, value, v => dashSpeed += v);
     }
 
     public override bool CanPerform => !isDashing && base.CanPerform;
@@ -53,14 +68,30 @@ public class DashAbility : PlayerAbility
         var rb = PlayerRigidbody;
         if (rb == null) return false;
 
-        Vector3 forward = (dashDirectionSource != null ? dashDirectionSource.forward : PlayerTransform.forward);
-        forward.y = 0f;
-        if (forward.sqrMagnitude < 0.01f)
-            forward = Vector3.forward;
+        Vector3 direction;
+        if (useMovementDirectionForDash)
+        {
+            var playerMovement = PlayerTransform.GetComponent<PlayerMovement>();
+            direction = playerMovement != null ? playerMovement.WorldMoveDirection : Vector3.zero;
+            direction.y = 0f;
+            if (direction.sqrMagnitude < 0.01f)
+                direction = (dashDirectionSource != null ? dashDirectionSource.forward : PlayerTransform.forward);
+            if (direction.sqrMagnitude >= 0.01f)
+                direction.Normalize();
+            else
+                direction = Vector3.forward;
+        }
         else
-            forward.Normalize();
+        {
+            direction = (dashDirectionSource != null ? dashDirectionSource.forward : PlayerTransform.forward);
+            direction.y = 0f;
+            if (direction.sqrMagnitude < 0.01f)
+                direction = Vector3.forward;
+            else
+                direction.Normalize();
+        }
 
-        StartCoroutine(PerformDashCoroutine(rb, forward));
+        StartCoroutine(PerformDashCoroutine(rb, direction));
         return true;
     }
 
@@ -69,16 +100,22 @@ public class DashAbility : PlayerAbility
         isDashing = true;
         EventBus.RaisePlayerDashStarted(this);
         EventBus.RaisePlayerInputBlockRequested(this);
+
+        var playerMovement = PlayerTransform.GetComponent<PlayerMovement>();
+        if (playerMovement != null && playerMovement.ModelTransform != null)
+            playerMovement.ModelTransform.rotation = Quaternion.LookRotation(direction);
+
+        if (AudioService.Instance != null && fmodDash != null && !fmodDash.IsNull)
+            AudioService.Instance.PlayOneShot(fmodDash, PlayerTransform.position);
         // TODO: i-frames during dash — e.g. add EventBus.InvincibilityRequested(object source, bool invincible) and raise it here / at end; have health/damage script subscribe and ignore damage while any source has requested invincibility (same pattern as PlayerInputBlocker).
 
-        float speed = dashDistance / dashDuration;
-        float elapsed = 0f;
+        float remainingDistance = dashDistance;
 
-        while (elapsed < dashDuration)
+        while (remainingDistance > 0.001f)
         {
             yield return new WaitForFixedUpdate();
-            float step = Mathf.Min(Time.fixedDeltaTime, dashDuration - elapsed);
-            float desiredDistance = speed * step;
+            float step = Time.fixedDeltaTime;
+            float desiredDistance = Mathf.Min(dashSpeed * step, remainingDistance);
             float actualDistance = desiredDistance;
 
             if (desiredDistance > 0.001f && rb.SweepTest(direction, out RaycastHit hit, desiredDistance))
@@ -90,14 +127,13 @@ public class DashAbility : PlayerAbility
                     if (stopDashOnWallHit && farEnoughToCountAsWallHit)
                     {
                         rb.MovePosition(rb.position + direction * actualDistance);
-                        elapsed += dashDuration;
                         break;
                     }
                 }
             }
 
             rb.MovePosition(rb.position + direction * actualDistance);
-            elapsed += step;
+            remainingDistance -= actualDistance;
         }
 
         EventBus.RaisePlayerInputUnblockRequested(this);

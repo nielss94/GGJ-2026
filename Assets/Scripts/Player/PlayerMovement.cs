@@ -22,7 +22,14 @@ public class PlayerMovement : MonoBehaviour
     private InputAction moveAction;
     private Vector2 moveInput;
 
+    /// <summary>Raw move input (WASD / left stick).</summary>
     public Vector2 MoveDirection => moveInput;
+
+    /// <summary>World-space move direction from input + camera. Updated in FixedUpdate. Zero when no input or no camera. Used e.g. by DashAbility when dashing towards movement input.</summary>
+    public Vector3 WorldMoveDirection { get; private set; }
+
+    /// <summary>Transform used for visual facing (rotated towards move/dash direction). Null if no model assigned. Use this to rotate the character to face a direction without rotating the root (e.g. dash).</summary>
+    public Transform ModelTransform => model != null ? model.transform : null;
 
     private void Awake()
     {
@@ -46,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        // Only zero input when input is blocked (e.g. menus). When only movement is blocked (e.g. attack),
+        // keep reading move input so dash can use it for direction (useMovementDirectionForDash).
         if (PlayerInputBlocker.IsInputBlocked)
         {
             moveInput = Vector2.zero;
@@ -59,32 +68,43 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (virtualCamera != null)
+        {
+            Vector3 cameraForward = virtualCamera.transform.forward;
+            Vector3 cameraRight = virtualCamera.transform.right;
+            cameraForward.y = 0f;
+            cameraRight.y = 0f;
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+            Vector3 moveDirection = cameraForward * moveInput.y + cameraRight * moveInput.x;
+            WorldMoveDirection = moveDirection.sqrMagnitude > MoveInputThreshold * MoveInputThreshold ? moveDirection.normalized : Vector3.zero;
+        }
+        else
+        {
+            WorldMoveDirection = Vector3.zero;
+        }
+
         if (rb == null || virtualCamera == null)
         {
             return;
         }
 
-        // Skip applying movement when input is blocked (e.g. during dash) so other systems can control position.
-        if (PlayerInputBlocker.IsInputBlocked)
+        // Skip applying movement when input or movement-only is blocked (e.g. dash, or light attack during swing).
+        if (PlayerInputBlocker.IsInputBlocked || PlayerInputBlocker.IsMovementBlocked)
         {
             return;
         }
 
-        Vector3 cameraForward = virtualCamera.transform.forward;
-        Vector3 cameraRight = virtualCamera.transform.right;
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-
-        Vector3 moveDirection = cameraForward * moveInput.y + cameraRight * moveInput.x;
-        rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.deltaTime);
+        if (WorldMoveDirection.sqrMagnitude >= 0.01f)
+        {
+            rb.MovePosition(transform.position + WorldMoveDirection * moveSpeed * Time.deltaTime);
+        }
 
         if (moveInput.sqrMagnitude > MoveInputThreshold * MoveInputThreshold && model != null)
         {
             model.transform.rotation = Quaternion.Slerp(
                 model.transform.rotation,
-                Quaternion.LookRotation(moveDirection),
+                Quaternion.LookRotation(WorldMoveDirection),
                 rotationSpeed);
         }
     }
