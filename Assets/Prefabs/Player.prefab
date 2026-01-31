@@ -558,9 +558,9 @@ MonoBehaviour:
   cooldown: 1
   damage: 10
   damageMultiplierPerSwing: {x: 1, y: 1.2, z: 1.5}
-  baseSwingDuration: 0.3
+  baseSwingDuration: 0.1
   baseMinTimeBetweenHits: 0.2
-  comboLinkWindow: 0.5
+  comboLinkWindow: 0.25
   attackDirectionSource: {fileID: 7820473073506362841}
   hitboxShape: 0
   hitboxOffset: 0
