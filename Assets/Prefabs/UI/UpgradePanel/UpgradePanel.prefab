@@ -120,7 +120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5316550571398323379
 RectTransform:
   m_ObjectHideFlags: 0
@@ -191,6 +191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 774c99d204e274abf9e0f88f6c51a69e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradePanel
+  upgradeDatabase: {fileID: 11400000, guid: 59264a9ec04774c5ea2c592babb6fb25, type: 2}
   cardPrefab: {fileID: 8689166617577672961, guid: cc6355c172ca6461da949088ae20fa68, type: 3}
   cardContainer: {fileID: 1656843298854925422}
+  cardCount: 3
+  abilityRatio: 0.5
   openSound: {fileID: 11400000, guid: 4a770363b8b74429c8c36a70cef9aae9, type: 2}

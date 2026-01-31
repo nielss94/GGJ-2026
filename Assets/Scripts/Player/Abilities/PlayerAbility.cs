@@ -88,6 +88,12 @@ public abstract class PlayerAbility : MonoBehaviour
     }
 
     /// <summary>
+    /// Called when an upgrade is applied that targets this ability. statId is the ScriptableObject from the upgrade definition;
+    /// value is the database curve evaluated at current level, multiplied by rarity. Override to apply (e.g. add to dash distance).
+    /// </summary>
+    public virtual void ApplyUpgradeValue(AbilityStatId statId, float value) { }
+
+    /// <summary>
     /// Called when the player triggers this ability (button pressed). Return true if the ability was performed.
     /// </summary>
     public abstract bool TryPerform();

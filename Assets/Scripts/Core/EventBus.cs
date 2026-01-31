@@ -24,9 +24,9 @@ public static class EventBus
     public static void RaisePlayerInputUnblockRequested(object source) => PlayerInputUnblockRequested?.Invoke(source);
 
     /// <summary>
-    /// Raised when the player has chosen an upgrade (e.g. from UpgradePanel). Subscribers apply the upgrade (e.g. level up abilities / stats).
+    /// Raised when the player has chosen an upgrade (e.g. from UpgradePanel). Subscribers apply the upgrade (e.g. ability/stat from UpgradeOffer).
     /// </summary>
-    public static event Action<UpgradeType> UpgradeChosen;
+    public static event Action<UpgradeOffer> UpgradeChosen;
 
-    public static void RaiseUpgradeChosen(UpgradeType type) => UpgradeChosen?.Invoke(type);
+    public static void RaiseUpgradeChosen(UpgradeOffer offer) => UpgradeChosen?.Invoke(offer);
 }

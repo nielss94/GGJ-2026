@@ -1,22 +1,20 @@
 using UnityEngine;
 
 /// <summary>
-/// Dash ability (boilerplate). Preferred slot A; use PlayerRigidbody or PlayerTransform to move the player.
-/// Implement dash logic in TryPerform() when ready.
+/// Dash ability. Preferred slot A; use PlayerRigidbody or PlayerTransform to move the player.
+/// Upgrade value comes from the upgrade database (curve * rarity); assign the same AbilityStatId as in the upgrade definition.
 /// </summary>
 public class DashAbility : PlayerAbility
 {
-    [Header("Dash (level curves)")]
-    [Tooltip("Distance per level (X = level, Y = distance). Evaluated at current level and added to dash distance each time level is applied. If level exceeds curve max time, the max value is used.")]
-    [SerializeField] private AnimationCurve dashDistanceCurve;
+    [Header("Dash stats")]
+    [Tooltip("Assign the same Ability Stat Id asset as used by 'Dash Distance' ability upgrades in the database.")]
+    [SerializeField] private AbilityStatId dashDistanceStatId;
 
     [Header("Dash (placeholder)")]
     [SerializeField] private float dashDistance = 5f;
     [SerializeField] private float dashDuration = 0.2f;
 
-    /// <summary>
-    /// Current dash distance (initial value plus curve evaluation added each time level is applied).
-    /// </summary>
+    /// <summary>Current dash distance (base + values applied from upgrades).</summary>
     public float DashDistance => dashDistance;
 
     private void Reset()
@@ -27,8 +25,13 @@ public class DashAbility : PlayerAbility
 
     public override void ApplyLevel()
     {
-        if (dashDistanceCurve != null && dashDistanceCurve.keys.Length > 0)
-            dashDistance += EvaluateCurveAtLevel(dashDistanceCurve);
+        // Upgrade values come from the upgrade database (curve * rarity), applied via ApplyUpgradeValue.
+    }
+
+    public override void ApplyUpgradeValue(AbilityStatId statId, float value)
+    {
+        if (statId == dashDistanceStatId)
+            dashDistance += value;
     }
 
     public override bool TryPerform()

@@ -289,39 +289,7 @@ MonoBehaviour:
   abilityName: Dash
   description: DASH
   preferredSlot: 0
-  dashDistanceCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.04845047
-      value: 2.2859268
-      inSlope: 0.06878123
-      outSlope: 0.06878123
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.11061284
-    - serializedVersion: 3
-      time: 1.7581437
-      value: 2.7884498
-      inSlope: -0.38410652
-      outSlope: -0.38410652
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 9.998688
-      value: 0.06207657
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  dashDistanceStatId: {fileID: 11400000, guid: 6d638d9c3753043bc812e065247f5641, type: 2}
   dashDistance: 5
   dashDuration: 0.2
 --- !u!1 &5175298160320208185
@@ -516,6 +484,7 @@ GameObject:
   - component: {fileID: 821960428016917775}
   - component: {fileID: 5766441260869216408}
   - component: {fileID: 2114751411203063132}
+  - component: {fileID: 2203496732461088381}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -601,9 +570,22 @@ MonoBehaviour:
   abilitiesContainer: {fileID: 3329017028835715742}
   autoAssignFromSameObject: 1
   abilitySlotA: {fileID: 3699979859993747153}
-  abilitySlotB: {fileID: 3699979859993747153}
+  abilitySlotB: {fileID: 0}
   abilitySlotX: {fileID: 3495186614016676912}
   abilitySlotY: {fileID: 0}
+--- !u!114 &2203496732461088381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045543100017386537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9423a650fce64259b2724ae3414ee0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeApplier
+  abilityManager: {fileID: 0}
 --- !u!1 &8718913515318963313
 GameObject:
   m_ObjectHideFlags: 0

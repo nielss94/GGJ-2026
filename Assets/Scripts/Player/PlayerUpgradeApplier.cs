@@ -1,8 +1,9 @@
 using UnityEngine;
 
 /// <summary>
-/// Subscribes to EventBus.UpgradeChosen and applies the chosen upgrade (e.g. levels up the corresponding ability).
-/// Keeps UpgradePanel decoupled from PlayerAbilityManager; attach to the player or a persistent manager.
+/// Subscribes to EventBus.UpgradeChosen and applies the chosen upgrade (ability or stat from UpgradeOffer).
+/// Ability upgrades: passes stat id and evaluated value to the ability's ApplyUpgradeValue.
+/// Stat upgrades: applied via ApplyStatUpgrade (override or extend for your stat system).
 /// </summary>
 public class PlayerUpgradeApplier : MonoBehaviour
 {
@@ -20,22 +21,41 @@ public class PlayerUpgradeApplier : MonoBehaviour
         EventBus.UpgradeChosen -= OnUpgradeChosen;
     }
 
-    private void OnUpgradeChosen(UpgradeType type)
+    private void OnUpgradeChosen(UpgradeOffer offer)
     {
-        // --- Differentiate here: ability-based upgrades (level up a slot) vs stat/other upgrades (e.g. max health, modifiers). ---
-        // If type is a stat upgrade (e.g. Health), apply it here and return; otherwise fall through to ability level-up.
+        if (offer == null) return;
 
+        if (offer.IsAbility)
+        {
+            ApplyAbilityUpgrade(offer);
+            return;
+        }
+
+        ApplyStatUpgrade(offer);
+    }
+
+    private void ApplyAbilityUpgrade(UpgradeOffer offer)
+    {
         PlayerAbilityManager manager = GetAbilityManager();
-        if (manager == null)
-            return;
+        if (manager == null) return;
+        if (!offer.AbilitySlot.HasValue) return;
+        if (offer.AbilityStatIdRef == null) return;
 
-        PlayerAbilityManager.AbilitySlot? slot = GetAbilitySlotForUpgrade(type);
-        if (slot == null)
-            return;
+        PlayerAbility ability = manager.GetAbility(offer.AbilitySlot.Value);
+        if (ability == null) return;
 
-        PlayerAbility ability = manager.GetAbility(slot.Value);
-        if (ability != null)
-            ability.LevelUp();
+        int level = ability.level;
+        float value = offer.EvaluateValue(level);
+        ability.ApplyUpgradeValue(offer.AbilityStatIdRef, value);
+    }
+
+    /// <summary>
+    /// Called for stat upgrades. Override to apply to your stat system (e.g. max health, move speed).
+    /// Use offer.StatId and offer.EvaluateValue(level) where level is your stack count or stat level.
+    /// </summary>
+    protected virtual void ApplyStatUpgrade(UpgradeOffer offer)
+    {
+        // Placeholder: extend with your stat system (e.g. PlayerStats.Apply(offer.StatId, offer.EvaluateValue(stacks)))
     }
 
     private PlayerAbilityManager GetAbilityManager()
@@ -43,19 +63,5 @@ public class PlayerUpgradeApplier : MonoBehaviour
         if (abilityManager != null)
             return abilityManager;
         return FindFirstObjectByType<PlayerAbilityManager>();
-    }
-
-    /// <summary>
-    /// Maps upgrade type to the ability slot to level up. Override or extend for custom mapping or future Health/Speed stats.
-    /// </summary>
-    protected virtual PlayerAbilityManager.AbilitySlot? GetAbilitySlotForUpgrade(UpgradeType type)
-    {
-        return type switch
-        {
-            UpgradeType.Damage => PlayerAbilityManager.AbilitySlot.X,
-            UpgradeType.Speed => PlayerAbilityManager.AbilitySlot.A,
-            UpgradeType.Health => null,
-            _ => null
-        };
     }
 }

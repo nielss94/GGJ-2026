@@ -4,8 +4,8 @@ using UnityEngine.EventSystems;
 
 /// <summary>
 /// Upgrade panel UI. Open from anywhere via UpgradePanel.Instance.Open().
-/// Spawns cards from available upgrades; subscribes to card click and closes on choice.
-/// Attach to the root GameObject of the upgrade panel.
+/// Spawns cards from the upgrade database (random offers); subscribes to card click and closes on choice.
+/// Assign the Upgrade Database asset in the inspector.
 /// </summary>
 public class UpgradePanel : MonoBehaviour
 {
@@ -17,9 +17,19 @@ public class UpgradePanel : MonoBehaviour
     public static UpgradePanel Instance =>
         _instance != null ? _instance : (_instance = FindFirstObjectByType<UpgradePanel>(FindObjectsInactive.Include));
 
+    [Header("Database")]
+    [Tooltip("Designer-created database of rarities and upgrades. Used to draw random offers when opening the panel.")]
+    [SerializeField] private UpgradeDatabase upgradeDatabase;
+
     [Header("Cards")]
     [SerializeField] private Card cardPrefab;
     [SerializeField] private RectTransform cardContainer;
+
+    [Header("Offers")]
+    [Tooltip("Number of upgrade cards to show when opening the panel.")]
+    [SerializeField] private int cardCount = 3;
+    [Tooltip("Ratio of ability vs stat upgrades (0 = all stat, 1 = all ability).")]
+    [SerializeField][Range(0f, 1f)] private float abilityRatio = 0.5f;
 
     [Header("Sounds")]
     [SerializeField] private FmodEventAsset openSound;
@@ -71,11 +81,13 @@ public class UpgradePanel : MonoBehaviour
     public bool IsOpen => gameObject.activeSelf;
 
     /// <summary>
-    /// Returns the list of upgrades to offer. Replace with real logic later (e.g. from run state, unlocks).
+    /// Returns the list of upgrade offers to show (from database or override). Uses database random draw by default.
     /// </summary>
-    protected virtual IReadOnlyList<UpgradeType> GetAvailableUpgrades()
+    protected virtual IReadOnlyList<UpgradeOffer> GetAvailableUpgrades()
     {
-        return new[] { UpgradeType.Damage, UpgradeType.Health, UpgradeType.Speed };
+        if (upgradeDatabase != null)
+            return upgradeDatabase.GetRandomUpgrades(cardCount, abilityRatio);
+        return new List<UpgradeOffer>();
     }
 
     private void PlayOpenSound()
@@ -91,12 +103,13 @@ public class UpgradePanel : MonoBehaviour
 
         UnsubscribeAndClearCards();
 
-        IReadOnlyList<UpgradeType> upgrades = GetAvailableUpgrades();
-        for (int i = 0; i < upgrades.Count; i++)
+        IReadOnlyList<UpgradeOffer> offers = GetAvailableUpgrades();
+        for (int i = 0; i < offers.Count; i++)
         {
-            UpgradeType type = upgrades[i];
+            UpgradeOffer offer = offers[i];
+            if (offer == null) continue;
             Card card = Instantiate(cardPrefab, cardContainer);
-            card.Initialize(type, title: type.ToString());
+            card.Initialize(offer);
             card.Clicked += OnCardChosen;
             spawnedCards.Add(card);
         }
@@ -117,9 +130,9 @@ public class UpgradePanel : MonoBehaviour
         eventSystem.SetSelectedGameObject(toSelect);
     }
 
-    private void OnCardChosen(UpgradeType chosen)
+    private void OnCardChosen(UpgradeOffer chosen)
     {
-        if (hasChosen)
+        if (hasChosen || chosen == null)
             return;
         hasChosen = true;
         EventBus.RaiseUpgradeChosen(chosen);

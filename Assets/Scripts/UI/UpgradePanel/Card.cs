@@ -7,8 +7,8 @@ using TMPro;
 
 public class Card : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
-    /// <summary>Fired when the card is clicked. Passes this card's upgrade type.</summary>
-    public event Action<UpgradeType> Clicked;
+    /// <summary>Fired when the card is clicked. Passes this card's upgrade offer.</summary>
+    public event Action<UpgradeOffer> Clicked;
 
     [Header("Sounds")]
     [SerializeField] private FmodEventAsset selectSound;
@@ -21,11 +21,17 @@ public class Card : MonoBehaviour, ISelectHandler, IDeselectHandler
     [Header("Text (TextMeshPro)")]
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
+    [Tooltip("Optional. If set, shows the upgrade's rarity (e.g. Common, Rare). Color is set from rarity's Display Color.")]
+    [SerializeField] private TMP_Text rarityText;
+
+    [Header("Rarity visualisation")]
+    [Tooltip("Optional. If set, this image is tinted with the rarity's Display Color (e.g. card border or background).")]
+    [SerializeField] private Image rarityBorderImage;
 
     private Button button;
     private Vector3 normalScale;
     private Tween scaleTween;
-    private UpgradeType upgradeType;
+    private UpgradeOffer upgradeOffer;
 
     private void Awake()
     {
@@ -42,39 +48,24 @@ public class Card : MonoBehaviour, ISelectHandler, IDeselectHandler
             button.onClick.RemoveListener(OnCardClicked);
     }
 
-    /// <summary>Initialize the card with data for the given upgrade type. Call after spawning.</summary>
-    public void Initialize(UpgradeType type, string title = null)
+    /// <summary>Initialize the card with an upgrade offer. Call after spawning.</summary>
+    public void Initialize(UpgradeOffer offer)
     {
-        upgradeType = type;
-        string displayTitle = !string.IsNullOrEmpty(title) ? title : GetTitleForType(type);
-        string description = GetDescriptionForType(type);
+        upgradeOffer = offer;
+        if (offer == null) return;
 
         if (titleText != null)
-            titleText.text = displayTitle;
+            titleText.text = offer.DisplayName;
         if (descriptionText != null)
-            descriptionText.text = description;
-    }
-
-    private static string GetTitleForType(UpgradeType type)
-    {
-        return type switch
+            descriptionText.text = offer.Description;
+        if (rarityText != null)
         {
-            UpgradeType.Damage => "Damage",
-            UpgradeType.Health => "Health",
-            UpgradeType.Speed => "Speed",
-            _ => type.ToString()
-        };
-    }
-
-    private static string GetDescriptionForType(UpgradeType type)
-    {
-        return type switch
-        {
-            UpgradeType.Damage => "Increase your damage output.",
-            UpgradeType.Health => "Increase your maximum health.",
-            UpgradeType.Speed => "Move faster.",
-            _ => string.Empty
-        };
+            rarityText.text = offer.RarityName;
+            if (offer.Rarity != null)
+                rarityText.color = offer.Rarity.DisplayColor;
+        }
+        if (rarityBorderImage != null && offer.Rarity != null)
+            rarityBorderImage.color = offer.Rarity.DisplayColor;
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -105,6 +96,6 @@ public class Card : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         if (clickSound != null && AudioService.Instance != null)
             AudioService.Instance.PlayOneShot(clickSound);
-        Clicked?.Invoke(upgradeType);
+        Clicked?.Invoke(upgradeOffer);
     }
 }

@@ -832,24 +832,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 116478678}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &180713416 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8045543100017386537, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
-  m_PrefabInstance: {fileID: 1871054114}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &180713421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180713416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9423a650fce64259b2724ae3414ee0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeApplier
-  abilityManager: {fileID: 0}
 --- !u!1 &196440432
 GameObject:
   m_ObjectHideFlags: 0
@@ -8200,10 +8182,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2114751411203063132, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
-      propertyPath: abilitySlotB
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8045543100017386537, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
       propertyPath: m_Name
       value: Player
@@ -8211,10 +8189,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8045543100017386537, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 180713421}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
 --- !u!1 &1876774970
 GameObject:
@@ -9688,10 +9663,6 @@ PrefabInstance:
     - target: {fileID: 9025468766607950868, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
       propertyPath: m_Name
       value: UpgradePanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 9025468766607950868, guid: 001163409eece4036b3789d4a43a73a1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
