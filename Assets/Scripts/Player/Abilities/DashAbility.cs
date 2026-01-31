@@ -41,8 +41,7 @@ public class DashAbility : PlayerAbility
 
     public override void ApplyUpgradeValue(AbilityStatId statId, float value)
     {
-        if (statId == dashDistanceStatId)
-            dashDistance += value;
+        TryApplyUpgrade(dashDistanceStatId, statId, value, v => dashDistance += v);
     }
 
     public override bool CanPerform => !isDashing && base.CanPerform;

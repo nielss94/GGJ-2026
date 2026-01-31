@@ -19,4 +19,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3d455107c51864275b52901dc26dab37, type: 2}
   abilityUpgrades:
   - {fileID: 11400000, guid: 2cbfea02e5e64429abcd5577a2c1d7ac, type: 2}
+  - {fileID: 11400000, guid: 3fed00c5713214a8f993d116989a9fe2, type: 2}
+  - {fileID: 11400000, guid: d4e5f60718293a4b5c6d7e8f90122334, type: 2}
+  - {fileID: 11400000, guid: e5f60718293a4b5c6d7e8f9012233445, type: 2}
+  - {fileID: 11400000, guid: f60718293a4b5c6d7e8f901223344556, type: 2}
   statUpgrades: []
