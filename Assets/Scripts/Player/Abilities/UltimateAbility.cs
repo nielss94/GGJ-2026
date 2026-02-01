@@ -34,6 +34,17 @@ public class UltimateAbility : PlayerAbility
 
     private bool isBlastActive;
     private int debugExtraDrops;
+    private float currentBlastRadius;
+    private Vector3 blastOrigin;
+
+    /// <summary>True while the blast wave is expanding. Use for visuals (e.g. UltimateBlastVisual).</summary>
+    public bool IsBlastActive => isBlastActive;
+
+    /// <summary>Current wave radius (0 when not active). Use for visuals.</summary>
+    public float CurrentBlastRadius => currentBlastRadius;
+
+    /// <summary>World position of the blast center. Use for visuals when not a child of the player.</summary>
+    public Vector3 BlastOrigin => blastOrigin;
 
     private void Awake()
     {
@@ -96,6 +107,8 @@ public class UltimateAbility : PlayerAbility
     private IEnumerator ExpandBlastWave()
     {
         Vector3 origin = PlayerTransform.position;
+        blastOrigin = origin;
+        currentBlastRadius = 0f;
         float knockbackForce = GetKnockbackForce();
 
         // Collect all potential targets within full radius (with their distance)
@@ -126,6 +139,7 @@ public class UltimateAbility : PlayerAbility
         {
             elapsed += Time.deltaTime;
             currentRadius = Mathf.Min(blastRadius, (elapsed / blastDuration) * blastRadius);
+            currentBlastRadius = currentRadius;
 
             foreach (var (health, distance) in candidates)
             {
@@ -147,6 +161,7 @@ public class UltimateAbility : PlayerAbility
             health.TakeDamage(blastDamage, origin, knockbackForce);
         }
 
+        currentBlastRadius = 0f;
         isBlastActive = false;
     }
 
