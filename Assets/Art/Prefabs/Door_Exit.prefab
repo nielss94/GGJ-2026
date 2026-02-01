@@ -298,6 +298,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   openTrigger: Open
   animatorOpenDelay: 1
+  fmodDoorOpen: {fileID: 11400000, guid: a6d1d6469c5287244ac97c032c45cbdf, type: 2}
+  fmodDoorTransition: {fileID: 11400000, guid: fb5f69957fb5954498a949a71fd40c48, type: 2}
 --- !u!65 &172676269154039410
 BoxCollider:
   m_ObjectHideFlags: 0
