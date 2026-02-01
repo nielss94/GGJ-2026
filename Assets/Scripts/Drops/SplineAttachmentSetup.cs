@@ -28,6 +28,9 @@ public class SplineAttachmentSetup
 
     public DropTypeId DropType => dropType;
 
+    /// <summary>Transform items should be parented to when using this spline (so they move with the spline).</summary>
+    public Transform SplineTransform => splineContainer != null ? splineContainer.transform : null;
+
     /// <summary>Place one item at index i of total count (evenly distributed along the spline).</summary>
     public void PlaceAt(Transform item, int index, int total)
     {

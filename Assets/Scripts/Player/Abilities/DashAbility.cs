@@ -40,6 +40,9 @@ public class DashAbility : PlayerAbility
     /// <summary>Current dash speed in m/s (base + values applied from upgrades).</summary>
     public float DashSpeed => dashSpeed;
 
+    /// <summary>True while the player is currently dashing. Use for animator (e.g. IsDashing parameter).</summary>
+    public bool IsDashing => isDashing;
+
     private bool isDashing;
 
     private void Reset()

@@ -6,7 +6,7 @@ using UnityEngine;
 /// No walking during attacks; each swing moves the player forward. Dodge (dash) cancels attack and applies cooldown.
 /// Hitbox is instant per swing; Size/AttackSpeed/Cooldown/Damage come from stats and upgrades.
 /// </summary>
-public class LightAttackAbility : PlayerAbility
+public class LightAttackAbility : PlayerAbility, IInputBufferable
 {
     private enum State
     {
@@ -39,10 +39,14 @@ public class LightAttackAbility : PlayerAbility
     [Header("Combo timing (designer)")]
     [Tooltip("Base duration of each swing (animation time). Actual = base / attackSpeed.")]
     [SerializeField] private float baseSwingDuration = 0.3f;
-    [Tooltip("Base minimum time before next attack can be input. Actual = base / attackSpeed.")]
-    [SerializeField] private float baseMinTimeBetweenHits = 0.2f;
-    [Tooltip("Max time after a swing to press attack again to continue combo. After this, combo resets (no cooldown). Cooldown only applies after the 3rd swing or dodge cancel.")]
-    [SerializeField] private float comboLinkWindow = 1f;
+    [Tooltip("Base minimum time before next attack can be input. Actual = base / attackSpeed. Keep lower than comboLinkWindow so there is always a usable link window.")]
+    [SerializeField] private float baseMinTimeBetweenHits = 0.15f;
+    [Tooltip("Max time after a swing to press attack again to continue combo (seconds). After this, combo resets (no cooldown). Keep well above baseMinTimeBetweenHits so the link window is easy to hit without buffering.")]
+    [SerializeField] private float comboLinkWindow = 0.9f;
+
+    [Header("Stats (optional)")]
+    [Tooltip("Leave empty to resolve at runtime via FindFirstObjectByType. Used for crit chance and knockback chance.")]
+    [SerializeField] private PlayerStats playerStats;
 
     [Header("Hitbox (designer)")]
     [Tooltip("Optional. Forward direction for attack (e.g. character model). Otherwise uses player root forward.")]
@@ -81,6 +85,9 @@ public class LightAttackAbility : PlayerAbility
     public float Cooldown => cooldown;
     public float Damage => damage;
 
+    /// <summary>Fired when a swing starts. Argument is combo index 0, 1, or 2 (for Attack1, Attack2, Attack3).</summary>
+    public event System.Action<int> OnSwingStarted;
+
     /// <summary>Current combo state and timer countdowns for debug (e.g. VoodooDebug).</summary>
     public string GetDebugStatus()
     {
@@ -91,7 +98,8 @@ public class LightAttackAbility : PlayerAbility
         {
             float nextIn = Mathf.Max(0f, nextSwingAllowedAt - now);
             float windowClosesIn = Mathf.Max(0f, comboWindowEndTime - now);
-            return $"[LightAttack] {state} — next in {nextIn:F2}s, window {windowClosesIn:F2}s";
+            string buf = bufferedSwingIndex != -1 ? $" buffered={bufferedSwingIndex + 1}" : "";
+            return $"[LightAttack] {state} — next in {nextIn:F2}s, window {windowClosesIn:F2}s{buf}";
         }
         if (state == State.Idle && cooldownUntil > now)
             return $"[LightAttack] Idle — cooldown {cooldownUntil - now:F2}s";
@@ -103,6 +111,8 @@ public class LightAttackAbility : PlayerAbility
     private float swingEndTime;
     private float nextSwingAllowedAt;
     private float comboWindowEndTime;
+    /// <summary>Buffered next swing index (1 or 2). -1 = none. Only one buffer at a time; cannot buffer attack1 during attack3.</summary>
+    private int bufferedSwingIndex = -1;
 
     private void Reset()
     {
@@ -118,11 +128,30 @@ public class LightAttackAbility : PlayerAbility
     private void OnDisable()
     {
         EventBus.PlayerDashStarted -= OnPlayerDashStarted;
+        bufferedSwingIndex = -1;
         if (state != State.Idle)
         {
             EventBus.RaisePlayerMovementUnblockRequested(this);
             state = State.Idle;
         }
+    }
+
+    public bool TryBufferInput()
+    {
+        if (bufferedSwingIndex != -1) return true;
+        if (state == State.Swing0)
+        {
+            bufferedSwingIndex = 1;
+            if (enableLogging) Debug.Log("[LightAttack] Buffered attack2 during attack1.");
+            return true;
+        }
+        if (state == State.Swing1)
+        {
+            bufferedSwingIndex = 2;
+            if (enableLogging) Debug.Log("[LightAttack] Buffered attack3 during attack2.");
+            return true;
+        }
+        return false;
     }
 
     private void OnPlayerDashStarted(object source)
@@ -192,9 +221,20 @@ public class LightAttackAbility : PlayerAbility
                 break;
             case State.BetweenSwings0:
             case State.BetweenSwings1:
+                if (bufferedSwingIndex != -1 && now >= nextSwingAllowedAt)
+                {
+                    int next = state == State.BetweenSwings0 ? 1 : 2;
+                    if (bufferedSwingIndex == next)
+                    {
+                        int toPerform = bufferedSwingIndex;
+                        bufferedSwingIndex = -1;
+                        StartSwing(toPerform);
+                    }
+                }
                 if (now > comboWindowEndTime)
                 {
                     if (enableLogging) Debug.Log("[LightAttack] Combo link window expired. Resetting (no cooldown).");
+                    bufferedSwingIndex = -1;
                     EndComboWithoutCooldown();
                 }
                 break;
@@ -214,6 +254,7 @@ public class LightAttackAbility : PlayerAbility
         ApplyHitbox(comboIndex + 1);
         ApplyForwardStep();
         PlaySwingSound(comboIndex);
+        OnSwingStarted?.Invoke(comboIndex);
         if (enableLogging) Debug.Log($"[LightAttack] Swing {comboIndex + 1}/3 started (duration={swingDuration:F2}s).");
     }
 
@@ -248,6 +289,7 @@ public class LightAttackAbility : PlayerAbility
 
     private void EndComboAndApplyCooldown()
     {
+        bufferedSwingIndex = -1;
         state = State.Idle;
         cooldownUntil = Time.time + Mathf.Max(0f, cooldown);
         EventBus.RaisePlayerMovementUnblockRequested(this);
@@ -255,6 +297,7 @@ public class LightAttackAbility : PlayerAbility
 
     private void EndComboWithoutCooldown()
     {
+        bufferedSwingIndex = -1;
         state = State.Idle;
         EventBus.RaisePlayerMovementUnblockRequested(this);
     }
@@ -299,6 +342,7 @@ public class LightAttackAbility : PlayerAbility
 
         Transform playerT = PlayerTransform;
         HashSet<Health> damaged = new HashSet<Health>();
+        PlayerStats stats = GetPlayerStats();
 
         foreach (Collider c in hits)
         {
@@ -309,14 +353,30 @@ public class LightAttackAbility : PlayerAbility
             var health = c.GetComponentInParent<Health>();
             if (health == null || health.IsDead || damaged.Contains(health)) continue;
 
-            health.TakeDamage(damageAmount, PlayerTransform.position, 1f);
+            float finalDamage = damageAmount;
+            bool isCrit = false;
+            if (stats != null && stats.RollCrit())
+            {
+                isCrit = true;
+                finalDamage *= stats.CritDamageMultiplier;
+                Debug.Log($"[LightAttack] Crit! {c.gameObject.name} for {finalDamage} damage (base {damageAmount}).");
+            }
+
+            float knockbackForce = stats != null ? stats.KnockbackForce : 1f;
+            health.TakeDamage(finalDamage, PlayerTransform.position, knockbackForce);
             damaged.Add(health);
-            if (enableLogging) Debug.Log($"[LightAttack] Hit {c.gameObject.name} for {damageAmount} damage.");
+            if (enableLogging && !isCrit) Debug.Log($"[LightAttack] Hit {c.gameObject.name} for {finalDamage} damage.");
             if (fmodOnHit != null && !fmodOnHit.IsNull && AudioService.Instance != null)
                 AudioService.Instance.PlayOneShot(fmodOnHit, c.ClosestPoint(GetHitboxOrigin()));
         }
 
         return damaged.Count;
+    }
+
+    private PlayerStats GetPlayerStats()
+    {
+        if (playerStats != null) return playerStats;
+        return FindFirstObjectByType<PlayerStats>();
     }
 
     /// <summary>For sphere hitbox: only colliders in the front half of the sphere (in front of the player) are considered.</summary>

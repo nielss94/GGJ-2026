@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 287883857881957592}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.238, z: 0}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.026810542, y: 0.03106736, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4957499016491780412}
+  m_Father: {fileID: 3337892451625212423}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7227536947250835354
 MonoBehaviour:
@@ -576,9 +576,11 @@ GameObject:
   - component: {fileID: 5766441260869216408}
   - component: {fileID: 2114751411203063132}
   - component: {fileID: 2203496732461088381}
+  - component: {fileID: 9140550922803429152}
   - component: {fileID: 6731190559124809214}
   - component: {fileID: 4200191816472261527}
   - component: {fileID: 6176219080056381527}
+  - component: {fileID: 505651761410124540}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -682,6 +684,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeApplier
   abilityManager: {fileID: 0}
+  playerStats: {fileID: 9140550922803429152}
+--- !u!114 &9140550922803429152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045543100017386537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f2a3b4c5d61728394a5b6c7d8e9f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  critChanceStatId: {fileID: 11400000, guid: a1b2c3d4e5f61728394a5b6c7d8e9f01, type: 2}
+  knockbackForceStatId: {fileID: 11400000, guid: b2c3d4e5f61728394a5b6c7d8e9f0123, type: 2}
+  baseCritChance: 0.121
+  baseKnockbackForce: 1
+  critDamageMultiplier: 2
 --- !u!114 &6731190559124809214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,6 +762,26 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &505651761410124540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045543100017386537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5609600fd94e448486a8bfc2c643b1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
+  animator: {fileID: 589168940984925635}
+  playerMovement: {fileID: 821960428016917775}
+  abilityManager: {fileID: 2114751411203063132}
+  moveSpeedParam: MoveSpeed
+  isDashingParam: IsDashing
+  attack1Trigger: Attack1
+  attack2Trigger: Attack2
+  attack3Trigger: Attack3
 --- !u!1 &8718913515318963313
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,9 +840,10 @@ MonoBehaviour:
   cooldown: 1
   damage: 10
   damageMultiplierPerSwing: {x: 1, y: 1.2, z: 1.5}
-  baseSwingDuration: 0.1
-  baseMinTimeBetweenHits: 0.2
-  comboLinkWindow: 0.25
+  baseSwingDuration: 0.3
+  baseMinTimeBetweenHits: 0.15
+  comboLinkWindow: 0.9
+  playerStats: {fileID: 0}
   attackDirectionSource: {fileID: 7820473073506362841}
   hitboxShape: 0
   hitboxOffset: 0
@@ -999,7 +1040,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 310065444975331534, guid: a295ffeaec14d8f468b6e686380eca1c, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7985887678029863925, guid: a295ffeaec14d8f468b6e686380eca1c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3761131184560597000}
     m_AddedComponents:
@@ -1007,6 +1048,16 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6625419317496930953}
   m_SourcePrefab: {fileID: 100100000, guid: a295ffeaec14d8f468b6e686380eca1c, type: 3}
+--- !u!95 &589168940984925635 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -3986767658171302863, guid: a295ffeaec14d8f468b6e686380eca1c, type: 3}
+  m_PrefabInstance: {fileID: 4647998454226190834}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3337892451625212423 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7985887678029863925, guid: a295ffeaec14d8f468b6e686380eca1c, type: 3}
+  m_PrefabInstance: {fileID: 4647998454226190834}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4957499016491780412 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 310065444975331534, guid: a295ffeaec14d8f468b6e686380eca1c, type: 3}

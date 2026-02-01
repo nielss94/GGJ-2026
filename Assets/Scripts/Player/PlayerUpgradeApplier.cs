@@ -10,6 +10,8 @@ public class PlayerUpgradeApplier : MonoBehaviour
     [Header("References")]
     [Tooltip("Leave empty to resolve at runtime via FindFirstObjectByType.")]
     [SerializeField] private PlayerAbilityManager abilityManager;
+    [Tooltip("Leave empty to resolve at runtime via FindFirstObjectByType.")]
+    [SerializeField] private PlayerStats playerStats;
 
     private void OnEnable()
     {
@@ -50,12 +52,20 @@ public class PlayerUpgradeApplier : MonoBehaviour
     }
 
     /// <summary>
-    /// Called for stat upgrades. Override to apply to your stat system (e.g. max health, move speed).
-    /// Use offer.StatId and offer.EvaluateValue(level) where level is your stack count or stat level.
+    /// Called for stat upgrades. Applies to PlayerStats: get level, evaluate value, ApplyStatUpgradeValue, IncrementLevel.
+    /// Override to extend with additional stat systems.
     /// </summary>
     protected virtual void ApplyStatUpgrade(UpgradeOffer offer)
     {
-        // Placeholder: extend with your stat system (e.g. PlayerStats.Apply(offer.StatId, offer.EvaluateValue(stacks)))
+        if (offer.StatUpgradeIdRef == null) return;
+
+        PlayerStats stats = GetPlayerStats();
+        if (stats == null) return;
+
+        int level = stats.GetLevel(offer.StatUpgradeIdRef);
+        float value = offer.EvaluateValue(level);
+        stats.ApplyStatUpgradeValue(offer.StatUpgradeIdRef, value);
+        stats.IncrementLevel(offer.StatUpgradeIdRef);
     }
 
     private PlayerAbilityManager GetAbilityManager()
@@ -63,5 +73,12 @@ public class PlayerUpgradeApplier : MonoBehaviour
         if (abilityManager != null)
             return abilityManager;
         return FindFirstObjectByType<PlayerAbilityManager>();
+    }
+
+    private PlayerStats GetPlayerStats()
+    {
+        if (playerStats != null)
+            return playerStats;
+        return FindFirstObjectByType<PlayerStats>();
     }
 }

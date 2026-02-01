@@ -4,21 +4,24 @@ using UnityEngine.AI;
 
 /// <summary>
 /// Applies knockback when this object's Health takes damage with knockback context.
-/// Knockback strength is based on the Health's max health (heavier enemies move less).
-/// Max health is set at runtime by EnemyTypeApplier from the prefab's EnemyType, so each enemy
-/// type gets knockback scaled by its type's MaxHealth. referenceMaxHealth is a tuning constant
-/// (set in inspector) that defines the curve; it is not read from EnemyType.
-/// knockbackMultiplier is passed from the damage source; later it can come from a player stat upgrade.
+/// Knockback strength is based on the Health's max health (heavier enemies move less),
+/// the damage source's knockback force (player stat), and this receiver's knockback receive multiplier.
+/// Max health is set at runtime by EnemyTypeApplier from the prefab's EnemyType.
+/// knockbackMultiplier in DamageInfo is the player's knockback force.
+/// knockbackReceiveMultiplier (0..1) is per-enemy: 1 = full knockback, 0.1 = only 10% (resistant).
+/// Small/weaker enemies typically have weaker resistance (higher multiplier, e.g. 1); heavy enemies lower (e.g. 0.1).
 /// Works with NavMeshAgent: disables agent during knockback, then warps back onto the navmesh.
 /// </summary>
 [RequireComponent(typeof(Health))]
 public class KnockbackReceiver : MonoBehaviour
 {
     [Header("Knockback")]
-    [Tooltip("Base knockback distance (meters). Actual = base * strength * knockbackMultiplier, where strength = referenceMaxHealth / (referenceMaxHealth + health.MaxHealth).")]
+    [Tooltip("Base knockback distance (meters). Actual = base * strength * sourceForce * knockbackReceiveMultiplier.")]
     [SerializeField] private float baseKnockbackDistance = 4f;
-    [Tooltip("Tuning constant for the formula (set here, not from EnemyType). Enemies whose MaxHealth equals this value get 50% of base distance. Higher reference = more knockback for all; lower = less. health.MaxHealth comes from EnemyTypeApplier at Start.")]
+    [Tooltip("Tuning constant for the formula. Enemies whose MaxHealth equals this value get 50% of base distance.")]
     [SerializeField] private float referenceMaxHealth = 100f;
+    [Tooltip("How much of incoming knockback this enemy receives (0..1). 1 = full knockback, 0.1 = 10% (very resistant). Small/weaker enemies: use 1; heavy enemies: use lower (e.g. 0.1).")]
+    [SerializeField][Range(0f, 1f)] private float knockbackReceiveMultiplier = 1f;
     [Tooltip("Duration over which knockback is applied (seconds).")]
     [SerializeField] private float knockbackDuration = 0.2f;
     [Tooltip("Curve: x = time 0..1, y = fraction of displacement applied (0 at start, 1 at end).")]
@@ -54,7 +57,7 @@ public class KnockbackReceiver : MonoBehaviour
         dir.y = 0f;
         if (dir.sqrMagnitude < 0.01f) return;
 
-        float strength = GetKnockbackStrength(health.MaxHealth) * info.KnockbackMultiplier;
+        float strength = GetKnockbackStrength(health.MaxHealth) * info.KnockbackMultiplier * Mathf.Clamp01(knockbackReceiveMultiplier);
         float distance = baseKnockbackDistance * strength;
         StartCoroutine(ApplyKnockbackRoutine(dir * distance));
     }

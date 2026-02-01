@@ -239,6 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackReceiver
   baseKnockbackDistance: 4
   referenceMaxHealth: 100
+  knockbackReceiveMultiplier: 1
   knockbackDuration: 0.2
   knockbackCurve:
     serializedVersion: 2

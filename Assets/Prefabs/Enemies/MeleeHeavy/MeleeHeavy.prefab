@@ -504,7 +504,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitFlash
   flashDuration: 0.08
-  colorPropertyName: _BaseColor
+  flashEmissionNits: 100
+  emissionIntensityPropertyName: _EmissiveIntensity
   renderers: []
 --- !u!114 &-7285485811345475363
 MonoBehaviour:
@@ -520,6 +521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackReceiver
   baseKnockbackDistance: 4
   referenceMaxHealth: 100
+  knockbackReceiveMultiplier: 0.1
   knockbackDuration: 0.2
   knockbackCurve:
     serializedVersion: 2
