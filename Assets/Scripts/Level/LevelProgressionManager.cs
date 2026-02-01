@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
 
 /// <summary>
 /// Additive level loading: keeps persistent scene, loads/unloads level scenes only.
@@ -19,6 +20,12 @@ public class LevelProgressionManager : MonoBehaviour
 
     /// <summary>Player used for gameplay (UIManager enables and refreshes it when showing game HUD).</summary>
     public Transform DesignatedPlayer => playerTransform;
+
+    [Header("Main menu (additive)")]
+    [Tooltip("If set, this scene is unloaded when the game starts (LoadFirstLevel) and can be reloaded when returning to main menu. Leave empty if menu is a panel in BaseGame.")]
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
+    [Tooltip("Cinemachine: priority for the active virtual camera (menu or gameplay). The inactive one is set to 0. MainMenu scene should contain a CinemachineCamera for the menu view.")]
+    [SerializeField] private int cinemachineActivePriority = 20;
 
     [Header("Level variations")]
     [Tooltip("Scene names for levels. First level is a random pick from this list; after that two are picked for doors.")]
@@ -51,11 +58,19 @@ public class LevelProgressionManager : MonoBehaviour
     private void OnEnable()
     {
         EventBus.LevelComplete += AssignNextLevelsToDoors;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
         EventBus.LevelComplete -= AssignNextLevelsToDoors;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!string.IsNullOrEmpty(mainMenuSceneName) && scene.name == mainMenuSceneName)
+            SetCinemachineMenuActive();
     }
 
     /// <summary>
@@ -67,6 +82,78 @@ public class LevelProgressionManager : MonoBehaviour
         var chosen = PickRandomVariations(1);
         if (chosen.Count == 0) return;
         LoadLevel(chosen[0]);
+    }
+
+    /// <summary>
+    /// Loads the main menu scene additively. Call when returning to main menu (e.g. from death screen).
+    /// Uses Cinemachine: when loaded, raises the menu virtual camera(s) priority and lowers the gameplay VCam so the Brain uses the menu.
+    /// Does nothing if mainMenuSceneName is empty.
+    /// </summary>
+    public void LoadMainMenuScene()
+    {
+        if (string.IsNullOrEmpty(mainMenuSceneName)) return;
+        var scene = SceneManager.GetSceneByName(mainMenuSceneName);
+        if (scene.isLoaded)
+        {
+            SetCinemachineMenuActive();
+            return;
+        }
+        StartCoroutine(LoadMainMenuSceneRoutine());
+    }
+
+    private IEnumerator LoadMainMenuSceneRoutine()
+    {
+        var load = SceneManager.LoadSceneAsync(mainMenuSceneName, LoadSceneMode.Additive);
+        if (load == null) yield break;
+        while (!load.isDone)
+            yield return null;
+        SetCinemachineMenuActive();
+    }
+
+    /// <summary>Cinemachine workflow: one output Camera (with Brain) stays enabled. We switch by virtual camera priority: menu VCam(s) high, gameplay VCam low.</summary>
+    private void SetCinemachineMenuActive()
+    {
+        SetGameplayCinemachinePriority(0);
+        var menuScene = SceneManager.GetSceneByName(mainMenuSceneName);
+        if (!menuScene.isLoaded) return;
+        bool foundMenuVcam = false;
+        foreach (var root in menuScene.GetRootGameObjects())
+        {
+            foreach (var vcam in root.GetComponentsInChildren<CinemachineCamera>(true))
+            {
+                SetCinemachinePriority(vcam, cinemachineActivePriority);
+                foundMenuVcam = true;
+            }
+        }
+        if (!foundMenuVcam)
+            Debug.LogWarning($"LevelProgressionManager: No CinemachineCamera found in scene '{mainMenuSceneName}'. Add a CinemachineCamera to the main menu scene for the proper Cinemachine workflow.", this);
+    }
+
+    /// <summary>Cinemachine workflow: gameplay VCam high priority so the Brain uses it; menu VCam(s) low (or scene unloaded).</summary>
+    private void SetCinemachineGameplayActive()
+    {
+        SetGameplayCinemachinePriority(cinemachineActivePriority);
+        var menuScene = SceneManager.GetSceneByName(mainMenuSceneName);
+        if (!menuScene.isLoaded) return;
+        foreach (var root in menuScene.GetRootGameObjects())
+        {
+            foreach (var vcam in root.GetComponentsInChildren<CinemachineCamera>(true))
+                SetCinemachinePriority(vcam, 0);
+        }
+    }
+
+    private void SetGameplayCinemachinePriority(int priority)
+    {
+        if (playerTransform == null) return;
+        var vcam = playerTransform.GetComponentInChildren<CinemachineCamera>(true);
+        if (vcam != null)
+            SetCinemachinePriority(vcam, priority);
+    }
+
+    private static void SetCinemachinePriority(CinemachineCamera vcam, int priority)
+    {
+        if (vcam == null) return;
+        vcam.Priority = priority; // implicit PrioritySettings(int): enables and sets value
     }
 
     /// <summary>
@@ -164,6 +251,17 @@ public class LevelProgressionManager : MonoBehaviour
             var unload = SceneManager.UnloadSceneAsync(currentLevelScene.Value);
             while (unload != null && !unload.isDone)
                 yield return null;
+        }
+        else if (!string.IsNullOrEmpty(mainMenuSceneName))
+        {
+            var menuScene = SceneManager.GetSceneByName(mainMenuSceneName);
+            if (menuScene.isLoaded)
+            {
+                var unloadMenu = SceneManager.UnloadSceneAsync(menuScene);
+                while (unloadMenu != null && !unloadMenu.isDone)
+                    yield return null;
+                SetCinemachineGameplayActive();
+            }
         }
 
         var load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
