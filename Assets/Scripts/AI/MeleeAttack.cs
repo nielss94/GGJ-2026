@@ -97,12 +97,14 @@ public class MeleeAttack : MonoBehaviour
     private Enemy enemy;
     private EnemySight sight;
     private EnemyAttackState attackState;
+    private EnemyAnimatorDriver animatorDriver;
 
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
         sight = GetComponent<EnemySight>();
         attackState = GetComponent<EnemyAttackState>();
+        animatorDriver = GetComponent<EnemyAnimatorDriver>();
     }
 
     private void Update()
@@ -137,6 +139,7 @@ public class MeleeAttack : MonoBehaviour
                     state = State.AttackActive;
                     stateEndTime = Time.time + attackActiveDuration;
                     onAttackWindowOpened?.Invoke();
+                    animatorDriver?.SetAttackTrigger();
                 }
                 break;
 
