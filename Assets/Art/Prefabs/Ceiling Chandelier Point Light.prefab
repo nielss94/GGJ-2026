@@ -177,7 +177,7 @@ MonoBehaviour:
   m_EvsmBlurPasses: 0
   m_LightlayersMask: 1
   m_LinkShadowLayers: 1
-  m_ShadowNearPlane: 0.52
+  m_ShadowNearPlane: 1
   m_BlockerSampleCount: 24
   m_FilterSampleCount: 16
   m_MinFilterSize: 0.1
@@ -250,15 +250,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.301629
+      value: 6.48
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.387
+      value: 15.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.812
+      value: -3.11
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
       propertyPath: m_LocalRotation.w
