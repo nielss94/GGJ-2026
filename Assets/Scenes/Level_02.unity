@@ -4568,25 +4568,25 @@ MonoBehaviour:
   lowestSubdivLevelOverride: 0
   highestSubdivLevelOverride: 3
   overridesSubdivLevels: 0
-  mightNeedRebaking: 1
+  mightNeedRebaking: 0
   cachedTransform:
     e00: 1
     e01: 0
     e02: 0
-    e03: 0
+    e03: 0.0016498566
     e10: 0
     e11: 1
     e12: 0
-    e13: -1.0589876
+    e13: 0.6065855
     e20: 0
     e21: 0
     e22: 1
-    e23: 9.229328
+    e23: 4.999996
     e30: 0
     e31: 0
     e32: 0
     e33: 1
-  cachedHashCode: 2012256208
+  cachedHashCode: -213431956
   fillEmptySpaces: 0
   version: 2
   globalVolume: 0
@@ -10623,6 +10623,146 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 23601326215931439, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 1.8e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 23601326215931439, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: -1.7014118e+38
+      objectReference: {fileID: 0}
+    - target: {fileID: 23601326215931439, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 2.5243547e-29
+      objectReference: {fileID: 0}
+    - target: {fileID: 23601326215931439, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1349956837964602279, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 1.193967e-39
+      objectReference: {fileID: 0}
+    - target: {fileID: 1349956837964602279, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 6.88e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 1349956837964602279, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 5.053055e-24
+      objectReference: {fileID: 0}
+    - target: {fileID: 1349956837964602279, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 4.136145e-25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 0]'
+      value: 0.06592567
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 1]'
+      value: 0.016307805
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 2]'
+      value: -0.0013156686
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 3]'
+      value: -0.0010683591
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 4]'
+      value: -0.00022817885
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 5]'
+      value: 0.0005397635
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 6]'
+      value: -0.0016276881
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 7]'
+      value: 0.00069655303
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 8]'
+      value: -0.003473081
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[ 9]'
+      value: 0.0686229
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[10]'
+      value: 0.03222674
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[11]'
+      value: -0.00010386343
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[12]'
+      value: -0.0008985005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[13]'
+      value: 0.00017695175
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[14]'
+      value: 0.00031703038
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[15]'
+      value: -0.0016740132
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[16]'
+      value: 0.00043318915
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[17]'
+      value: -0.0038055165
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[18]'
+      value: 0.097706
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[19]'
+      value: 0.064021654
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[20]'
+      value: 0.0010169314
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[21]'
+      value: -0.00035736972
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[22]'
+      value: 0.00032970417
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[23]'
+      value: 0.00023023582
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[24]'
+      value: -0.0023247155
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[25]'
+      value: 0.00045073187
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917606702115388229, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: 'm_SHForNormalization.sh[26]'
+      value: -0.005893091
+      objectReference: {fileID: 0}
     - target: {fileID: 4170845455441784243, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -10663,9 +10803,85 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5026616249952886760, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 2.1432898e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: 5026616249952886760, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1.0598031e-38
+      objectReference: {fileID: 0}
+    - target: {fileID: 5026616249952886760, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: NaN
+      objectReference: {fileID: 0}
     - target: {fileID: 5981242798867723525, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
       propertyPath: m_Name
       value: LightingKit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7154293864137081305, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 1e-45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7154293864137081305, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 6.88e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 7154293864137081305, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 5.053055e-24
+      objectReference: {fileID: 0}
+    - target: {fileID: 7154293864137081305, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 6.88e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694469984538220912, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 3.0481281e+32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694469984538220912, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 6.88e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694469984538220912, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1.169342e-19
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694469984538220912, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 3.7484708e+9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363161884462511082, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 1.8037834e+22
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363161884462511082, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 2.9435753e+9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363161884462511082, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 7.056258e+28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363161884462511082, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 2.2141376e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784517685550593775, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 1.7579e-41
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784517685550593775, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784517685550593775, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784517685550593775, guid: 3adf27a4ad658d44982eb0e3d4276a07, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 3.7616967e-37
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
