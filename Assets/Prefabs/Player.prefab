@@ -560,7 +560,7 @@ MonoBehaviour:
   damageMultiplierPerSwing: {x: 1, y: 1.2, z: 1.5}
   baseSwingDuration: 0.1
   baseMinTimeBetweenHits: 0.2
-  comboLinkWindow: 0.25
+  comboLinkWindow: 0.8
   attackDirectionSource: {fileID: 7820473073506362841}
   hitboxShape: 0
   hitboxOffset: 0
