@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MeleeHeavy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyType
   displayName: Heavy Melee
-  powerCost: 2
+  powerCost: 6
   maxHealth: 75
   moveSpeed: 2.5
   contactDamage: 25

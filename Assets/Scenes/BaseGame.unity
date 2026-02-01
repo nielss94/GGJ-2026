@@ -199,12 +199,48 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1326093976}
     m_Modifications:
+    - target: {fileID: 947148435977175674, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 947148435977175674, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 1381506202632383368, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
       propertyPath: m_Name
       value: MainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 1381506202632383368, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801139131001220751, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801139131001220751, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 7697b7126d4b0b94bbef1923f53f3d53, type: 2}
+    - target: {fileID: 6801139131001220751, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801139131001220751, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801139131001220751, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -5039199501660920467, guid: 7697b7126d4b0b94bbef1923f53f3d53, type: 2}
+    - target: {fileID: 6801139131001220751, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801139131001220751, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6823391935250064118, guid: 9aa26273ab707e84a9409a7086c73f43, type: 3}
@@ -583,8 +619,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1092417052}
   - component: {fileID: 1092417051}
-  - component: {fileID: 1092417053}
-  - component: {fileID: 1092417054}
   m_Layer: 0
   m_Name: DebugStuff
   m_TagString: Untagged
@@ -621,32 +655,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1092417053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1092417050}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8858a428a36e6e24f98be6ae030a51e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputBlockerDebugUI
---- !u!114 &1092417054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1092417050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c38d5609fafe2ff449fa742297b1a50a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementDebugCheck
-  triggerKeyEnabled: 1
-  triggerKey: 35
 --- !u!1 &1164690926
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,22 +851,6 @@ PrefabInstance:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 79575681}
-    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
-      propertyPath: levelVariations.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
-      propertyPath: 'levelVariations.Array.data[0]'
-      value: Level_02
-      objectReference: {fileID: 0}
-    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
-      propertyPath: 'levelVariations.Array.data[2]'
-      value: Level_03
-      objectReference: {fileID: 0}
-    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
-      propertyPath: 'levelVariations.Array.data[3]'
-      value: Level_04
-      objectReference: {fileID: 0}
     - target: {fileID: 3881695909100255512, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
       propertyPath: m_Name
       value: GameRoot
@@ -906,28 +898,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3881695909100255512, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1532966430}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
---- !u!1 &1532966429 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3881695909100255512, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
-  m_PrefabInstance: {fileID: 1532966428}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1532966430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1532966429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 580dd8ad64ce6ec4d8062a555bb98730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RunStats
 --- !u!1 &1643666888
 GameObject:
   m_ObjectHideFlags: 0

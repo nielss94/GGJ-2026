@@ -1,10 +1,32 @@
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Typed event bus. Subscribe in OnEnable, unsubscribe in OnDisable.
 /// </summary>
 public static class EventBus
 {
+    /// <summary>Payload for damage number UI: world position, damage value, and whether the hit was a crit.</summary>
+    public readonly struct DamageNumberHit
+    {
+        public Vector3 WorldPosition { get; }
+        public float Damage { get; }
+        public bool IsCrit { get; }
+
+        public DamageNumberHit(Vector3 worldPosition, float damage, bool isCrit)
+        {
+            WorldPosition = worldPosition;
+            Damage = damage;
+            IsCrit = isCrit;
+        }
+    }
+
+    /// <summary>Raised when enemies are hit so damage number UI can spawn. Pass all hits (position, damage, isCrit). Subscribe in OnEnable, unsubscribe in OnDisable.</summary>
+    public static event Action<IReadOnlyList<DamageNumberHit>> DamageNumbersRequested;
+
+    public static void RaiseDamageNumbersRequested(IReadOnlyList<DamageNumberHit> hits) => DamageNumbersRequested?.Invoke(hits);
+
     public static event Action PlayerDied;
 
     public static void RaisePlayerDied() => PlayerDied?.Invoke();

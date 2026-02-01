@@ -459,6 +459,8 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
         Transform playerT = PlayerTransform;
         HashSet<Health> damaged = new HashSet<Health>();
         PlayerStats stats = GetPlayerStats();
+        Vector3 hitboxOrigin = GetHitboxOrigin();
+        var damageNumberHits = new List<EventBus.DamageNumberHit>();
 
         foreach (Collider c in hits)
         {
@@ -482,6 +484,10 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
             bool willDie = health.CurrentHealth <= finalDamage;
             health.TakeDamage(finalDamage, PlayerTransform.position, knockbackForce);
             damaged.Add(health);
+
+            Vector3 hitWorldPos = c.ClosestPoint(hitboxOrigin);
+            damageNumberHits.Add(new EventBus.DamageNumberHit(hitWorldPos, finalDamage, isCrit));
+
             if (enableLogging && !isCrit) Debug.Log($"[LightAttack] Hit {c.gameObject.name} for {finalDamage} damage.");
             if (fmodOnHit != null && !fmodOnHit.IsNull && AudioService.Instance != null)
             {
@@ -490,9 +496,12 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
                 string enemyHittype = willDie ? "enemy_dies" : (enemyType != null && enemyType.Armored ? "armored" : "regular");
                 var labelParams = new Dictionary<string, string> { { "enemy_hittype", enemyHittype } };
                 var intParams = new Dictionary<string, int> { { "critical", isCrit ? 1 : 0 } };
-                AudioService.Instance.PlayOneShotAtPositionWithParameters(fmodOnHit, c.ClosestPoint(GetHitboxOrigin()), labelParams, intParams);
+                AudioService.Instance.PlayOneShotAtPositionWithParameters(fmodOnHit, hitWorldPos, labelParams, intParams);
             }
         }
+
+        if (damageNumberHits.Count > 0)
+            EventBus.RaiseDamageNumbersRequested(damageNumberHits);
 
         return damaged.Count;
     }
