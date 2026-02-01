@@ -103,6 +103,15 @@ public class PlayerAbilityManager : MonoBehaviour
         Unsubscribe(abilityActionY, abilitySlotY);
     }
 
+    /// <summary>Call when this player becomes the active one. Ensures ability input is enabled even if OnEnable ran before Input System was ready.</summary>
+    public void EnsureInputEnabled()
+    {
+        abilityActionA?.Enable();
+        abilityActionB?.Enable();
+        abilityActionX?.Enable();
+        abilityActionY?.Enable();
+    }
+
     private void Subscribe(InputAction action, PlayerAbility ability)
     {
         if (action != null)

@@ -17,6 +17,9 @@ public class LevelProgressionManager : MonoBehaviour
     [Tooltip("Player transform to move to each level's PlayerSpawn. Leave empty to skip.")]
     [SerializeField] private Transform playerTransform;
 
+    /// <summary>Player used for gameplay (UIManager enables and refreshes it when showing game HUD).</summary>
+    public Transform DesignatedPlayer => playerTransform;
+
     [Header("Level variations")]
     [Tooltip("Scene names for levels. First level is a random pick from this list; after that two are picked for doors.")]
     [SerializeField] private string[] levelVariations = Array.Empty<string>();
@@ -156,9 +159,6 @@ public class LevelProgressionManager : MonoBehaviour
         isLoading = true;
         currentLevelBudget = baseBudget + levelDepth * budgetIncrementPerLevel;
 
-        if (playerTransform != null)
-            playerTransform.gameObject.SetActive(true);
-
         if (currentLevelScene.HasValue && currentLevelScene.Value.isLoaded)
         {
             var unload = SceneManager.UnloadSceneAsync(currentLevelScene.Value);
@@ -180,22 +180,29 @@ public class LevelProgressionManager : MonoBehaviour
 
         DisablePlayerAndCameraInScene(currentLevelScene.Value);
         MovePlayerToSpawn(currentLevelScene.Value);
+        PrepareDesignatedPlayerForGameplay();
         if (AudioService.Instance != null)
             AudioService.Instance.NextMusicVibe();
         isLoading = false;
     }
 
-    /// <summary>
-    /// Disables player and main camera in the given scene so BaseGame's are used when loading additively.
-    /// Level scenes can keep these for standalone testing; they are only disabled when loaded by the game.
-    /// </summary>
+    /// <summary>Enables the designated player and its input. Call after level load or when showing game HUD.</summary>
+    public void PrepareDesignatedPlayerForGameplay()
+    {
+        if (playerTransform == null) return;
+        playerTransform.gameObject.SetActive(true);
+        playerTransform.GetComponentInChildren<PlayerMovement>(true)?.EnsureInputEnabled();
+        playerTransform.GetComponentInChildren<PlayerAbilityManager>(true)?.EnsureInputEnabled();
+    }
+
+    /// <summary>Disables Player and MainCamera in the given scene (keeps level testable standalone). Never disables playerTransform.</summary>
     private void DisablePlayerAndCameraInScene(Scene scene)
     {
         foreach (var root in scene.GetRootGameObjects())
         {
             foreach (var t in root.GetComponentsInChildren<Transform>(true))
             {
-                if (t.CompareTag("Player"))
+                if (t.CompareTag("Player") && t != playerTransform)
                     t.gameObject.SetActive(false);
             }
             foreach (var cam in root.GetComponentsInChildren<Camera>(true))

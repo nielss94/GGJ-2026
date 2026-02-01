@@ -38,7 +38,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (inputActions != null)
         {
-            moveAction = inputActions.FindActionMap("Player").FindAction("Move");
+            var playerMap = inputActions.FindActionMap("Player");
+            if (playerMap != null)
+                moveAction = playerMap.FindAction("Move");
         }
     }
 
@@ -50,6 +52,12 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         moveAction?.Disable();
+    }
+
+    /// <summary>Call when this player becomes the active one (e.g. after level load or when showing game HUD). Ensures input is enabled even if OnEnable ran before Input System was ready.</summary>
+    public void EnsureInputEnabled()
+    {
+        moveAction?.Enable();
     }
 
     private void Update()

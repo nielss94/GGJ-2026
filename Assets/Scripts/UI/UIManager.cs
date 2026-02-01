@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Central UI controller in the BaseGame scene. Owns one EventSystem and Canvas; shows/hides panels
 /// (main menu, pause, options, game HUD). Add to a GameObject in BaseGame and assign panel roots.
-/// Ensures only one EventSystem is active when the scene loads.
+/// Ensures only one EventSystem is active (on Awake, Start, and when new scenes load).
 /// </summary>
 public class UIManager : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameHudPanel;
     [Tooltip("Death panel root (has DeathScreenController). Visibility is toggled via DeathScreenController.SetVisible.")]
     [SerializeField] private GameObject deathPanel;
+
+    [Header("Event system")]
+    [Tooltip("EventSystem to keep active (disables all others). Assign the one in BaseGame if it is not a child of this object.")]
+    [SerializeField] private EventSystem eventSystemToKeep;
 
     [Header("Start state")]
     [Tooltip("If true, shows main menu panel on Start.")]
@@ -31,17 +36,45 @@ public class UIManager : MonoBehaviour
         }
         Instance = this;
 
-        var eventSystems = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
-        for (int i = 1; i < eventSystems.Length; i++)
-            eventSystems[i].gameObject.SetActive(false);
+        DisableExtraEventSystems();
     }
 
     private void Start()
     {
+        DisableExtraEventSystems();
+
         if (showMainMenuOnStart && mainMenuPanel != null)
             ShowMainMenu();
         else if (gameHudPanel != null)
             ShowGameHUD();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        DisableExtraEventSystems();
+    }
+
+    private void DisableExtraEventSystems()
+    {
+        EventSystem keep = eventSystemToKeep != null ? eventSystemToKeep : GetComponentInChildren<EventSystem>(true);
+        var all = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
+        if (keep == null && all.Length > 0)
+            keep = all[0];
+        foreach (EventSystem es in all)
+        {
+            if (es != keep)
+                es.enabled = false;
+        }
     }
 
     public void ShowMainMenu()
@@ -60,6 +93,8 @@ public class UIManager : MonoBehaviour
         SetPanelActive(optionsPanel, false);
         SetPanelActive(gameHudPanel, true);
         SetDeathPanelActive(false);
+
+        LevelProgressionManager.Instance?.PrepareDesignatedPlayerForGameplay();
     }
 
     /// <summary>Hides other panels and shows the death screen (via DeathScreenController.SetVisible).</summary>
