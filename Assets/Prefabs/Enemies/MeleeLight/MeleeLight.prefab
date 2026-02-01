@@ -185,10 +185,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.35
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 5.4
+  m_Acceleration: 40
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 720
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -442,7 +442,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitFlash
   flashDuration: 0.08
-  colorPropertyName: _BaseColor
+  flashEmissionNits: 100
+  emissionIntensityPropertyName: _EmissiveIntensity
   renderers: []
 --- !u!114 &-3791649489230799970
 MonoBehaviour:

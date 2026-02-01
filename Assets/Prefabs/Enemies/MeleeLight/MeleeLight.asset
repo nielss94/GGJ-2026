@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Melee
   powerCost: 1
   maxHealth: 50
-  moveSpeed: 3.5
+  moveSpeed: 5.4
   contactDamage: 10
   contactCooldown: 1
   meleeAttackRange: 1.8
