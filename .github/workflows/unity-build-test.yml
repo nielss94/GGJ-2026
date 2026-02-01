@@ -2,6 +2,7 @@ name: Unity Build Pipeline
 
 on:
   push:
+    branches: [builder]
     tags:
       - '*'
 
