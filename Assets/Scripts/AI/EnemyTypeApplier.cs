@@ -11,6 +11,9 @@ public class EnemyTypeApplier : MonoBehaviour
 {
     [SerializeField] private EnemyType type;
 
+    /// <summary>Enemy type (ScriptableObject). Null if not set.</summary>
+    public EnemyType Type => type;
+
     /// <summary>Power cost for spawn budget (from EnemyType). Used by Encounter when spawning.</summary>
     public int PowerCost => type != null ? type.PowerCost : 0;
 

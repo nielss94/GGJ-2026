@@ -386,7 +386,7 @@ Transform:
   m_GameObject: {fileID: 732677818}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: -20.83045, y: 24, z: -16.19082}
+  m_LocalPosition: {x: -15.48314, y: 24, z: -14.76177}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -637,8 +637,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8858a428a36e6e24f98be6ae030a51e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputBlockerDebugUI
-  showByDefault: 0
-  _show: 0
 --- !u!114 &1092417054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,8 +649,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 376ad402428328e43b28fbafa69ec453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementDebugCheck
-  delaySeconds: 1.5
-  logOnce: 1
 --- !u!1 &1164690926
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,6 +852,14 @@ PrefabInstance:
     - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
       propertyPath: 'levelVariations.Array.data[0]'
       value: Level_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
+      propertyPath: 'levelVariations.Array.data[2]'
+      value: Level_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
+      propertyPath: 'levelVariations.Array.data[3]'
+      value: Level_04
       objectReference: {fileID: 0}
     - target: {fileID: 3881695909100255512, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
       propertyPath: m_Name

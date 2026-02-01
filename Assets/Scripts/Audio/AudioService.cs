@@ -156,6 +156,27 @@ public class AudioService : MonoBehaviour
         FMODUnity.RuntimeManager.PlayOneShot(fmodEvent.EventReference, position);
     }
 
+    /// <summary>Plays a one-shot at a 3D position with label parameters (e.g. enemy_hittype) and int parameters (e.g. critical).</summary>
+    public void PlayOneShotAtPositionWithParameters(FmodEventAsset fmodEvent, Vector3 position,
+        Dictionary<string, string> labelParameters, Dictionary<string, int> intParameters)
+    {
+        if (fmodEvent == null || fmodEvent.IsNull) return;
+        var instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent.EventReference);
+        instance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(position));
+        if (labelParameters != null)
+        {
+            foreach (var p in labelParameters)
+                instance.setParameterByNameWithLabel(p.Key, p.Value.ToLower());
+        }
+        if (intParameters != null)
+        {
+            foreach (var p in intParameters)
+                instance.setParameterByName(p.Key, p.Value);
+        }
+        instance.start();
+        instance.release();
+    }
+
     public void SetGlobalParam(string name, float value)
     {
         if (!FMODUnity.RuntimeManager.IsInitialized) return;

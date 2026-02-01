@@ -37,6 +37,7 @@ public class EnemyType : ScriptableObject
     [SerializeField] private float rangedAttackRange = 15f;
     [Tooltip("Telegraph/channel duration before firing (no shooting through walls; requires LOS).")]
     [SerializeField] private float rangedTelegraphDuration = 0.3f;
+    [SerializeField] private bool armored = false;
 
     public string DisplayName => displayName;
     public int PowerCost => powerCost;
@@ -52,4 +53,5 @@ public class EnemyType : ScriptableObject
     public float RangedProjectileSpeed => rangedProjectileSpeed;
     public float RangedAttackRange => rangedAttackRange;
     public float RangedTelegraphDuration => rangedTelegraphDuration;
+    public bool Armored => armored;
 }
