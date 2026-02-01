@@ -5779,6 +5779,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 700185014038595528, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
+      propertyPath: fmodMusic
+      value: 
+      objectReference: {fileID: 11400000, guid: 092a0545357744838b6bb2236ff6155d, type: 2}
     - target: {fileID: 3881695909100255512, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
       propertyPath: m_Name
       value: GameRoot

@@ -17,6 +17,11 @@ MonoBehaviour:
   moveSpeed: 3.5
   contactDamage: 10
   contactCooldown: 1
+  meleeAttackRange: 1.8
+  meleeTelegraphDuration: 0.4
+  meleeAttackActiveDuration: 0.25
   rangedDamage: 15
   rangedFireInterval: 1.5
   rangedProjectileSpeed: 12
+  rangedAttackRange: 15
+  rangedTelegraphDuration: 0.3

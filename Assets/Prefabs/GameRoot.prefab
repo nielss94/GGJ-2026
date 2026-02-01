@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5748048091354059515}
   - component: {fileID: 2050427467118569285}
   - component: {fileID: 700185014038595528}
+  - component: {fileID: 2854384679118469754}
   m_Layer: 0
   m_Name: GameRoot
   m_TagString: Untagged
@@ -57,3 +58,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b2c3d4e5f60005a2b3c4d5e6f70005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2854384679118469754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3881695909100255512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5487eea9d8f6445aebb9bf34940985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelProgressionManager
+  firstLevelSceneName: Level_01
+  playerTransform: {fileID: 0}
+  levelVariations:
+  - TestLevelVariation1
+  - TestLevelVariation2
+  - TestLevelVariation3
+  - TestLevelVariation4
+  - TestLevelVariation5
+  baseBudget: 20
+  budgetIncrementPerLevel: 5

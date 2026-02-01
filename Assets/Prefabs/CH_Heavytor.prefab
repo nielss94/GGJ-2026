@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CH_Heavytor
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: f1eec34411a23dc4a87c2f1ba7c32a60, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 95d36568f64ed184892a188bda787196, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
