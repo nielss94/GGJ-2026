@@ -34,6 +34,8 @@ public class Health : MonoBehaviour
     [Header("FMOD (player only)")]
     [Tooltip("Optional FMOD event played on Start when this is the player. Has a 'health' parameter (0–1).")]
     [SerializeField] private FmodEventAsset healthMusicEvent;
+    [Tooltip("Optional FMOD event played when the player takes damage.")]
+    [SerializeField] private FmodEventAsset fmodPlayerHit;
 
     [Header("Events")]
     [SerializeField] private UnityEvent onDeath;
@@ -138,6 +140,8 @@ public class Health : MonoBehaviour
         {
             EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
             UpdateHealthMusicParameter();
+            if (fmodPlayerHit != null && !fmodPlayerHit.IsNull && AudioService.Instance != null)
+                AudioService.Instance.PlayOneShot(fmodPlayerHit, transform.position);
         }
         // Treat zero or near-zero as death (avoids floating-point edge cases)
         if (currentHealth <= 0f || currentHealth < 0.001f)
