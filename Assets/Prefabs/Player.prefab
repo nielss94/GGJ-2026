@@ -1618,6 +1618,7 @@ MonoBehaviour:
     m_Bits: 0
   blastWavePrefab: {fileID: 7088847061453121866, guid: 53e5dd984a629fe449290e9aa71cdff0, type: 3}
   blastParticlesPrefab: {fileID: 6641171151622195994, guid: 9b49e1fb704afb6438629889cd0e7eb0, type: 3}
+  fmodUltimate: {fileID: 0}
   dropReceiver: {fileID: 0}
   playerStats: {fileID: 0}
 --- !u!1 &8045543100017386537
