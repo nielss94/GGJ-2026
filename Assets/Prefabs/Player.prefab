@@ -1382,6 +1382,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MaskAttachmentReceiver
   maskTransform: {fileID: 4957499016491780412}
+  flyToTarget: {fileID: 0}
+  flyToHeightOffset: 1
   splineSetups:
   - dropType: {fileID: 11400000, guid: 998b74f2fd66d4cccbb2b37b0a9aec93, type: 2}
     splineContainer: {fileID: 7227536947250835354}
