@@ -159,6 +159,7 @@ MonoBehaviour:
   fadeEase: 2
   normalColor: {r: 0.8773585, g: 0.8535676, b: 0, a: 1}
   normalScale: 1
+  faceHdrIntensity: 3
   critColor: {r: 0.9811321, g: 0.46182135, b: 0, a: 1}
   critScale: 3
   critPunchDuration: 0.2

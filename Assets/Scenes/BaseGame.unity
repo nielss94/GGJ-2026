@@ -167,14 +167,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
-      propertyPath: damageMultiplierPerSwing.y
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3495186614016676912, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
-      propertyPath: damageMultiplierPerSwing.z
-      value: 1.25
-      objectReference: {fileID: 0}
     - target: {fileID: 8045543100017386537, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
       propertyPath: m_Name
       value: Player
