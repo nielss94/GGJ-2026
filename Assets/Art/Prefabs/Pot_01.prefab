@@ -169,6 +169,7 @@ MonoBehaviour:
   explosionForce: 3
   upwardBias: 0.1
   fragmentMass: 0.2
+  fmodPotBreak: {fileID: 11400000, guid: 9f2850e6c11b19a419d8ab6084067a7f, type: 2}
 --- !u!54 &84473518903846609
 Rigidbody:
   m_ObjectHideFlags: 0
