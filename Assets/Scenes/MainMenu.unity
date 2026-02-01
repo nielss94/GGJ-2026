@@ -1911,6 +1911,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5981762027360956018, guid: 32418fd5706044a46b38ebdf1966922e, type: 3}
   m_PrefabInstance: {fileID: 526410005}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &529726826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 529726828}
+  - component: {fileID: 529726827}
+  m_Layer: 0
+  m_Name: CinemachineCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &529726827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529726826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 30
+    OrthographicSize: 10
+    NearClipPlane: 0.1
+    FarClipPlane: 5000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
+--- !u!4 &529726828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529726826}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.2476101, y: 0.42390898, z: -0.12360223, w: 0.86238796}
+  m_LocalPosition: {x: -14.833658, y: 11.486963, z: 1.8992882}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &546663002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 918829834509873976, guid: 5813f4532651cae4c8f4051405fbc3fa, type: 3}
@@ -4332,67 +4407,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32418fd5706044a46b38ebdf1966922e, type: 3}
---- !u!1001 &998302494
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2080210773252946360, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_Name
-      value: Main Camera (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -14.833658
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 11.486963
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.8992882
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.86238796
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.2476101
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.42390898
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.12360223
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 49.399
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6793801585162678147, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
-      propertyPath: field of view
-      value: 30
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
 --- !u!4 &1005792737 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8873742408919454028, guid: 4f984fd2bdca6634db1bcd70ec7e5a35, type: 3}
@@ -9382,7 +9396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.ProbeVolumePerSceneData
   serializedBakingSet: {fileID: 11400000, guid: 13950a6ed170d2644bcf4ad0a5afe98a, type: 2}
-  sceneGUID: fd8defa65fadb204c86e6f02089c46e6
+  sceneGUID: 6a8de4437a40f2744aed20aca13b1d17
   obsoleteAsset: {fileID: 0}
   obsoleteCellSharedDataAsset: {fileID: 0}
   obsoleteCellSupportDataAsset: {fileID: 0}
@@ -9679,7 +9693,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 998302494}
   - {fileID: 1747229847}
   - {fileID: 978816279}
   - {fileID: 2143416251}
@@ -9689,3 +9702,4 @@ SceneRoots:
   - {fileID: 1206803946}
   - {fileID: 256749471}
   - {fileID: 1473530479005399931}
+  - {fileID: 529726828}
