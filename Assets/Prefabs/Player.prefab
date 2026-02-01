@@ -835,6 +835,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   forwardStepPerSwing: 0.3
+  attackSpritePerSwing:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  attackPlaneBaseScale:
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  spriteShowOffset: 0.6
   drawHitboxGizmo: 1
   enableLogging: 0
   fmodSwing: {fileID: 11400000, guid: e9dca65d3960f9b4c82dc61235c28904, type: 2}

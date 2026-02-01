@@ -68,6 +68,14 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
     [Tooltip("Distance to move forward per swing (meters).")]
     [SerializeField] private float forwardStepPerSwing = 0.3f;
 
+    [Header("Attack sprites (optional, 2D)")]
+    [Tooltip("One sprite GameObject per swing (Attack1, Attack2, Attack3). Shown in front of the player during that swing and hidden when the swing ends.")]
+    [SerializeField] private GameObject[] attackSpritePerSwing = new GameObject[3];
+    [Tooltip("Base scale per plane (set in engine, e.g. -1 on X to flip). Final scale = this * Size (upgrades). Leave at (1,1,1) for no flip.")]
+    [SerializeField] private Vector3[] attackPlaneBaseScale = new Vector3[] { Vector3.one, Vector3.one, Vector3.one };
+    [Tooltip("Distance in front of the player to place the sprite when shown (meters).")]
+    [SerializeField] private float spriteShowOffset = 0.6f;
+
     [Header("Debug")]
     [Tooltip("Draw hitbox in Scene view when this object is selected.")]
     [SerializeField] private bool drawHitboxGizmo = true;
@@ -111,6 +119,7 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
 
         if (state == State.Swing0)
         {
+            HideAttackSprite();
             state = State.BetweenSwings0;
             nextSwingAllowedAt = now;
             comboWindowEndTime = now + comboLinkWindow;
@@ -118,6 +127,7 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
         }
         else if (state == State.Swing1)
         {
+            HideAttackSprite();
             state = State.BetweenSwings1;
             nextSwingAllowedAt = now;
             comboWindowEndTime = now + comboLinkWindow;
@@ -166,6 +176,7 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
     {
         EventBus.PlayerDashStarted -= OnPlayerDashStarted;
         bufferedSwingIndex = -1;
+        HideAttackSprite();
         if (state != State.Idle)
         {
             EventBus.RaisePlayerMovementUnblockRequested(this);
@@ -292,8 +303,41 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
         ApplyHitbox(comboIndex + 1);
         ApplyForwardStep();
         PlaySwingSound(comboIndex);
+        ShowAttackSprite(comboIndex);
         OnSwingStarted?.Invoke(comboIndex);
         if (enableLogging) Debug.Log($"[LightAttack] Swing {comboIndex + 1}/3 started (duration={swingDuration:F2}s).");
+    }
+
+    private void ShowAttackSprite(int comboIndex)
+    {
+        if (attackSpritePerSwing == null || comboIndex < 0 || comboIndex >= attackSpritePerSwing.Length) return;
+
+        GameObject planeObj = attackSpritePerSwing[comboIndex];
+        if (planeObj == null) return;
+
+        for (int i = 0; i < attackSpritePerSwing.Length; i++)
+        {
+            if (attackSpritePerSwing[i] != null)
+                attackSpritePerSwing[i].SetActive(false);
+        }
+
+        Vector3 forward = GetAttackForward();
+        float sizeFactor = Mathf.Max(0.01f, size);
+        Vector3 baseScale = (attackPlaneBaseScale != null && comboIndex < attackPlaneBaseScale.Length)
+            ? attackPlaneBaseScale[comboIndex]
+            : Vector3.one;
+        planeObj.transform.localScale = Vector3.Scale(baseScale, new Vector3(sizeFactor, sizeFactor, sizeFactor));
+        planeObj.SetActive(true);
+    }
+
+    private void HideAttackSprite()
+    {
+        if (attackSpritePerSwing == null) return;
+        for (int i = 0; i < attackSpritePerSwing.Length; i++)
+        {
+            if (attackSpritePerSwing[i] != null)
+                attackSpritePerSwing[i].SetActive(false);
+        }
     }
 
     private float GetBaseSwingDuration(int comboIndex)
@@ -304,6 +348,8 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
 
     private void OnSwingEnd()
     {
+        HideAttackSprite();
+
         float speedFactor = Mathf.Max(0.01f, attackSpeed);
         float minBetween = baseMinTimeBetweenHits / speedFactor;
         float now = Time.time;
@@ -336,6 +382,7 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
         bufferedSwingIndex = -1;
         state = State.Idle;
         cooldownUntil = Time.time + Mathf.Max(0f, cooldown);
+        HideAttackSprite();
         EventBus.RaisePlayerMovementUnblockRequested(this);
     }
 
@@ -343,6 +390,7 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
     {
         bufferedSwingIndex = -1;
         state = State.Idle;
+        HideAttackSprite();
         EventBus.RaisePlayerMovementUnblockRequested(this);
     }
 
@@ -354,9 +402,17 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
         float mult = GetDamageMultiplierForSwing(swingNumber);
         float damageThisSwing = damage * mult;
 
+        Vector3 effectiveHitboxSize = hitboxSize;
+        if (swingNumber == 3 && attackSpritePerSwing != null && attackSpritePerSwing.Length > 2 && attackSpritePerSwing[2] != null)
+        {
+            Vector3 lastAttackSpriteSize = GetLastAttackSpriteWorldSize();
+            if (lastAttackSpriteSize.sqrMagnitude > 0.0001f)
+                effectiveHitboxSize = lastAttackSpriteSize;
+        }
+
         if (hitboxShape == HitboxShape.Sphere)
         {
-            float radius = (hitboxSize.x + hitboxSize.y + hitboxSize.z) / 3f * scale;
+            float radius = (effectiveHitboxSize.x + effectiveHitboxSize.y + effectiveHitboxSize.z) / 3f * scale;
             Collider[] overlaps = Physics.OverlapSphere(origin, radius, damageableLayers);
             Collider[] hits = FilterToFrontHalfSphere(overlaps, origin, forward);
             int damagedCount = DamageTargets(hits, damageThisSwing);
@@ -364,12 +420,28 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
         }
         else
         {
-            Vector3 halfExtents = Vector3.Scale(hitboxSize, new Vector3(scale, scale, scale)) * 0.5f;
+            Vector3 halfExtents = Vector3.Scale(effectiveHitboxSize, new Vector3(scale, scale, scale)) * 0.5f;
             Quaternion orientation = Quaternion.LookRotation(forward);
             Collider[] hits = Physics.OverlapBox(origin, halfExtents, orientation, damageableLayers);
             int damagedCount = DamageTargets(hits, damageThisSwing);
             if (enableLogging) Debug.Log($"[LightAttack] Swing {swingNumber} hitbox (box): {hits?.Length ?? 0} overlaps, {damagedCount} damaged.");
         }
+    }
+
+    /// <summary>Returns the third attack sprite's size at scale 1 (used to match last-attack hitbox to the plane). Size upgrade is applied in ApplyHitbox.</summary>
+    private Vector3 GetLastAttackSpriteWorldSize()
+    {
+        if (attackSpritePerSwing == null || attackSpritePerSwing.Length <= 2 || attackSpritePerSwing[2] == null)
+            return Vector3.zero;
+
+        var sr = attackSpritePerSwing[2].GetComponent<SpriteRenderer>();
+        if (sr != null && sr.sprite != null)
+        {
+            Vector3 localSize = sr.sprite.bounds.size;
+            return new Vector3(Mathf.Abs(localSize.x), Mathf.Abs(localSize.y), Mathf.Abs(localSize.z));
+        }
+
+        return Vector3.zero;
     }
 
     private float GetDamageMultiplierForSwing(int swingNumber)
