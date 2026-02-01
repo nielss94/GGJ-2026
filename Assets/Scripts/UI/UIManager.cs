@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject gameHudPanel;
+    [Tooltip("Death panel root (has DeathScreenController). Visibility is toggled via DeathScreenController.SetVisible.")]
+    [SerializeField] private GameObject deathPanel;
 
     [Header("Start state")]
     [Tooltip("If true, shows main menu panel on Start.")]
@@ -48,6 +50,7 @@ public class UIManager : MonoBehaviour
         SetPanelActive(pausePanel, false);
         SetPanelActive(optionsPanel, false);
         SetPanelActive(gameHudPanel, false);
+        SetDeathPanelActive(false);
     }
 
     public void ShowGameHUD()
@@ -56,6 +59,29 @@ public class UIManager : MonoBehaviour
         SetPanelActive(pausePanel, false);
         SetPanelActive(optionsPanel, false);
         SetPanelActive(gameHudPanel, true);
+        SetDeathPanelActive(false);
+    }
+
+    /// <summary>Hides other panels and shows the death screen (via DeathScreenController.SetVisible).</summary>
+    public void ShowDeathScreen()
+    {
+        SetPanelActive(mainMenuPanel, false);
+        SetPanelActive(pausePanel, false);
+        SetPanelActive(optionsPanel, false);
+        SetPanelActive(gameHudPanel, false);
+        SetDeathPanelActive(true);
+    }
+
+    /// <summary>Hides the death screen. Call when Return to Main Menu or Start New Run is clicked.</summary>
+    public void HideDeathScreen()
+    {
+        SetDeathPanelActive(false);
+    }
+
+    private void SetDeathPanelActive(bool active)
+    {
+        if (deathPanel != null && deathPanel.TryGetComponent(out DeathScreenController controller))
+            controller.SetVisible(active);
     }
 
     public void ShowPauseMenu()

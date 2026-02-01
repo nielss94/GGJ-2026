@@ -46,7 +46,8 @@ public class Health : MonoBehaviour
     public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
     public bool IsDead => isDead;
-    public bool IsPlayer => isPlayer;
+    /// <summary>True if this is the player Health (Inspector flag or GameObject has "Player" tag).</summary>
+    public bool IsPlayer => isPlayer || gameObject.CompareTag("Player");
 
     /// <summary>Raised when this Health dies. Use for local listeners (e.g. level enemy registration).</summary>
     public event Action Died;
@@ -61,7 +62,7 @@ public class Health : MonoBehaviour
 
     private void OnEnable()
     {
-        if (isPlayer)
+        if (IsPlayer)
         {
             EventBus.SetPlayerHealthProvider(() => (currentHealth, maxHealth));
             EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
@@ -70,7 +71,7 @@ public class Health : MonoBehaviour
 
     private void OnDisable()
     {
-        if (isPlayer)
+        if (IsPlayer)
             EventBus.ClearPlayerHealthProvider();
     }
 
@@ -93,14 +94,17 @@ public class Health : MonoBehaviour
         currentHealth = Mathf.Max(0f, currentHealth - amount);
         var info = new DamageInfo(amount, knockbackSourcePosition, knockbackMultiplier);
         Damaged?.Invoke(info);
-        if (isPlayer)
+        if (IsPlayer)
             EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
-        if (currentHealth <= 0f)
+        // Treat zero or near-zero as death (avoids floating-point edge cases)
+        if (currentHealth <= 0f || currentHealth < 0.001f)
         {
             isDead = true;
             onDeath?.Invoke();
-            if (isPlayer)
+            if (IsPlayer) {
+                Debug.Log("Player died");
                 EventBus.RaisePlayerDied();
+            }
             else
             {
                 Died?.Invoke();
@@ -125,7 +129,19 @@ public class Health : MonoBehaviour
     {
         if (isDead || amount <= 0f) return;
         currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
-        if (isPlayer)
+        if (IsPlayer)
+            EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
+    }
+
+    /// <summary>
+    /// Reset health to full and clear dead state. Use when starting a new run (e.g. after death screen "Start New Run").
+    /// For player Health, also raises EventBus.PlayerHealthChanged.
+    /// </summary>
+    public void ResetToFull()
+    {
+        isDead = false;
+        currentHealth = maxHealth;
+        if (IsPlayer)
             EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
     }
 }

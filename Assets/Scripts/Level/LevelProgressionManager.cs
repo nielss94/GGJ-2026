@@ -66,6 +66,40 @@ public class LevelProgressionManager : MonoBehaviour
         LoadLevel(chosen[0]);
     }
 
+    /// <summary>
+    /// Unloads the current level (if any) and resets depth to 0. Call when returning to main menu or before starting a new run.
+    /// When onComplete is provided, it is invoked after the unload finishes.
+    /// </summary>
+    public void UnloadCurrentLevel(Action onComplete = null)
+    {
+        StartCoroutine(UnloadCurrentLevelRoutine(onComplete));
+    }
+
+    private IEnumerator UnloadCurrentLevelRoutine(Action onComplete)
+    {
+        if (currentLevelScene.HasValue && currentLevelScene.Value.isLoaded)
+        {
+            var unload = SceneManager.UnloadSceneAsync(currentLevelScene.Value);
+            while (unload != null && !unload.isDone)
+                yield return null;
+        }
+        currentLevelScene = null;
+        levelDepth = 0;
+        onComplete?.Invoke();
+    }
+
+    /// <summary>
+    /// Resets the player's Health to full. Call when starting a new run after death (before LoadFirstLevel).
+    /// Uses the assigned player transform to find the Health component.
+    /// </summary>
+    public void ResetPlayerForNewRun()
+    {
+        if (playerTransform == null) return;
+        var health = playerTransform.GetComponent<Health>();
+        if (health != null)
+            health.ResetToFull();
+    }
+
     private void AssignNextLevelsToDoors()
     {
         if (!currentLevelScene.HasValue || !currentLevelScene.Value.isLoaded) return;
