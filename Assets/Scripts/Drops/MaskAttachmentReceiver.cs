@@ -142,9 +142,40 @@ public class MaskAttachmentReceiver : MonoBehaviour
         return attachedByType.TryGetValue(type, out var list) ? list.Count : 0;
     }
 
+    /// <summary>Total number of attached drops across all types. Used for ultimate ability charge.</summary>
+    public int GetTotalAttachedCount()
+    {
+        int total = 0;
+        foreach (var list in attachedByType.Values)
+        {
+            if (list != null)
+                total += list.Count;
+        }
+        return total;
+    }
+
     /// <summary>All attached transforms for a type. Read-only.</summary>
     public IReadOnlyList<Transform> GetAttached(DropTypeId type)
     {
         return attachedByType.TryGetValue(type, out var list) ? list : (IReadOnlyList<Transform>)new List<Transform>();
+    }
+
+    /// <summary>
+    /// Removes and destroys all attached drops. Used when the ultimate ability is fired;
+    /// the ability becomes available again once the player gathers enough drops again.
+    /// </summary>
+    public void ClearAllAttached()
+    {
+        foreach (var list in attachedByType.Values)
+        {
+            if (list == null) continue;
+            foreach (Transform t in list)
+            {
+                if (t != null && t.gameObject != null)
+                    Destroy(t.gameObject);
+            }
+            list.Clear();
+        }
+        attachedCountByType.Clear();
     }
 }
