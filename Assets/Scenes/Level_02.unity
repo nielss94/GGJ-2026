@@ -3663,6 +3663,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pillar_SQ_Bottom (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7719426161952446144, guid: b59cb082f17eb1a4d87316430830aa86, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12759,65 +12763,49 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 998752054707506925, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
-      propertyPath: m_Name
-      value: Ceiling Chandelier Point Light
-      objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.87
+      value: -15.301629
       objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.76
+      value: 11.387
       objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.66
+      value: -2.812
       objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.000000021855694
       objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1097504467971796184, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+    - target: {fileID: 3750762253295182863, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6904797437342258846, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6904797437342258846, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6904797437342258846, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6904797437342258846, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
-      propertyPath: m_ColorTemperature
-      value: 3550
+    - target: {fileID: 4559528250093223605, guid: 873d52d4c3af09641b1512b25e47e485, type: 3}
+      propertyPath: m_Name
+      value: Ceiling Chandelier Point Light
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
