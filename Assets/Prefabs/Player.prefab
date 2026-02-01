@@ -856,7 +856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1147164317180401782
 Transform:
   m_ObjectHideFlags: 0
@@ -1088,7 +1088,7 @@ MonoBehaviour:
   attackSpeed: 1
   cooldown: 0
   damage: 10
-  damageMultiplierPerSwing: {x: 1, y: 1.2, z: 1.5}
+  damageMultiplierPerSwing: {x: 1, y: 1.1, z: 1.25}
   swingDurations: {x: 0.37, y: 0.37, z: 0.43}
   baseSwingDuration: 0.15
   baseMinTimeBetweenHits: 0.4
