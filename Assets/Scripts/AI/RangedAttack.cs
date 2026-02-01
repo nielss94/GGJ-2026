@@ -64,6 +64,7 @@ public class RangedAttack : MonoBehaviour
     private Enemy enemy;
     private EnemySight sight;
     private EnemyAttackState attackState;
+    private EnemyAnimatorDriver animatorDriver;
     private float nextFireTime;
 
     private void Awake()
@@ -71,6 +72,7 @@ public class RangedAttack : MonoBehaviour
         enemy = GetComponent<Enemy>();
         sight = GetComponent<EnemySight>();
         attackState = GetComponent<EnemyAttackState>();
+        animatorDriver = GetComponent<EnemyAnimatorDriver>();
     }
 
     private void Update()
@@ -114,6 +116,7 @@ public class RangedAttack : MonoBehaviour
 
     private void FireAt(Transform target)
     {
+        animatorDriver?.SetAttackTrigger();
         Vector3 origin = firePoint != null ? firePoint.position : transform.position;
         Vector3 aimDir = (target.position - origin).normalized;
 

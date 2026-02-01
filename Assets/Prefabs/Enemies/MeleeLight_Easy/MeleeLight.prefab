@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimatorDriver
   moveSpeedParam: MoveSpeed
+  attackTriggerParam: Attack
 --- !u!1 &5926156491418015899
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,6 +861,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4530325506260033812}
     m_Modifications:
+    - target: {fileID: 2620108101425981609, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2061946cb701142da804176d12ec4dcd, type: 2}
     - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
