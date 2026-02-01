@@ -584,6 +584,7 @@ GameObject:
   - component: {fileID: 1092417052}
   - component: {fileID: 1092417051}
   - component: {fileID: 1092417053}
+  - component: {fileID: 1092417054}
   m_Layer: 0
   m_Name: DebugStuff
   m_TagString: Untagged
@@ -644,6 +645,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38d5609fafe2ff449fa742297b1a50a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementDebugCheck
+  triggerKeyEnabled: 1
+  triggerKey: 35
 --- !u!1 &1164690926
 GameObject:
   m_ObjectHideFlags: 0
