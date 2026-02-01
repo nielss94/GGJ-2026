@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FmodEventAsset
   eventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1027933537
+      Data2: 1211736758
+      Data3: -1543096412
+      Data4: -804996422
+    Path: event:/go through door

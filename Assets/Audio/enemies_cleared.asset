@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FmodEventAsset
   eventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1164232544
+      Data2: 1206309382
+      Data3: -1748448072
+      Data4: -1877564536
+    Path: event:/LVL_enemies_cleared
