@@ -12,26 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/BaseGame.unity
     guid: b8d1d92c65ed53942bc83d42be63d59b
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 18bdd0a10348dd44b853306fc8905d88
+    path: Assets/Scenes/Level_01.unity
+    guid: 0c289467bdd77bf4b978bb6f5c71ef4c
   - enabled: 1
-    path: Assets/Scenes/Development/Dev_Chris2.unity
-    guid: f2abfe2107f10be4382d7e6c866d58a1
+    path: Assets/Scenes/Level_02.unity
+    guid: fd8defa65fadb204c86e6f02089c46e6
   - enabled: 1
-    path: Assets/Scenes/LevelVariations/TestLevelVariation1.unity
-    guid: 8730a8ff1c3b2da40b0a5e2528428f55
-  - enabled: 1
-    path: Assets/Scenes/LevelVariations/TestLevelVariation2.unity
-    guid: cd18f8e7186bfee498208b7c9610a36a
-  - enabled: 1
-    path: Assets/Scenes/LevelVariations/TestLevelVariation3.unity
-    guid: 036e6a036e54fc147ab4e06ebe0bede6
-  - enabled: 1
-    path: Assets/Scenes/LevelVariations/TestLevelVariation4.unity
-    guid: b6b0a6f177d093a48b9cb326fe523ea6
-  - enabled: 1
-    path: Assets/Scenes/LevelVariations/TestLevelVariation5.unity
-    guid: 4c16cf618c060c341b287f06f8106497
+    path: Assets/Scenes/Level_03.unity
+    guid: 97e0f40bad65da04db6803333f958611
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 35845fe01580c41289b024647b1d1c53, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -73,10 +73,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelProgressionManager
   playerTransform: {fileID: 0}
   levelVariations:
-  - TestLevelVariation1
-  - TestLevelVariation2
-  - TestLevelVariation3
-  - TestLevelVariation4
-  - TestLevelVariation5
+  - Level_01
+  - Level_02
+  - Level_03
   baseBudget: 20
   budgetIncrementPerLevel: 5

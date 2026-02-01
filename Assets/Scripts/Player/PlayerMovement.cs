@@ -102,9 +102,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Skip applying movement when input or movement-only is blocked (e.g. dash, or light attack during swing).
         if (PlayerInputBlocker.IsInputBlocked || PlayerInputBlocker.IsMovementBlocked)
-        {
             return;
-        }
 
         if (WorldMoveDirection.sqrMagnitude >= 0.01f)
         {
