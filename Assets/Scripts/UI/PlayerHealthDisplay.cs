@@ -4,9 +4,8 @@ using UnityEngine.UI;
 /// <summary>
 /// Shows the player's health as a bar. Current health updates immediately; when you take damage,
 /// a "chunk" (damage bar) appears and gradually drains down to match current health.
-/// Setup: Current fill — Image Type = Filled, Fill Method = Horizontal, Fill Origin = Left.
-/// Damage chunk — Image (Simple, full sprite); script positions it via RectTransform anchors.
-/// Order: background (optional) → damage chunk → current health fill (on top).
+/// Setup: Both bars use Image Type = Filled, Fill Method = Horizontal, Fill Origin = Left.
+/// Order: background (optional) → damage fill → current health fill (on top).
 /// </summary>
 [RequireComponent(typeof(RectTransform))]
 public class PlayerHealthDisplay : MonoBehaviour
@@ -14,27 +13,37 @@ public class PlayerHealthDisplay : MonoBehaviour
     [Header("Bar fills")]
     [Tooltip("Image with Type = Filled, Fill Method = Horizontal, Fill Origin = Left. Shows current health.")]
     [SerializeField] private Image currentHealthFill;
-    [Tooltip("Image (Simple) that shows the damage chunk; script positions it. Place under current fill.")]
-    [SerializeField] private RectTransform damageChunkRect;
+    [Tooltip("Image with Type = Filled, Fill Method = Horizontal, Fill Origin = Left. Shows damage/loss chunk. Place under current fill.")]
+    [SerializeField] private Image lostHealthFill;
 
     [Header("Drain")]
-    [Tooltip("How much health (in units) the damage chunk drains per second toward current health.")]
-    [SerializeField] private float drainSpeed = 25f;
+    [Tooltip("Approximate time in seconds for the loss bar to catch up to current health. Higher = slower, smoother.")]
+    [SerializeField] private float drainSmoothTime = 1.2f;
 
     [Header("Optional colors")]
     [SerializeField] private bool overrideColors;
     [SerializeField] private Color currentColor = new Color(0.2f, 0.8f, 0.2f, 1f);
-    [SerializeField] private Color damageChunkColor = new Color(0.8f, 0.15f, 0.15f, 0.9f);
+    [SerializeField] private Color lostColor = new Color(0.8f, 0.15f, 0.15f, 0.9f);
 
     private float _currentHealth;
     private float _maxHealth = 1f;
     private float _trailingHealth; // top of the damage chunk; drains toward _currentHealth
-    private Image _damageChunkImage;
+    private float _drainVelocity;   // for SmoothDamp
 
     private void Awake()
     {
-        if (damageChunkRect != null)
-            _damageChunkImage = damageChunkRect.GetComponent<Image>();
+        if (currentHealthFill != null)
+        {
+            currentHealthFill.type = Image.Type.Filled;
+            currentHealthFill.fillMethod = Image.FillMethod.Horizontal;
+            currentHealthFill.fillOrigin = (int)Image.OriginHorizontal.Left;
+        }
+        if (lostHealthFill != null)
+        {
+            lostHealthFill.type = Image.Type.Filled;
+            lostHealthFill.fillMethod = Image.FillMethod.Horizontal;
+            lostHealthFill.fillOrigin = (int)Image.OriginHorizontal.Left;
+        }
     }
 
     private void OnEnable()
@@ -78,9 +87,12 @@ public class PlayerHealthDisplay : MonoBehaviour
     {
         if (_maxHealth <= 0f) return;
 
-        // Drain the damage chunk toward current health
-        float step = drainSpeed * Time.deltaTime;
-        _trailingHealth = Mathf.MoveTowards(_trailingHealth, _currentHealth, step);
+        // Smoothly drain the loss bar toward current health (ease-out)
+        float currentNorm = Mathf.Clamp01(_currentHealth / _maxHealth);
+        float trailingNorm = Mathf.Clamp01(_trailingHealth / _maxHealth);
+        float smoothTime = Mathf.Max(0.01f, drainSmoothTime);
+        trailingNorm = Mathf.SmoothDamp(trailingNorm, currentNorm, ref _drainVelocity, smoothTime, Mathf.Infinity, Time.deltaTime);
+        _trailingHealth = trailingNorm * _maxHealth;
         UpdateDamageChunk();
     }
 
@@ -97,26 +109,18 @@ public class PlayerHealthDisplay : MonoBehaviour
 
         UpdateDamageChunk();
 
-        if (overrideColors && _damageChunkImage != null)
-            _damageChunkImage.color = damageChunkColor;
+        if (overrideColors && lostHealthFill != null)
+            lostHealthFill.color = lostColor;
     }
 
     private void UpdateDamageChunk()
     {
-        if (damageChunkRect == null || _maxHealth <= 0f) return;
+        if (lostHealthFill == null || _maxHealth <= 0f) return;
 
         float currentNorm = Mathf.Clamp01(_currentHealth / _maxHealth);
         float trailingNorm = Mathf.Clamp01(_trailingHealth / _maxHealth);
 
-        // Position the damage chunk between current and trailing (empty if no chunk)
-        float minX = currentNorm;
-        float maxX = trailingNorm;
-
-        damageChunkRect.anchorMin = new Vector2(minX, 0f);
-        damageChunkRect.anchorMax = new Vector2(maxX, 1f);
-        damageChunkRect.offsetMin = Vector2.zero;
-        damageChunkRect.offsetMax = Vector2.zero;
-
-        damageChunkRect.gameObject.SetActive(maxX > minX + 0.001f);
+        lostHealthFill.fillAmount = trailingNorm;
+        lostHealthFill.gameObject.SetActive(trailingNorm > currentNorm + 0.001f);
     }
 }
