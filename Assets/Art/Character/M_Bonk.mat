@@ -47,11 +47,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseColorMap:
-        m_Texture: {fileID: 2800000, guid: 04e58b95c63120a4d8f88a3172f9752e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7be960efb590b63428ed4f6d04d8578f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 04e58b95c63120a4d8f88a3172f9752e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7be960efb590b63428ed4f6d04d8578f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
