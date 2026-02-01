@@ -53,9 +53,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthDisplay
   currentHealthFill: {fileID: 8674444911980705716}
   lostHealthFill: {fileID: 3224774492046728447}
+  drainSpeed: 25
   overrideColors: 0
   currentColor: {r: 1, g: 0.02745098, b: 0, a: 1}
-  lostColor: {r: 0.9137255, g: 0.8862745, b: 0, a: 1}
+  lostColor: {r: 0.8, g: 0.15, b: 0.15, a: 0.9}
 --- !u!1 &4755861025792763649
 GameObject:
   m_ObjectHideFlags: 0

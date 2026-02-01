@@ -232,13 +232,29 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3224774492046728447, guid: 825b5128489b17740801e0337a45001e, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 60a8190476e7bc14280caabb594e00cb, type: 3}
     - target: {fileID: 3743836161068401867, guid: 825b5128489b17740801e0337a45001e, type: 3}
       propertyPath: damageChunkRect
       value: 
       objectReference: {fileID: 4491263007122016199}
+    - target: {fileID: 7423949708632763522, guid: 825b5128489b17740801e0337a45001e, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7423949708632763522, guid: 825b5128489b17740801e0337a45001e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4aa9a3c20d3ff834faef990afa26ef56, type: 3}
+    - target: {fileID: 7423949708632763522, guid: 825b5128489b17740801e0337a45001e, type: 3}
+      propertyPath: m_Color.a
+      value: 0.6862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674444911980705716, guid: 825b5128489b17740801e0337a45001e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 60a8190476e7bc14280caabb594e00cb, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
