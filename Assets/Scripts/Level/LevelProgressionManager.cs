@@ -145,6 +145,8 @@ public class LevelProgressionManager : MonoBehaviour
         levelDepth++;
 
         MovePlayerToSpawn(currentLevelScene.Value);
+        if (AudioService.Instance != null)
+            AudioService.Instance.NextMusicVibe();
         isLoading = false;
     }
 

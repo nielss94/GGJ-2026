@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using FMOD.Studio;
 using UnityEngine;
@@ -12,8 +13,16 @@ public class AudioService : MonoBehaviour
     public FmodEventAsset fmodMusic;
 
     private const string PausedParam = "Paused";
+    private const float MaxVibe = 4f;
+    private const float VibeTransitionSpeed = 0.1f;
 
     private EventInstance musicInstance;
+
+    public enum LevelState
+    {
+        Stop,
+        Go
+    }
 
     private void Awake()
     {
@@ -32,10 +41,73 @@ public class AudioService : MonoBehaviour
         musicInstance.start();
     }
 
+    private void OnEnable()
+    {
+        EventBus.LevelComplete += OnLevelComplete;
+    }
+
+    private void OnDisable()
+    {
+        EventBus.LevelComplete -= OnLevelComplete;
+    }
+
+    private void OnLevelComplete()
+    {
+        SetLevelState(LevelState.Stop);
+    }
+
     private void OnDestroy()
     {
         if (Instance == this)
             Instance = null;
+    }
+
+    public void NextMusicVibe()
+    {
+        StartCoroutine(TransitionToNextVibe());
+    }
+
+    public void SetLevelState(LevelState levelState)
+    {
+        switch (levelState)
+        {
+            case LevelState.Stop:
+                musicInstance.setParameterByNameWithLabel("state", "stop");
+                break;
+            case LevelState.Go:
+                musicInstance.setParameterByNameWithLabel("state", "go");
+                break;
+        }
+    }
+
+    private IEnumerator TransitionToNextVibe()
+    {
+        musicInstance.getParameterByName("vibe", out float value);
+        float targetValue = value + 1f;
+        bool wrapToFirst = targetValue > MaxVibe;
+        if (wrapToFirst)
+            targetValue = 1f;
+
+        if (wrapToFirst)
+        {
+            while (value > targetValue)
+            {
+                value -= Time.deltaTime * VibeTransitionSpeed;
+                if (value < targetValue) value = targetValue;
+                musicInstance.setParameterByName("vibe", value);
+                yield return null;
+            }
+        }
+        else
+        {
+            while (value < targetValue)
+            {
+                value += Time.deltaTime * VibeTransitionSpeed;
+                if (value > targetValue) value = targetValue;
+                musicInstance.setParameterByName("vibe", value);
+                yield return null;
+            }
+        }
     }
 
     public void PlayOneShotWithParameter(FmodEventAsset fmodEvent, string parameterName, string parameterValue)
