@@ -37,11 +37,13 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
     [SerializeField] private Vector3 damageMultiplierPerSwing = new Vector3(1f, 1.2f, 1.5f);
 
     [Header("Combo timing (designer)")]
-    [Tooltip("Base duration of each swing (animation time). Actual = base / attackSpeed.")]
+    [Tooltip("Per-swing durations in seconds (X=Attack1, Y=Attack2, Z=Attack3). Set to your clip lengths to align with animation. Actual = value / attackSpeed. Leave at 0 to use Base Swing Duration for all.")]
+    [SerializeField] private Vector3 swingDurations = new Vector3(0.37f, 0.37f, 0.43f);
+    [Tooltip("Fallback duration when Swing Durations are 0 for that swing. Actual = base / attackSpeed.")]
     [SerializeField] private float baseSwingDuration = 0.3f;
-    [Tooltip("Base minimum time before next attack can be input. Actual = base / attackSpeed. Keep lower than comboLinkWindow so there is always a usable link window.")]
+    [Tooltip("Base minimum time before next attack can be input. Only used for time-based transition; ignored when using animation events. Actual = base / attackSpeed.")]
     [SerializeField] private float baseMinTimeBetweenHits = 0.15f;
-    [Tooltip("Max time after a swing to press attack again to continue combo (seconds). After this, combo resets (no cooldown). Keep well above baseMinTimeBetweenHits so the link window is easy to hit without buffering.")]
+    [Tooltip("Max time after a swing to press attack again to continue combo (seconds). After this, combo resets (no cooldown).")]
     [SerializeField] private float comboLinkWindow = 0.9f;
 
     [Header("Stats (optional)")]
@@ -87,6 +89,41 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
 
     /// <summary>Fired when a swing starts. Argument is combo index 0, 1, or 2 (for Attack1, Attack2, Attack3).</summary>
     public event System.Action<int> OnSwingStarted;
+
+    /// <summary>
+    /// Call from an Animation Event at the frame where the next attack can start (same GameObject as Animator).
+    /// Parameter: 0 = Attack1 clip ended, 1 = Attack2 ended, 2 = Attack3 ended.
+    /// Opens the combo link window exactly when the event fires for perfect animation sync.
+    /// </summary>
+    public void NotifySwingEndFromAnimation(int comboIndex)
+    {
+        if (comboIndex < 0 || comboIndex > 2) return;
+        bool stateMatches = (state == State.Swing0 && comboIndex == 0) || (state == State.Swing1 && comboIndex == 1) || (state == State.Swing2 && comboIndex == 2);
+        if (!stateMatches) return;
+
+        float now = Time.time;
+        if (state == State.Swing2)
+        {
+            if (enableLogging) Debug.Log("[LightAttack] Combo complete (3/3, from animation). Applying cooldown.");
+            EndComboAndApplyCooldown();
+            return;
+        }
+
+        if (state == State.Swing0)
+        {
+            state = State.BetweenSwings0;
+            nextSwingAllowedAt = now;
+            comboWindowEndTime = now + comboLinkWindow;
+            EventBus.RaisePlayerMovementUnblockRequested(this);
+        }
+        else if (state == State.Swing1)
+        {
+            state = State.BetweenSwings1;
+            nextSwingAllowedAt = now;
+            comboWindowEndTime = now + comboLinkWindow;
+            EventBus.RaisePlayerMovementUnblockRequested(this);
+        }
+    }
 
     /// <summary>Current combo state and timer countdowns for debug (e.g. VoodooDebug).</summary>
     public string GetDebugStatus()
@@ -139,16 +176,16 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
     public bool TryBufferInput()
     {
         if (bufferedSwingIndex != -1) return true;
-        if (state == State.Swing0)
+        if (state == State.Swing0 || state == State.BetweenSwings0)
         {
             bufferedSwingIndex = 1;
-            if (enableLogging) Debug.Log("[LightAttack] Buffered attack2 during attack1.");
+            if (enableLogging) Debug.Log("[LightAttack] Buffered attack2.");
             return true;
         }
-        if (state == State.Swing1)
+        if (state == State.Swing1 || state == State.BetweenSwings1)
         {
             bufferedSwingIndex = 2;
-            if (enableLogging) Debug.Log("[LightAttack] Buffered attack3 during attack2.");
+            if (enableLogging) Debug.Log("[LightAttack] Buffered attack3.");
             return true;
         }
         return false;
@@ -248,7 +285,8 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
         state = comboIndex == 0 ? State.Swing0 : (comboIndex == 1 ? State.Swing1 : State.Swing2);
 
         float speedFactor = Mathf.Max(0.01f, attackSpeed);
-        float swingDuration = baseSwingDuration / speedFactor;
+        float baseDuration = GetBaseSwingDuration(comboIndex);
+        float swingDuration = baseDuration / speedFactor;
         swingEndTime = Time.time + swingDuration;
 
         ApplyHitbox(comboIndex + 1);
@@ -256,6 +294,12 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
         PlaySwingSound(comboIndex);
         OnSwingStarted?.Invoke(comboIndex);
         if (enableLogging) Debug.Log($"[LightAttack] Swing {comboIndex + 1}/3 started (duration={swingDuration:F2}s).");
+    }
+
+    private float GetBaseSwingDuration(int comboIndex)
+    {
+        float d = comboIndex == 0 ? swingDurations.x : (comboIndex == 1 ? swingDurations.y : swingDurations.z);
+        return d > 0.001f ? d : baseSwingDuration;
     }
 
     private void OnSwingEnd()

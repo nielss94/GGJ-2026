@@ -3,6 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Drives the player Animator from PlayerMovement and PlayerAbilityManager.
 /// Sets MoveSpeed (0 when idle, &gt; 0.1 when moving), Attack1/Attack2/Attack3 triggers for light combo, and IsDashing while dashing.
+/// Must be on the same GameObject as the Animator so Animation Events (e.g. OnComboLinkReady) are received.
 /// </summary>
 public class PlayerAnimationController : MonoBehaviour
 {
@@ -74,11 +75,19 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetBool(_isDashingHash, isDashing);
     }
 
+    /// <summary>
+    /// Call from Animation Event at the frame where the next attack can start.
+    /// Add to each attack clip: function OnComboLinkReady, int parameter 0 (Attack1), 1 (Attack2), 2 (Attack3).
+    /// Must be on the same GameObject as the Animator.
+    /// </summary>
+    public void OnComboLinkReady(int comboIndex)
+    {
+        _lightAttackAbility?.NotifySwingEndFromAnimation(comboIndex);
+    }
+
     private void OnLightAttackSwingStarted(int comboIndex)
     {
         if (animator == null) return;
-
-        Debug.Log("LightAttackSwingStarted: " + comboIndex);
 
         switch (comboIndex)
         {
