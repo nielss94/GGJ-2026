@@ -35,6 +35,8 @@ public class UltimateAbility : PlayerAbility
     [Header("FMOD")]
     [Tooltip("Optional FMOD event played when the ultimate (blast wave) is fired.")]
     [SerializeField] private FmodEventAsset fmodUltimate;
+    [Tooltip("Optional FMOD event played when the blast wave hits an enemy (once per enemy).")]
+    [SerializeField] private FmodEventAsset fmodUltimateHit;
 
     [Header("References")]
     [Tooltip("Receiver that holds attached drops. If unset, resolved from player at runtime.")]
@@ -185,6 +187,8 @@ public class UltimateAbility : PlayerAbility
 
                 health.TakeDamage(blastDamage, origin, knockbackForce);
                 damaged.Add(health);
+                if (fmodUltimateHit != null && !fmodUltimateHit.IsNull && AudioService.Instance != null)
+                    AudioService.Instance.PlayOneShot(fmodUltimateHit, health.transform.position);
             }
 
             yield return null;
@@ -196,6 +200,8 @@ public class UltimateAbility : PlayerAbility
             if (health == null || health.IsDead || damaged.Contains(health)) continue;
             if (distance > blastRadius) continue;
             health.TakeDamage(blastDamage, origin, knockbackForce);
+            if (fmodUltimateHit != null && !fmodUltimateHit.IsNull && AudioService.Instance != null)
+                AudioService.Instance.PlayOneShot(fmodUltimateHit, health.transform.position);
         }
 
         currentBlastRadius = 0f;
