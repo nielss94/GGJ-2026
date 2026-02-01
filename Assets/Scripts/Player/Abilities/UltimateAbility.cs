@@ -29,6 +29,8 @@ public class UltimateAbility : PlayerAbility
     [Header("Blast visual")]
     [Tooltip("Prefab to instantiate at blast origin (e.g. Quad with BlastWaveInstance). Expands then destroys itself.")]
     [SerializeField] private GameObject blastWavePrefab;
+    [Tooltip("Optional: particle system prefab to spawn at blast origin when ultimate fires. Plays once then destroys itself.")]
+    [SerializeField] private GameObject blastParticlesPrefab;
 
     [Header("References")]
     [Tooltip("Receiver that holds attached drops. If unset, resolved from player at runtime.")]
@@ -120,6 +122,22 @@ public class UltimateAbility : PlayerAbility
             var blastVisual = instance.GetComponentInChildren<BlastWaveInstance>();
             if (blastVisual != null)
                 blastVisual.Init(blastDuration, blastRadius);
+        }
+
+        if (blastParticlesPrefab != null)
+        {
+            GameObject particlesInstance = Instantiate(blastParticlesPrefab, origin, Quaternion.identity);
+            var ps = particlesInstance.GetComponentInChildren<ParticleSystem>();
+            if (ps != null)
+            {
+                ps.Play();
+                float destroyDelay = ps.main.duration + ps.main.startLifetime.constantMax;
+                Destroy(particlesInstance, destroyDelay);
+            }
+            else
+            {
+                Destroy(particlesInstance);
+            }
         }
 
         float knockbackForce = GetKnockbackForce();
