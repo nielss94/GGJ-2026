@@ -1620,7 +1620,7 @@ MonoBehaviour:
   blastParticlesPrefab: {fileID: 6641171151622195994, guid: 9b49e1fb704afb6438629889cd0e7eb0, type: 3}
   fmodUltimate: {fileID: 11400000, guid: e350645fb5fde44d9bbdcbe3e098a9ff, type: 2}
   fmodUltimateHit: {fileID: 11400000, guid: e154efd2080d4a5428625397b879d618, type: 2}
-  dropReceiver: {fileID: 0}
+  dropManager: {fileID: 0}
   playerStats: {fileID: 0}
 --- !u!1 &8045543100017386537
 GameObject:
@@ -1639,6 +1639,7 @@ GameObject:
   - component: {fileID: 6731190559124809214}
   - component: {fileID: 4200191816472261527}
   - component: {fileID: 6176219080056381527}
+  - component: {fileID: 709380888755857463}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1822,6 +1823,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &709380888755857463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045543100017386537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec005e54ec40e24ab0fe3bd7f5ed95c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDropManager
+  maskReceiver: {fileID: 6625419317496930953}
 --- !u!1 &8718913515318963313
 GameObject:
   m_ObjectHideFlags: 0

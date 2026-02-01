@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Attach to the player's mask object. Receives dropped items that fly in and places them using
-/// spline or slot strategies per drop type. Assign mask transform (usually this transform) and
-/// configure spline/slot setups for each DropTypeId.
+/// Attach to the player's mask object. Implementation detail of <see cref="PlayerDropManager"/>:
+/// stores and places drops (spline/slot per DropTypeId). The public API for add/hold/remove is
+/// <see cref="PlayerDropManager"/> on the player; this component is typically assigned there.
 /// </summary>
 public class MaskAttachmentReceiver : MonoBehaviour
 {

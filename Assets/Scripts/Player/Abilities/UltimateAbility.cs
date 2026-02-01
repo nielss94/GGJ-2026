@@ -39,8 +39,8 @@ public class UltimateAbility : PlayerAbility
     [SerializeField] private FmodEventAsset fmodUltimateHit;
 
     [Header("References")]
-    [Tooltip("Receiver that holds attached drops. If unset, resolved from player at runtime.")]
-    [SerializeField] private MaskAttachmentReceiver dropReceiver;
+    [Tooltip("Player drop manager (add/hold/remove drops). If unset, resolved from player at runtime.")]
+    [SerializeField] private PlayerDropManager dropManager;
     [Tooltip("Optional: used for knockback force on blasted enemies. If unset, resolved via FindFirstObjectByType.")]
     [SerializeField] private PlayerStats playerStats;
 
@@ -83,8 +83,8 @@ public class UltimateAbility : PlayerAbility
 
     private int GetEffectiveDropCount()
     {
-        var receiver = ResolveReceiver();
-        int real = receiver != null ? receiver.GetTotalAttachedCount() : 0;
+        var manager = ResolveDropManager();
+        int real = manager != null ? manager.GetTotalDropCount() : 0;
         return real + debugExtraDrops;
     }
 
@@ -104,12 +104,12 @@ public class UltimateAbility : PlayerAbility
 
     public override bool TryPerform()
     {
-        var receiver = ResolveReceiver();
-        if (receiver == null || GetEffectiveDropCount() < dropsRequired || isBlastActive)
+        var manager = ResolveDropManager();
+        if (manager == null || GetEffectiveDropCount() < dropsRequired || isBlastActive)
             return false;
 
         debugExtraDrops = 0;
-        receiver.ClearAllAttached();
+        manager.ClearAllDrops();
         EventBus.RaiseUltimateUsed();
         if (fmodUltimate != null && !fmodUltimate.IsNull && AudioService.Instance != null)
             AudioService.Instance.PlayOneShot(fmodUltimate, PlayerTransform.position);
@@ -215,10 +215,10 @@ public class UltimateAbility : PlayerAbility
         return stats != null ? stats.KnockbackForce : 1f;
     }
 
-    private MaskAttachmentReceiver ResolveReceiver()
+    private PlayerDropManager ResolveDropManager()
     {
-        if (dropReceiver != null) return dropReceiver;
-        return PlayerTransform.GetComponentInChildren<MaskAttachmentReceiver>();
+        if (dropManager != null) return dropManager;
+        return PlayerTransform.GetComponentInChildren<PlayerDropManager>(true);
     }
 
 #if UNITY_EDITOR

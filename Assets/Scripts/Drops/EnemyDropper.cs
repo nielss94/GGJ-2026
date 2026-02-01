@@ -3,15 +3,15 @@ using UnityEngine.Events;
 
 /// <summary>
 /// Add to an enemy with Health. On death, spawns a random drop from DropDatabase at the enemy position
-/// and sends it to the assigned MaskAttachmentReceiver. Subscribes to Health.onDeath automatically.
+/// and sends it to the player's <see cref="PlayerDropManager"/>. Subscribes to Health.onDeath automatically.
 /// </summary>
 public class EnemyDropper : MonoBehaviour
 {
     [Header("Database & Target")]
     [Tooltip("Database of droppable prefabs. If empty, no drops spawn.")]
     [SerializeField] private DropDatabase dropDatabase;
-    [Tooltip("Mask that receives drops. Leave empty to find by tag 'Player' and get MaskAttachmentReceiver on it or its children.")]
-    [SerializeField] private MaskAttachmentReceiver maskReceiver;
+    [Tooltip("Player drop manager that receives drops. Leave empty to find by tag 'Player' and get PlayerDropManager on it or its children.")]
+    [SerializeField] private PlayerDropManager dropManager;
 
     [Header("Spawn")]
     [Tooltip("Offset from enemy position when spawning (e.g. slightly above).")]
@@ -21,8 +21,8 @@ public class EnemyDropper : MonoBehaviour
 
     private void Start()
     {
-        if (maskReceiver == null)
-            ResolveMaskReceiver();
+        if (dropManager == null)
+            ResolveDropManager();
         var health = GetComponent<Health>();
         if (health != null)
             health.AddOnDeathListener(Drop);
@@ -33,9 +33,9 @@ public class EnemyDropper : MonoBehaviour
     {
         if (dropping || dropDatabase == null)
             return;
-        if (maskReceiver == null)
-            ResolveMaskReceiver();
-        if (maskReceiver == null)
+        if (dropManager == null)
+            ResolveDropManager();
+        if (dropManager == null)
             return;
 
         DropItemDefinition def = dropDatabase.GetRandomDrop();
@@ -47,17 +47,17 @@ public class EnemyDropper : MonoBehaviour
         GameObject go = Instantiate(def.Prefab, spawnPos, Quaternion.identity);
         if (go.TryGetComponent(out DroppableItem item))
         {
-            item.Init(def, maskReceiver);
+            item.Init(def, dropManager);
         }
 
         dropping = false;
     }
 
-    private void ResolveMaskReceiver()
+    private void ResolveDropManager()
     {
-        if (maskReceiver != null) return;
+        if (dropManager != null) return;
         var player = GameObject.FindWithTag("Player");
         if (player != null)
-            maskReceiver = player.GetComponentInChildren<MaskAttachmentReceiver>();
+            dropManager = player.GetComponentInChildren<PlayerDropManager>(true);
     }
 }

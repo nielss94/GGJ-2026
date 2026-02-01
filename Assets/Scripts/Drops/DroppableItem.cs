@@ -3,7 +3,7 @@ using PrimeTween;
 
 /// <summary>
 /// Put on drop prefabs (any mesh, no colliders). After a short drop animation, flies towards the
-/// assigned mask until it reaches it, then attaches and the receiver sets final position and rotation.
+/// player's drop manager target until it reaches it, then is added via <see cref="PlayerDropManager.AddDrop"/>.
 /// </summary>
 [RequireComponent(typeof(Transform))]
 public class DroppableItem : MonoBehaviour
@@ -32,7 +32,7 @@ public class DroppableItem : MonoBehaviour
     [SerializeField] private Ease settleRotationEase = Ease.OutQuad;
 
     private DropTypeId dropType;
-    private MaskAttachmentReceiver targetReceiver;
+    private PlayerDropManager targetManager;
     private Sequence currentSequence;
     private Vector3 targetScale;
     private bool isFlyingTowardsMask;
@@ -40,22 +40,22 @@ public class DroppableItem : MonoBehaviour
     private float flyTotalDistance;
     private float flyProgress;
 
-    /// <summary>Drop type for this item. Set by Init(); used by MaskAttachmentReceiver to choose strategy.</summary>
+    /// <summary>Drop type for this item. Set by Init(); used by mask placement to choose strategy.</summary>
     public DropTypeId DropType => dropType;
 
-    /// <summary>Duration of the settle rotation after attach. Used by MaskAttachmentReceiver.</summary>
+    /// <summary>Duration of the settle rotation after attach. Used by mask placement.</summary>
     public float SettleRotationDuration => settleRotationDuration;
 
     /// <summary>
-    /// Call after instantiating the drop. Sets type and target; starts drop animation then flight to mask.
+    /// Call after instantiating the drop. Sets type and target; starts drop animation then flight to player drop manager.
     /// </summary>
-    public void Init(DropItemDefinition definition, MaskAttachmentReceiver receiver)
+    public void Init(DropItemDefinition definition, PlayerDropManager manager)
     {
-        if (definition == null || receiver == null)
+        if (definition == null || manager == null)
             return;
 
         dropType = definition.DropType;
-        targetReceiver = receiver;
+        targetManager = manager;
         targetScale = transform.localScale;
         transform.localScale = targetScale * spawnScale;
         currentSequence = RunSequence();
@@ -85,14 +85,14 @@ public class DroppableItem : MonoBehaviour
     private void StartFlyingTowardsMask()
     {
         currentSequence = default;
-        if (targetReceiver != null)
+        if (targetManager != null)
         {
             flyStartPosition = transform.position;
-            flyTotalDistance = Vector3.Distance(flyStartPosition, targetReceiver.FlyToPosition);
+            flyTotalDistance = Vector3.Distance(flyStartPosition, targetManager.FlyToPosition);
             flyProgress = 0f;
             if (flyTotalDistance <= attachDistance)
             {
-                transform.position = targetReceiver.FlyToPosition;
+                transform.position = targetManager.FlyToPosition;
                 OnReachedMask();
             }
             else
@@ -108,10 +108,10 @@ public class DroppableItem : MonoBehaviour
 
     private void Update()
     {
-        if (!isFlyingTowardsMask || targetReceiver == null)
+        if (!isFlyingTowardsMask || targetManager == null)
             return;
 
-        Vector3 target = targetReceiver.FlyToPosition;
+        Vector3 target = targetManager.FlyToPosition;
 
         // Ease-out near target: speed scales down so it glides in softly (ghost-like)
         float distanceToTarget = flyTotalDistance * (1f - flyProgress);
@@ -137,7 +137,7 @@ public class DroppableItem : MonoBehaviour
         transform.position = linearPosition + Vector3.up * arcFactor;
     }
 
-    /// <summary>Called by MaskAttachmentReceiver after placing. Smoothly rotates from arrival rotation to final. Then done.</summary>
+    /// <summary>Called by mask placement after attaching. Smoothly rotates from arrival rotation to final. Then done.</summary>
     public void AnimateSettleRotation(Quaternion fromRotation, float duration)
     {
         Quaternion to = transform.rotation;
@@ -152,8 +152,8 @@ public class DroppableItem : MonoBehaviour
             ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
 
-        if (targetReceiver != null)
-            targetReceiver.Attach(this);
+        if (targetManager != null)
+            targetManager.AddDrop(this);
     }
 
     private void OnDestroy()
