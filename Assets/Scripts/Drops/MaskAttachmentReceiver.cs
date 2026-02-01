@@ -11,6 +11,10 @@ public class MaskAttachmentReceiver : MonoBehaviour
     [Header("Mask")]
     [Tooltip("The mask transform items attach to. Leave empty to use this transform.")]
     [SerializeField] private Transform maskTransform;
+    [Tooltip("Optional: transform drops fly towards (e.g. face/mask bone). If empty, uses mask position + Fly To Height Offset.")]
+    [SerializeField] private Transform flyToTarget;
+    [Tooltip("World Y offset above mask position when Fly To Target is empty. Use this so drops arc toward the mask instead of the feet.")]
+    [SerializeField] private float flyToHeightOffset = 1f;
 
     [Header("Spline attachments (e.g. feathers)")]
     [Tooltip("Drop types that distribute along a spline. Items divide evenly along the spline by count.")]
@@ -22,8 +26,11 @@ public class MaskAttachmentReceiver : MonoBehaviour
 
     private Transform Mask => maskTransform != null ? maskTransform : transform;
 
-    /// <summary>World position drops fly towards before attaching. Use when receiver is not on the mask object.</summary>
-    public Vector3 FlyToPosition => Mask.position;
+    /// <summary>World position drops fly towards before attaching. Uses Fly To Target if set, else mask position + height offset.</summary>
+    public Vector3 FlyToPosition =>
+        flyToTarget != null
+            ? flyToTarget.position
+            : Mask.position + Vector3.up * flyToHeightOffset;
 
     /// <summary>Count of attached items per drop type (for redistribution when using spline).</summary>
     private readonly Dictionary<DropTypeId, int> attachedCountByType = new Dictionary<DropTypeId, int>();
@@ -142,9 +149,40 @@ public class MaskAttachmentReceiver : MonoBehaviour
         return attachedByType.TryGetValue(type, out var list) ? list.Count : 0;
     }
 
+    /// <summary>Total number of attached drops across all types. Used for ultimate ability charge.</summary>
+    public int GetTotalAttachedCount()
+    {
+        int total = 0;
+        foreach (var list in attachedByType.Values)
+        {
+            if (list != null)
+                total += list.Count;
+        }
+        return total;
+    }
+
     /// <summary>All attached transforms for a type. Read-only.</summary>
     public IReadOnlyList<Transform> GetAttached(DropTypeId type)
     {
         return attachedByType.TryGetValue(type, out var list) ? list : (IReadOnlyList<Transform>)new List<Transform>();
+    }
+
+    /// <summary>
+    /// Removes and destroys all attached drops. Used when the ultimate ability is fired;
+    /// the ability becomes available again once the player gathers enough drops again.
+    /// </summary>
+    public void ClearAllAttached()
+    {
+        foreach (var list in attachedByType.Values)
+        {
+            if (list == null) continue;
+            foreach (Transform t in list)
+            {
+                if (t != null && t.gameObject != null)
+                    Destroy(t.gameObject);
+            }
+            list.Clear();
+        }
+        attachedCountByType.Clear();
     }
 }

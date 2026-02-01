@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimatorDriver
   moveSpeedParam: MoveSpeed
+  attackTriggerParam: Attack
 --- !u!1 &3028043041645726519
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,10 +667,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CH_Mage
       objectReference: {fileID: 0}
-    - target: {fileID: 8249947936413737434, guid: 7420fbbce155ab04fb729a30b1efb19f, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 8734277777338415968, guid: 7420fbbce155ab04fb729a30b1efb19f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -713,39 +710,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8249947936413737434, guid: 7420fbbce155ab04fb729a30b1efb19f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4106279468281102561}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7420fbbce155ab04fb729a30b1efb19f, type: 3}
---- !u!1 &1206787933161461808 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8249947936413737434, guid: 7420fbbce155ab04fb729a30b1efb19f, type: 3}
-  m_PrefabInstance: {fileID: 7116510718328404458}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &4106279468281102561
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206787933161461808}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!4 &2014392814760182410 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8734277777338415968, guid: 7420fbbce155ab04fb729a30b1efb19f, type: 3}

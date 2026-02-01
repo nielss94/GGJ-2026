@@ -13,7 +13,7 @@ public class Encounter : MonoBehaviour
     [Tooltip("Total power budget for this encounter. Spawning deducts each enemy's PowerCost (from EnemyType).")]
     [SerializeField] private float budget = 20f;
     [Tooltip("Fraction of budget to spend in the initial wave (e.g. 0.7 = 70% at start, 30% for during-level spawns).")]
-    [SerializeField] [Range(0f, 1f)] private float initialSpendRatio = 0.7f;
+    [SerializeField][Range(0f, 1f)] private float initialSpendRatio = 0.7f;
 
     [Header("Spawning")]
     [Tooltip("Seconds to wait after the level loads before spawning the first wave. Gives the player a moment before enemies appear.")]
@@ -26,6 +26,10 @@ public class Encounter : MonoBehaviour
     [SerializeField] private bool spawnDuringLevel = true;
     [Tooltip("Seconds between spawn attempts during the level.")]
     [SerializeField] private float spawnInterval = 5f;
+
+    [Header("Audio")]
+    [Tooltip("Optional FMOD event played when the encounter completes.")]
+    [SerializeField] private FmodEventAsset fmodEncounterComplete;
 
     private float remainingBudget;
     private readonly HashSet<Health> tracked = new HashSet<Health>();
@@ -151,6 +155,9 @@ public class Encounter : MonoBehaviour
             completed = true;
             CancelInvoke(nameof(TrySpawnOne));
             Complete?.Invoke();
+
+            if (fmodEncounterComplete != null && AudioService.Instance != null)
+                AudioService.Instance.PlayOneShot(fmodEncounterComplete, transform.position);
         }
     }
 

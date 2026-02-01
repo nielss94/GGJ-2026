@@ -216,7 +216,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.14636, y: 0, z: 16.48436}
-  m_LocalScale: {x: 2.25, y: 2.25, z: 2.25}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 280273252554067701}
@@ -560,6 +560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimatorDriver
   moveSpeedParam: MoveSpeed
+  attackTriggerParam: Attack
 --- !u!1 &6290256332954324988
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,41 +908,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4422083667443688733, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3689074249559110190}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
 --- !u!4 &280273252554067701 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
   m_PrefabInstance: {fileID: 3888310789177520466}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &623866906150376527 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4422083667443688733, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
-  m_PrefabInstance: {fileID: 3888310789177520466}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &3689074249559110190
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 623866906150376527}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}

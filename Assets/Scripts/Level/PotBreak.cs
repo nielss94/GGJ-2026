@@ -17,6 +17,10 @@ public class PotBreak : MonoBehaviour
     [SerializeField][Range(0f, 1f)] private float upwardBias = 0.4f;
     [SerializeField] private float fragmentMass = 0.2f;
 
+    [Header("Audio")]
+    [Tooltip("Optional FMOD event played when the pot breaks.")]
+    [SerializeField] private FmodEventAsset fmodPotBreak;
+
     public void BreakPot()
     {
         Vector3 center = transform.position;
@@ -44,5 +48,8 @@ public class PotBreak : MonoBehaviour
 
             rb.AddExplosionForce(explosionForce, center, 1f, upwardBias, ForceMode.Impulse);
         }
+
+        if (fmodPotBreak != null && AudioService.Instance != null)
+            AudioService.Instance.PlayOneShot(fmodPotBreak, transform.position);
     }
 }

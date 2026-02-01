@@ -23,6 +23,8 @@ public class DroppableItem : MonoBehaviour
     [SerializeField] private float slowDownDistance = 2f;
     [Tooltip("Distance to target at which the item is considered arrived and attaches.")]
     [SerializeField] private float attachDistance = 0.05f;
+    [Tooltip("Peak height of the arc (world units). Height is computed from current distance so the path arcs over obstacles.")]
+    [SerializeField] private float arcHeight = 2f;
 
     [Header("Settle")]
     [Tooltip("Duration to rotate from arrival rotation to final placement rotation after attaching.")]
@@ -34,6 +36,9 @@ public class DroppableItem : MonoBehaviour
     private Sequence currentSequence;
     private Vector3 targetScale;
     private bool isFlyingTowardsMask;
+    private Vector3 flyStartPosition;
+    private float flyTotalDistance;
+    private float flyProgress;
 
     /// <summary>Drop type for this item. Set by Init(); used by MaskAttachmentReceiver to choose strategy.</summary>
     public DropTypeId DropType => dropType;
@@ -81,9 +86,24 @@ public class DroppableItem : MonoBehaviour
     {
         currentSequence = default;
         if (targetReceiver != null)
-            isFlyingTowardsMask = true;
+        {
+            flyStartPosition = transform.position;
+            flyTotalDistance = Vector3.Distance(flyStartPosition, targetReceiver.FlyToPosition);
+            flyProgress = 0f;
+            if (flyTotalDistance <= attachDistance)
+            {
+                transform.position = targetReceiver.FlyToPosition;
+                OnReachedMask();
+            }
+            else
+            {
+                isFlyingTowardsMask = true;
+            }
+        }
         else
+        {
             OnReachedMask();
+        }
     }
 
     private void Update()
@@ -92,8 +112,17 @@ public class DroppableItem : MonoBehaviour
             return;
 
         Vector3 target = targetReceiver.FlyToPosition;
-        float distance = Vector3.Distance(transform.position, target);
-        if (distance <= attachDistance)
+
+        // Ease-out near target: speed scales down so it glides in softly (ghost-like)
+        float distanceToTarget = flyTotalDistance * (1f - flyProgress);
+        float speedMultiplier = 1f;
+        if (slowDownDistance > 0f && distanceToTarget < slowDownDistance)
+            speedMultiplier = Mathf.Clamp01(distanceToTarget / slowDownDistance);
+
+        float step = (flySpeed * speedMultiplier * Time.deltaTime) / Mathf.Max(flyTotalDistance, 0.001f);
+        flyProgress = Mathf.Clamp01(flyProgress + step);
+
+        if (flyProgress >= 1f)
         {
             isFlyingTowardsMask = false;
             transform.position = target;
@@ -101,16 +130,11 @@ public class DroppableItem : MonoBehaviour
             return;
         }
 
-        // Ease-out near target: speed scales down so it glides in softly (ghost-like)
-        float speedMultiplier = 1f;
-        if (slowDownDistance > 0f && distance < slowDownDistance)
-            speedMultiplier = Mathf.Clamp01(distance / slowDownDistance);
-
-        float step = flySpeed * speedMultiplier * Time.deltaTime;
-        if (step >= distance)
-            transform.position = target;
-        else
-            transform.position = Vector3.MoveTowards(transform.position, target, step);
+        // Position on straight line from start to target
+        Vector3 linearPosition = Vector3.Lerp(flyStartPosition, target, flyProgress);
+        // Parabolic arc height: 0 at start and end, peak at progress 0.5 (ready for trail renderer later)
+        float arcFactor = 4f * arcHeight * flyProgress * (1f - flyProgress);
+        transform.position = linearPosition + Vector3.up * arcFactor;
     }
 
     /// <summary>Called by MaskAttachmentReceiver after placing. Smoothly rotates from arrival rotation to final. Then done.</summary>
