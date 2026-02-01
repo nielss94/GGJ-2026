@@ -327,7 +327,7 @@ MonoBehaviour:
   hitZoneShape: 0
   hitZoneOffset: 1.35
   hitZoneHeightOffset: 0.45
-  hitZoneRadius: 1.2
+  hitZoneRadius: 1.8
   hitZoneHalfExtents: {x: 0.75, y: 0.75, z: 0.75}
   drawGizmos: 1
   hitLayers:
@@ -413,6 +413,7 @@ MonoBehaviour:
   maxHealth: 100
   isPlayer: 0
   healthMusicEvent: {fileID: 0}
+  fmodPlayerHit: {fileID: 0}
   onDeath:
     m_PersistentCalls:
       m_Calls:
