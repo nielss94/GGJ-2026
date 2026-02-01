@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71640181e958c50458105591ef3bdba8, type: 3}
-  m_Name: Ranged
+  m_Name: MeleeLight_Hard
   m_EditorClassIdentifier: Assembly-CSharp::EnemyType
-  displayName: Ranged
+  displayName: Melee
   powerCost: 1
-  maxHealth: 40
-  moveSpeed: 3.5
-  contactDamage: 10
-  contactCooldown: 3
-  meleeAttackRange: 1.8
+  maxHealth: 150
+  moveSpeed: 4.32
+  contactDamage: 15
+  contactCooldown: 1
+  meleeAttackRange: 2.16
   meleeTelegraphDuration: 0.4
   meleeAttackActiveDuration: 0.25
-  rangedDamage: 18
-  rangedFireInterval: 3
-  rangedProjectileSpeed: 8
-  rangedAttackRange: 12
-  rangedTelegraphDuration: 0.5
+  rangedDamage: 15
+  rangedFireInterval: 1.5
+  rangedProjectileSpeed: 12
+  rangedAttackRange: 15
+  rangedTelegraphDuration: 0.3
