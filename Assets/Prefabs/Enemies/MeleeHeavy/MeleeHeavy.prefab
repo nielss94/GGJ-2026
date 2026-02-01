@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: -3020474435104422798}
   - component: {fileID: -2485359517474477540}
   - component: {fileID: -7285485811345475363}
+  - component: {fileID: 7017767470684506215}
   m_Layer: 7
   m_Name: MeleeHeavy
   m_TagString: Untagged
@@ -504,7 +505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitFlash
   flashDuration: 0.08
-  colorPropertyName: _BaseColor
+  flashEmissionNits: 100
+  emissionIntensityPropertyName: _EmissiveIntensity
   renderers: []
 --- !u!114 &-7285485811345475363
 MonoBehaviour:
@@ -520,6 +522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackReceiver
   baseKnockbackDistance: 4
   referenceMaxHealth: 100
+  knockbackReceiveMultiplier: 0.1
   knockbackDuration: 0.2
   knockbackCurve:
     serializedVersion: 2
@@ -545,6 +548,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7017767470684506215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5233339675524473751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda5e70bbe5304d918e0a2e032283347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimatorDriver
+  moveSpeedParam: MoveSpeed
 --- !u!1 &6290256332954324988
 GameObject:
   m_ObjectHideFlags: 0

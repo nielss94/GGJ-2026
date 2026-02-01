@@ -819,6 +819,14 @@ PrefabInstance:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 79575681}
+    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
+      propertyPath: levelVariations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
+      propertyPath: 'levelVariations.Array.data[0]'
+      value: Level_02
+      objectReference: {fileID: 0}
     - target: {fileID: 3881695909100255512, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
       propertyPath: m_Name
       value: GameRoot
@@ -1156,10 +1164,6 @@ PrefabInstance:
     - target: {fileID: 523695598476783214, guid: eee1c76453af8bd489ca33bcca2542c7, type: 3}
       propertyPath: m_Name
       value: GameHUD
-      objectReference: {fileID: 0}
-    - target: {fileID: 523695598476783214, guid: eee1c76453af8bd489ca33bcca2542c7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7759212350320101674, guid: eee1c76453af8bd489ca33bcca2542c7, type: 3}
       propertyPath: m_Pivot.x

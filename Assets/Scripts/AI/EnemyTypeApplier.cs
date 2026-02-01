@@ -4,7 +4,8 @@ using UnityEngine.AI;
 /// <summary>
 /// Optional: apply an EnemyType ScriptableObject to this GameObject at Start. Sets Health, NavMeshAgent speed,
 /// telegraph/range config, and, if present, MeleeAttack (melee) and RangedAttack (ranged). Ensures EnemySight
-/// and EnemyAttackState exist for telegraphed attacks and line-of-sight.
+/// and EnemyAttackState exist for telegraphed attacks and line-of-sight. Adds EnemyAnimatorDriver so the first
+/// child's Animator MoveSpeed parameter is driven from agent velocity.
 /// </summary>
 public class EnemyTypeApplier : MonoBehaviour
 {
@@ -49,5 +50,8 @@ public class EnemyTypeApplier : MonoBehaviour
                 stopRange = type.RangedAttackRange;
             chase.SetStopWhenInAttackRange(stopRange);
         }
+
+        if (!TryGetComponent(out EnemyAnimatorDriver _))
+            gameObject.AddComponent<EnemyAnimatorDriver>();
     }
 }

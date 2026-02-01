@@ -6,7 +6,7 @@ using UnityEngine;
 /// No walking during attacks; each swing moves the player forward. Dodge (dash) cancels attack and applies cooldown.
 /// Hitbox is instant per swing; Size/AttackSpeed/Cooldown/Damage come from stats and upgrades.
 /// </summary>
-public class LightAttackAbility : PlayerAbility
+public class LightAttackAbility : PlayerAbility, IInputBufferable
 {
     private enum State
     {
@@ -37,12 +37,18 @@ public class LightAttackAbility : PlayerAbility
     [SerializeField] private Vector3 damageMultiplierPerSwing = new Vector3(1f, 1.2f, 1.5f);
 
     [Header("Combo timing (designer)")]
-    [Tooltip("Base duration of each swing (animation time). Actual = base / attackSpeed.")]
+    [Tooltip("Per-swing durations in seconds (X=Attack1, Y=Attack2, Z=Attack3). Set to your clip lengths to align with animation. Actual = value / attackSpeed. Leave at 0 to use Base Swing Duration for all.")]
+    [SerializeField] private Vector3 swingDurations = new Vector3(0.37f, 0.37f, 0.43f);
+    [Tooltip("Fallback duration when Swing Durations are 0 for that swing. Actual = base / attackSpeed.")]
     [SerializeField] private float baseSwingDuration = 0.3f;
-    [Tooltip("Base minimum time before next attack can be input. Actual = base / attackSpeed.")]
-    [SerializeField] private float baseMinTimeBetweenHits = 0.2f;
-    [Tooltip("Max time after a swing to press attack again to continue combo. After this, combo resets (no cooldown). Cooldown only applies after the 3rd swing or dodge cancel.")]
-    [SerializeField] private float comboLinkWindow = 1f;
+    [Tooltip("Base minimum time before next attack can be input. Only used for time-based transition; ignored when using animation events. Actual = base / attackSpeed.")]
+    [SerializeField] private float baseMinTimeBetweenHits = 0.15f;
+    [Tooltip("Max time after a swing to press attack again to continue combo (seconds). After this, combo resets (no cooldown).")]
+    [SerializeField] private float comboLinkWindow = 0.9f;
+
+    [Header("Stats (optional)")]
+    [Tooltip("Leave empty to resolve at runtime via FindFirstObjectByType. Used for crit chance and knockback chance.")]
+    [SerializeField] private PlayerStats playerStats;
 
     [Header("Hitbox (designer)")]
     [Tooltip("Optional. Forward direction for attack (e.g. character model). Otherwise uses player root forward.")]
@@ -61,6 +67,14 @@ public class LightAttackAbility : PlayerAbility
     [Header("Movement (designer)")]
     [Tooltip("Distance to move forward per swing (meters).")]
     [SerializeField] private float forwardStepPerSwing = 0.3f;
+
+    [Header("Attack sprites (optional, 2D)")]
+    [Tooltip("One sprite GameObject per swing (Attack1, Attack2, Attack3). Shown in front of the player during that swing and hidden when the swing ends.")]
+    [SerializeField] private GameObject[] attackSpritePerSwing = new GameObject[3];
+    [Tooltip("Base scale per plane (set in engine, e.g. -1 on X to flip). Final scale = this * Size (upgrades). Leave at (1,1,1) for no flip.")]
+    [SerializeField] private Vector3[] attackPlaneBaseScale = new Vector3[] { Vector3.one, Vector3.one, Vector3.one };
+    [Tooltip("Distance in front of the player to place the sprite when shown (meters).")]
+    [SerializeField] private float spriteShowOffset = 0.6f;
 
     [Header("Debug")]
     [Tooltip("Draw hitbox in Scene view when this object is selected.")]
@@ -81,6 +95,46 @@ public class LightAttackAbility : PlayerAbility
     public float Cooldown => cooldown;
     public float Damage => damage;
 
+    /// <summary>Fired when a swing starts. Argument is combo index 0, 1, or 2 (for Attack1, Attack2, Attack3).</summary>
+    public event System.Action<int> OnSwingStarted;
+
+    /// <summary>
+    /// Call from an Animation Event at the frame where the next attack can start (same GameObject as Animator).
+    /// Parameter: 0 = Attack1 clip ended, 1 = Attack2 ended, 2 = Attack3 ended.
+    /// Opens the combo link window exactly when the event fires for perfect animation sync.
+    /// </summary>
+    public void NotifySwingEndFromAnimation(int comboIndex)
+    {
+        if (comboIndex < 0 || comboIndex > 2) return;
+        bool stateMatches = (state == State.Swing0 && comboIndex == 0) || (state == State.Swing1 && comboIndex == 1) || (state == State.Swing2 && comboIndex == 2);
+        if (!stateMatches) return;
+
+        float now = Time.time;
+        if (state == State.Swing2)
+        {
+            if (enableLogging) Debug.Log("[LightAttack] Combo complete (3/3, from animation). Applying cooldown.");
+            EndComboAndApplyCooldown();
+            return;
+        }
+
+        if (state == State.Swing0)
+        {
+            HideAttackSprite();
+            state = State.BetweenSwings0;
+            nextSwingAllowedAt = now;
+            comboWindowEndTime = now + comboLinkWindow;
+            EventBus.RaisePlayerMovementUnblockRequested(this);
+        }
+        else if (state == State.Swing1)
+        {
+            HideAttackSprite();
+            state = State.BetweenSwings1;
+            nextSwingAllowedAt = now;
+            comboWindowEndTime = now + comboLinkWindow;
+            EventBus.RaisePlayerMovementUnblockRequested(this);
+        }
+    }
+
     /// <summary>Current combo state and timer countdowns for debug (e.g. VoodooDebug).</summary>
     public string GetDebugStatus()
     {
@@ -91,7 +145,8 @@ public class LightAttackAbility : PlayerAbility
         {
             float nextIn = Mathf.Max(0f, nextSwingAllowedAt - now);
             float windowClosesIn = Mathf.Max(0f, comboWindowEndTime - now);
-            return $"[LightAttack] {state} — next in {nextIn:F2}s, window {windowClosesIn:F2}s";
+            string buf = bufferedSwingIndex != -1 ? $" buffered={bufferedSwingIndex + 1}" : "";
+            return $"[LightAttack] {state} — next in {nextIn:F2}s, window {windowClosesIn:F2}s{buf}";
         }
         if (state == State.Idle && cooldownUntil > now)
             return $"[LightAttack] Idle — cooldown {cooldownUntil - now:F2}s";
@@ -103,6 +158,8 @@ public class LightAttackAbility : PlayerAbility
     private float swingEndTime;
     private float nextSwingAllowedAt;
     private float comboWindowEndTime;
+    /// <summary>Buffered next swing index (1 or 2). -1 = none. Only one buffer at a time; cannot buffer attack1 during attack3.</summary>
+    private int bufferedSwingIndex = -1;
 
     private void Reset()
     {
@@ -118,11 +175,31 @@ public class LightAttackAbility : PlayerAbility
     private void OnDisable()
     {
         EventBus.PlayerDashStarted -= OnPlayerDashStarted;
+        bufferedSwingIndex = -1;
+        HideAttackSprite();
         if (state != State.Idle)
         {
             EventBus.RaisePlayerMovementUnblockRequested(this);
             state = State.Idle;
         }
+    }
+
+    public bool TryBufferInput()
+    {
+        if (bufferedSwingIndex != -1) return true;
+        if (state == State.Swing0 || state == State.BetweenSwings0)
+        {
+            bufferedSwingIndex = 1;
+            if (enableLogging) Debug.Log("[LightAttack] Buffered attack2.");
+            return true;
+        }
+        if (state == State.Swing1 || state == State.BetweenSwings1)
+        {
+            bufferedSwingIndex = 2;
+            if (enableLogging) Debug.Log("[LightAttack] Buffered attack3.");
+            return true;
+        }
+        return false;
     }
 
     private void OnPlayerDashStarted(object source)
@@ -192,9 +269,20 @@ public class LightAttackAbility : PlayerAbility
                 break;
             case State.BetweenSwings0:
             case State.BetweenSwings1:
+                if (bufferedSwingIndex != -1 && now >= nextSwingAllowedAt)
+                {
+                    int next = state == State.BetweenSwings0 ? 1 : 2;
+                    if (bufferedSwingIndex == next)
+                    {
+                        int toPerform = bufferedSwingIndex;
+                        bufferedSwingIndex = -1;
+                        StartSwing(toPerform);
+                    }
+                }
                 if (now > comboWindowEndTime)
                 {
                     if (enableLogging) Debug.Log("[LightAttack] Combo link window expired. Resetting (no cooldown).");
+                    bufferedSwingIndex = -1;
                     EndComboWithoutCooldown();
                 }
                 break;
@@ -208,17 +296,60 @@ public class LightAttackAbility : PlayerAbility
         state = comboIndex == 0 ? State.Swing0 : (comboIndex == 1 ? State.Swing1 : State.Swing2);
 
         float speedFactor = Mathf.Max(0.01f, attackSpeed);
-        float swingDuration = baseSwingDuration / speedFactor;
+        float baseDuration = GetBaseSwingDuration(comboIndex);
+        float swingDuration = baseDuration / speedFactor;
         swingEndTime = Time.time + swingDuration;
 
         ApplyHitbox(comboIndex + 1);
         ApplyForwardStep();
         PlaySwingSound(comboIndex);
+        ShowAttackSprite(comboIndex);
+        OnSwingStarted?.Invoke(comboIndex);
         if (enableLogging) Debug.Log($"[LightAttack] Swing {comboIndex + 1}/3 started (duration={swingDuration:F2}s).");
+    }
+
+    private void ShowAttackSprite(int comboIndex)
+    {
+        if (attackSpritePerSwing == null || comboIndex < 0 || comboIndex >= attackSpritePerSwing.Length) return;
+
+        GameObject planeObj = attackSpritePerSwing[comboIndex];
+        if (planeObj == null) return;
+
+        for (int i = 0; i < attackSpritePerSwing.Length; i++)
+        {
+            if (attackSpritePerSwing[i] != null)
+                attackSpritePerSwing[i].SetActive(false);
+        }
+
+        Vector3 forward = GetAttackForward();
+        float sizeFactor = Mathf.Max(0.01f, size);
+        Vector3 baseScale = (attackPlaneBaseScale != null && comboIndex < attackPlaneBaseScale.Length)
+            ? attackPlaneBaseScale[comboIndex]
+            : Vector3.one;
+        planeObj.transform.localScale = Vector3.Scale(baseScale, new Vector3(sizeFactor, sizeFactor, sizeFactor));
+        planeObj.SetActive(true);
+    }
+
+    private void HideAttackSprite()
+    {
+        if (attackSpritePerSwing == null) return;
+        for (int i = 0; i < attackSpritePerSwing.Length; i++)
+        {
+            if (attackSpritePerSwing[i] != null)
+                attackSpritePerSwing[i].SetActive(false);
+        }
+    }
+
+    private float GetBaseSwingDuration(int comboIndex)
+    {
+        float d = comboIndex == 0 ? swingDurations.x : (comboIndex == 1 ? swingDurations.y : swingDurations.z);
+        return d > 0.001f ? d : baseSwingDuration;
     }
 
     private void OnSwingEnd()
     {
+        HideAttackSprite();
+
         float speedFactor = Mathf.Max(0.01f, attackSpeed);
         float minBetween = baseMinTimeBetweenHits / speedFactor;
         float now = Time.time;
@@ -248,14 +379,18 @@ public class LightAttackAbility : PlayerAbility
 
     private void EndComboAndApplyCooldown()
     {
+        bufferedSwingIndex = -1;
         state = State.Idle;
         cooldownUntil = Time.time + Mathf.Max(0f, cooldown);
+        HideAttackSprite();
         EventBus.RaisePlayerMovementUnblockRequested(this);
     }
 
     private void EndComboWithoutCooldown()
     {
+        bufferedSwingIndex = -1;
         state = State.Idle;
+        HideAttackSprite();
         EventBus.RaisePlayerMovementUnblockRequested(this);
     }
 
@@ -267,9 +402,17 @@ public class LightAttackAbility : PlayerAbility
         float mult = GetDamageMultiplierForSwing(swingNumber);
         float damageThisSwing = damage * mult;
 
+        Vector3 effectiveHitboxSize = hitboxSize;
+        if (swingNumber == 3 && attackSpritePerSwing != null && attackSpritePerSwing.Length > 2 && attackSpritePerSwing[2] != null)
+        {
+            Vector3 lastAttackSpriteSize = GetLastAttackSpriteWorldSize();
+            if (lastAttackSpriteSize.sqrMagnitude > 0.0001f)
+                effectiveHitboxSize = lastAttackSpriteSize;
+        }
+
         if (hitboxShape == HitboxShape.Sphere)
         {
-            float radius = (hitboxSize.x + hitboxSize.y + hitboxSize.z) / 3f * scale;
+            float radius = (effectiveHitboxSize.x + effectiveHitboxSize.y + effectiveHitboxSize.z) / 3f * scale;
             Collider[] overlaps = Physics.OverlapSphere(origin, radius, damageableLayers);
             Collider[] hits = FilterToFrontHalfSphere(overlaps, origin, forward);
             int damagedCount = DamageTargets(hits, damageThisSwing);
@@ -277,12 +420,28 @@ public class LightAttackAbility : PlayerAbility
         }
         else
         {
-            Vector3 halfExtents = Vector3.Scale(hitboxSize, new Vector3(scale, scale, scale)) * 0.5f;
+            Vector3 halfExtents = Vector3.Scale(effectiveHitboxSize, new Vector3(scale, scale, scale)) * 0.5f;
             Quaternion orientation = Quaternion.LookRotation(forward);
             Collider[] hits = Physics.OverlapBox(origin, halfExtents, orientation, damageableLayers);
             int damagedCount = DamageTargets(hits, damageThisSwing);
             if (enableLogging) Debug.Log($"[LightAttack] Swing {swingNumber} hitbox (box): {hits?.Length ?? 0} overlaps, {damagedCount} damaged.");
         }
+    }
+
+    /// <summary>Returns the third attack sprite's size at scale 1 (used to match last-attack hitbox to the plane). Size upgrade is applied in ApplyHitbox.</summary>
+    private Vector3 GetLastAttackSpriteWorldSize()
+    {
+        if (attackSpritePerSwing == null || attackSpritePerSwing.Length <= 2 || attackSpritePerSwing[2] == null)
+            return Vector3.zero;
+
+        var sr = attackSpritePerSwing[2].GetComponent<SpriteRenderer>();
+        if (sr != null && sr.sprite != null)
+        {
+            Vector3 localSize = sr.sprite.bounds.size;
+            return new Vector3(Mathf.Abs(localSize.x), Mathf.Abs(localSize.y), Mathf.Abs(localSize.z));
+        }
+
+        return Vector3.zero;
     }
 
     private float GetDamageMultiplierForSwing(int swingNumber)
@@ -299,6 +458,7 @@ public class LightAttackAbility : PlayerAbility
 
         Transform playerT = PlayerTransform;
         HashSet<Health> damaged = new HashSet<Health>();
+        PlayerStats stats = GetPlayerStats();
 
         foreach (Collider c in hits)
         {
@@ -309,14 +469,30 @@ public class LightAttackAbility : PlayerAbility
             var health = c.GetComponentInParent<Health>();
             if (health == null || health.IsDead || damaged.Contains(health)) continue;
 
-            health.TakeDamage(damageAmount, PlayerTransform.position, 1f);
+            float finalDamage = damageAmount;
+            bool isCrit = false;
+            if (stats != null && stats.RollCrit())
+            {
+                isCrit = true;
+                finalDamage *= stats.CritDamageMultiplier;
+                Debug.Log($"[LightAttack] Crit! {c.gameObject.name} for {finalDamage} damage (base {damageAmount}).");
+            }
+
+            float knockbackForce = stats != null ? stats.KnockbackForce : 1f;
+            health.TakeDamage(finalDamage, PlayerTransform.position, knockbackForce);
             damaged.Add(health);
-            if (enableLogging) Debug.Log($"[LightAttack] Hit {c.gameObject.name} for {damageAmount} damage.");
+            if (enableLogging && !isCrit) Debug.Log($"[LightAttack] Hit {c.gameObject.name} for {finalDamage} damage.");
             if (fmodOnHit != null && !fmodOnHit.IsNull && AudioService.Instance != null)
                 AudioService.Instance.PlayOneShot(fmodOnHit, c.ClosestPoint(GetHitboxOrigin()));
         }
 
         return damaged.Count;
+    }
+
+    private PlayerStats GetPlayerStats()
+    {
+        if (playerStats != null) return playerStats;
+        return FindFirstObjectByType<PlayerStats>();
     }
 
     /// <summary>For sphere hitbox: only colliders in the front half of the sphere (in front of the player) are considered.</summary>

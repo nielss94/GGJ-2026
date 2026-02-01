@@ -132,9 +132,15 @@ public class PlayerAbilityManager : MonoBehaviour
         else if (context.action == abilityActionX) ability = abilitySlotX;
         else if (context.action == abilityActionY) ability = abilitySlotY;
 
-        if (ability != null && ability.CanPerform)
+        if (ability == null) return;
+
+        if (ability.CanPerform)
         {
             ability.TryPerform();
+        }
+        else if (ability is IInputBufferable bufferable)
+        {
+            bufferable.TryBufferInput();
         }
     }
 

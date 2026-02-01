@@ -58,17 +58,20 @@ public class MaskAttachmentReceiver : MonoBehaviour
         list.Add(item.transform);
         attachedCountByType[type] = list.Count;
 
-        // Parent under mask
-        item.transform.SetParent(Mask, worldPositionStays: true);
-
         Quaternion rotationBeforePlace = item.transform.rotation;
 
         if (TryGetSplineSetup(type, out var spline))
         {
+            // Parent under spline container so feathers move with the spline (e.g. when using SplineFollowTarget)
+            Transform parent = spline.SplineTransform != null ? spline.SplineTransform : Mask;
+            item.transform.SetParent(parent, worldPositionStays: true);
             RedistributeSpline(type, spline);
             item.AnimateSettleRotation(rotationBeforePlace, item.SettleRotationDuration);
             return;
         }
+
+        // Parent under mask for non-spline attachments
+        item.transform.SetParent(Mask, worldPositionStays: true);
 
         if (TryGetSlotSetup(type, out var slot))
         {
