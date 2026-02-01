@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1661549980431515256}
   - component: {fileID: 2109630837164965815}
   - component: {fileID: 6888901487318474834}
+  - component: {fileID: 5375409414251164852}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -130,7 +131,7 @@ MonoBehaviour:
   m_AffectSpecular: 1
   m_NonLightmappedOnly: 0
   m_ShapeRadius: 1.5
-  m_SoftnessScale: 0.75
+  m_SoftnessScale: 0.25
   m_UseCustomSpotLightShadowCone: 0
   m_CustomSpotLightShadowCone: 30
   m_MaxSmoothness: 0.99
@@ -240,6 +241,24 @@ MonoBehaviour:
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
   m_ObsoleteContactShadows: 0
+--- !u!114 &5375409414251164852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8926662139427872798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5d7b9889ae42941bcdf892487656bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OilLampFlicker
+  flickerSpeed: 2
+  flickerAmount: 0.25
+  randomJitter: 0.05
+  swayAmount: 0
+  swaySpeed: 2.2
+  swayChaos: 0.3
 --- !u!1001 &3713177317643060196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -250,15 +269,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.48
+      value: 5.17
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.05
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.11
+      value: -4.79
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
       propertyPath: m_LocalRotation.w
