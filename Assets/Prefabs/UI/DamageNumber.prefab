@@ -153,7 +153,7 @@ MonoBehaviour:
   text: {fileID: 2000004}
   canvasGroup: {fileID: 0}
   billboardCamera: {fileID: 0}
-  floatHeight: 2.25
+  floatHeight: 2
   duration: 0.75
   moveEase: 4
   fadeEase: 2
