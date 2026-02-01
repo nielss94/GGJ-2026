@@ -2,9 +2,8 @@ name: Unity Build Pipeline
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    tags:
+      - '*'
 
 jobs:
   build:
