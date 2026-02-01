@@ -85,6 +85,16 @@ public static class EventBus
 
     public static void RaiseUpgradeChosen(UpgradeOffer offer) => UpgradeChosen?.Invoke(offer);
 
+    /// <summary>Raised when a menu is shown (pause, death screen, upgrade panel). Subscribers (e.g. Health FMOD) can pause gameplay audio. Use ref count: Paused increments, Resumed decrements.</summary>
+    public static event Action GameplayPaused;
+
+    /// <summary>Raised when a menu is hidden. Pair with GameplayPaused for ref counting.</summary>
+    public static event Action GameplayResumed;
+
+    public static void RaiseGameplayPaused() => GameplayPaused?.Invoke();
+
+    public static void RaiseGameplayResumed() => GameplayResumed?.Invoke();
+
     /// <summary>Raised when a non-player Health dies (e.g. encounter enemy). For audio, VFX, UI.</summary>
     public static event Action EnemyDied;
 

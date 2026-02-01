@@ -334,6 +334,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   damageTag: Player
+  fmodAttack: {fileID: 11400000, guid: 75e31830c3cdbeb408aa267d9303a3c5, type: 2}
   onTelegraphStarted:
     m_PersistentCalls:
       m_Calls:

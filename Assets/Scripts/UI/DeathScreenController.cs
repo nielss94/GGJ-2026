@@ -56,6 +56,9 @@ public class DeathScreenController : MonoBehaviour
             StartCoroutine(SelectNextFrame());
     }
 
+    /// <summary>True if the death screen container is currently visible.</summary>
+    public bool IsVisible => container != null && container.activeSelf;
+
     /// <summary>Called by UIManager to show or hide the death screen container. Enables/disables the container child.</summary>
     public void SetVisible(bool visible)
     {

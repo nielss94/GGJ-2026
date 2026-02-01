@@ -58,6 +58,7 @@ public class UpgradePanel : MonoBehaviour
     {
         hasChosen = false;
         gameObject.SetActive(true);
+        EventBus.RaiseGameplayPaused();
         EventBus.RaisePlayerInputBlockRequested(this);
         PlayOpenSound();
         SpawnCards();
@@ -66,6 +67,7 @@ public class UpgradePanel : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
+        EventBus.RaiseGameplayResumed();
         EventBus.RaisePlayerInputUnblockRequested(this);
         UnsubscribeAndClearCards();
     }

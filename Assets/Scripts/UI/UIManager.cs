@@ -116,7 +116,16 @@ public class UIManager : MonoBehaviour
     private void SetDeathPanelActive(bool active)
     {
         if (deathPanel != null && deathPanel.TryGetComponent(out DeathScreenController controller))
+        {
+            if (controller.IsVisible != active)
+            {
+                if (active)
+                    EventBus.RaiseGameplayPaused();
+                else
+                    EventBus.RaiseGameplayResumed();
+            }
             controller.SetVisible(active);
+        }
     }
 
     public void ShowPauseMenu()
@@ -124,6 +133,7 @@ public class UIManager : MonoBehaviour
         if (pausePanel != null)
         {
             pausePanel.SetActive(true);
+            EventBus.RaiseGameplayPaused();
             EventBus.RaisePlayerInputBlockRequested(this);
         }
     }
@@ -133,6 +143,7 @@ public class UIManager : MonoBehaviour
         if (pausePanel != null)
         {
             pausePanel.SetActive(false);
+            EventBus.RaiseGameplayResumed();
             EventBus.RaisePlayerInputUnblockRequested(this);
         }
     }
@@ -155,9 +166,15 @@ public class UIManager : MonoBehaviour
         bool willShow = !pausePanel.activeSelf;
         pausePanel.SetActive(willShow);
         if (willShow)
+        {
+            EventBus.RaiseGameplayPaused();
             EventBus.RaisePlayerInputBlockRequested(this);
+        }
         else
+        {
+            EventBus.RaiseGameplayResumed();
             EventBus.RaisePlayerInputUnblockRequested(this);
+        }
     }
 
     private static void SetPanelActive(GameObject panel, bool active)

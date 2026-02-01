@@ -42,6 +42,10 @@ public class MeleeAttack : MonoBehaviour
     [Tooltip("If set, only objects with this tag are damaged (e.g. Player).")]
     [SerializeField] private string damageTag = "Player";
 
+    [Header("Audio")]
+    [Tooltip("Optional FMOD event played when the attack starts (same moment as attack animation).")]
+    [SerializeField] private FmodEventAsset fmodAttack;
+
     [Header("Telegraph events")]
     [SerializeField] private UnityEvent onTelegraphStarted;
     [SerializeField] private UnityEvent onTelegraphEnded;
@@ -140,6 +144,8 @@ public class MeleeAttack : MonoBehaviour
                     stateEndTime = Time.time + attackActiveDuration;
                     onAttackWindowOpened?.Invoke();
                     animatorDriver?.SetAttackTrigger();
+                    if (fmodAttack != null && AudioService.Instance != null)
+                        AudioService.Instance.PlayOneShot(fmodAttack, transform.position);
                 }
                 break;
 
