@@ -149,7 +149,7 @@ public class DroppableItem : MonoBehaviour
     {
         foreach (var ps in GetComponentsInChildren<ParticleSystem>())
         {
-            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            Destroy(ps.gameObject);
         }
 
         if (targetManager != null)
