@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CritChance
   m_EditorClassIdentifier: Assembly-CSharp::StatUpgradeDefinition
   displayName: Crit Chance
-  description: Chance to deal critical damage (double damage).
+  description: Increase critical hit chance.
   statId: {fileID: 11400000, guid: a1b2c3d4e5f61728394a5b6c7d8e9f01, type: 2}
   curve:
     serializedVersion: 2
