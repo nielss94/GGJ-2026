@@ -819,6 +819,14 @@ PrefabInstance:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 79575681}
+    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
+      propertyPath: levelVariations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
+      propertyPath: 'levelVariations.Array.data[0]'
+      value: Level_02
+      objectReference: {fileID: 0}
     - target: {fileID: 3881695909100255512, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
       propertyPath: m_Name
       value: GameRoot
