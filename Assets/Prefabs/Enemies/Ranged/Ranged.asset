@@ -23,7 +23,7 @@ MonoBehaviour:
   meleeAttackActiveDuration: 0.25
   rangedDamage: 8
   rangedFireInterval: 3
-  rangedProjectileSpeed: 8
+  rangedProjectileSpeed: 5
   rangedAttackRange: 12
   rangedTelegraphDuration: 0.5
   armored: 0
