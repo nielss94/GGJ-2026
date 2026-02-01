@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// ScriptableObject defining shared stats for an enemy type. Assign to prefabs for consistent tuning
 /// (e.g. "Goblin", "Orc"). EnemyTypeApplier applies base stats and, if present, melee/ranged stats to
-/// ContactDamage and RangedAttack. Attack style (hitscan vs projectile, prefab) stays on the component.
+/// MeleeAttack and RangedAttack. Attack style (hitscan vs projectile, prefab) stays on the component.
 /// </summary>
 [CreateAssetMenu(fileName = "EnemyType", menuName = "GGJ-2026/Enemy Type", order = 0)]
 public class EnemyType : ScriptableObject
@@ -17,8 +17,8 @@ public class EnemyType : ScriptableObject
     [SerializeField] private float maxHealth = 50f;
     [SerializeField] private float moveSpeed = 3.5f;
 
-    [Header("Melee (ContactDamage)")]
-    [Tooltip("Applied if the prefab has ContactDamage.")]
+    [Header("Melee (MeleeAttack)")]
+    [Tooltip("Applied if the prefab has MeleeAttack.")]
     [SerializeField] private float contactDamage = 10f;
     [SerializeField] private float contactCooldown = 1f;
     [Tooltip("Distance at which melee attack is valid. Enemy stops moving when in range with LOS.")]

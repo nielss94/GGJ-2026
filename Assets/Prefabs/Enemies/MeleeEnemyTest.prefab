@@ -133,6 +133,9 @@ GameObject:
   - component: {fileID: 6271211890732130023}
   - component: {fileID: -4598927087755072705}
   - component: {fileID: 314939295844022831}
+  - component: {fileID: 8812460241649811547}
+  - component: {fileID: 2329270247828542848}
+  - component: {fileID: -3791649489230799970}
   m_Layer: 7
   m_Name: MeleeEnemyTest
   m_TagString: Untagged
@@ -155,6 +158,8 @@ Transform:
   m_Children:
   - {fileID: 8432035619079212598}
   - {fileID: 1085426406673642128}
+  - {fileID: 8776257840497219988}
+  - {fileID: 3919389595707376658}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-22709031785708111
@@ -248,18 +253,85 @@ MonoBehaviour:
   m_GameObject: {fileID: 5233339675524473751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e21d8da80c8bd7c4d89bb3d2feee03f5, type: 3}
+  m_Script: {fileID: 11500000, guid: f7e8f901a2b3c4d5e6f70819293a4b5c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ContactDamage
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
   damage: 10
   cooldown: 1
   attackRange: 1.8
   telegraphDuration: 0.4
   attackActiveDuration: 0.25
+  hitZoneShape: 0
+  hitZoneOffset: 0.9
+  hitZoneHeightOffset: 0.3
+  hitZoneRadius: 0.8
+  hitZoneHalfExtents: {x: 0.5, y: 0.5, z: 0.5}
+  drawGizmos: 0
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  damageTag: Player
   onTelegraphStarted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8812460241649811547}
+        m_TargetAssemblyTypeName: MeleeTelegraphDecal, Assembly-CSharp
+        m_MethodName: ShowTelegraph
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onTelegraphEnded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8812460241649811547}
+        m_TargetAssemblyTypeName: MeleeTelegraphDecal, Assembly-CSharp
+        m_MethodName: HideTelegraph
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onAttackWindowOpened:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8812460241649811547}
+        m_TargetAssemblyTypeName: MeleeTelegraphDecal, Assembly-CSharp
+        m_MethodName: ShowAttackWindow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onAttackWindowEnded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8812460241649811547}
+        m_TargetAssemblyTypeName: MeleeTelegraphDecal, Assembly-CSharp
+        m_MethodName: HideAttackWindow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHit:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &-2296621646114750256
@@ -334,6 +406,145 @@ MonoBehaviour:
   blockLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8812460241649811547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5233339675524473751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d4e5f60718293a4b5c6d7e8f901a2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeTelegraphDecal
+  telegraphVisual: {fileID: 6662106935207587811}
+  telegraphRenderer: {fileID: 0}
+  attackWindowVisual: {fileID: 5926156491418015899}
+  attackWindowRenderer: {fileID: 0}
+  decalSizeOverride: 0
+  flatOnGround: 1
+  groundOffset: 0.02
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  decalProjectionDepth: 1
+--- !u!114 &2329270247828542848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5233339675524473751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50f99879de6bf4224bb22a4a86330886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlash
+  flashDuration: 0.08
+  colorPropertyName: _BaseColor
+  renderers: []
+--- !u!114 &-3791649489230799970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5233339675524473751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bad83f428aff4fc2874cf4cfa8614da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KnockbackReceiver
+  baseKnockbackDistance: 4
+  referenceMaxHealth: 100
+  knockbackDuration: 0.2
+  knockbackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!1 &5926156491418015899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3919389595707376658}
+  - component: {fileID: 8214513991736427031}
+  m_Layer: 7
+  m_Name: TelegraphDecal2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3919389595707376658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5926156491418015899}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4530325506260033812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8214513991736427031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5926156491418015899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.DecalProjector
+  m_Material: {fileID: 2100000, guid: c546c26aa56a3457cbb2c175c4658c47, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_TransparentTextureResolution:
+    m_Override: 256
+    m_UseOverride: 1
+    m_Level: 0
+  m_DecalLayerMask: 1
+  m_ScaleMode: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_FadeFactor: 1
+  m_Version: 3
 --- !u!1 &6290256332954324988
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,6 +659,68 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &6662106935207587811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8776257840497219988}
+  - component: {fileID: 1759183720713538908}
+  m_Layer: 7
+  m_Name: TelegraphDecal1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8776257840497219988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6662106935207587811}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4530325506260033812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1759183720713538908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6662106935207587811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.DecalProjector
+  m_Material: {fileID: 2100000, guid: 6d6d37634d7024edc8efd58fa297f8b1, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_TransparentTextureResolution:
+    m_Override: 256
+    m_UseOverride: 1
+    m_Level: 0
+  m_DecalLayerMask: 1
+  m_ScaleMode: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_FadeFactor: 1
+  m_Version: 3
 --- !u!1 &8107567103952975080
 GameObject:
   m_ObjectHideFlags: 0
