@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyType
   displayName: Ranged
   powerCost: 3
-  maxHealth: 40
+  maxHealth: 22
   moveSpeed: 3.5
   contactDamage: 10
   contactCooldown: 3
   meleeAttackRange: 1.8
   meleeTelegraphDuration: 0.4
   meleeAttackActiveDuration: 0.25
-  rangedDamage: 18
+  rangedDamage: 8
   rangedFireInterval: 3
   rangedProjectileSpeed: 8
   rangedAttackRange: 12
