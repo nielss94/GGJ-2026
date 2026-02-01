@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &998752054707506925
+--- !u!1 &8926662139427872798
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1097504467971796184}
-  - component: {fileID: 6904797437342258846}
-  - component: {fileID: 8453023806269858816}
-  - component: {fileID: 7754348942025454668}
+  - component: {fileID: 1661549980431515256}
+  - component: {fileID: 2109630837164965815}
+  - component: {fileID: 6888901487318474834}
   m_Layer: 0
-  m_Name: Ceiling Chandelier Point Light
+  m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1097504467971796184
+--- !u!4 &1661549980431515256
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998752054707506925}
+  m_GameObject: {fileID: 8926662139427872798}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.56, y: 8.76, z: 7.02}
+  m_LocalPosition: {x: 0, y: -7.294, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 3750762253295182863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &6904797437342258846
+--- !u!108 &2109630837164965815
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998752054707506925}
+  m_GameObject: {fileID: 8926662139427872798}
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 2
@@ -88,24 +87,24 @@ Light:
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 3500
+  m_ColorTemperature: 3550
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 5.13e-43, y: -0.008029044, z: 5.2e-43, w: -0.00008994184}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 1
+  m_ShadowRadius: 1.5
   m_ShadowAngle: 0
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &8453023806269858816
+--- !u!114 &6888901487318474834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998752054707506925}
+  m_GameObject: {fileID: 8926662139427872798}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
@@ -130,8 +129,8 @@ MonoBehaviour:
   m_AffectDiffuse: 1
   m_AffectSpecular: 1
   m_NonLightmappedOnly: 0
-  m_ShapeRadius: 1
-  m_SoftnessScale: 1
+  m_ShapeRadius: 1.5
+  m_SoftnessScale: 0.75
   m_UseCustomSpotLightShadowCone: 0
   m_CustomSpotLightShadowCone: 30
   m_MaxSmoothness: 0.99
@@ -178,7 +177,7 @@ MonoBehaviour:
   m_EvsmBlurPasses: 0
   m_LightlayersMask: 1
   m_LinkShadowLayers: 1
-  m_ShadowNearPlane: 0.1
+  m_ShadowNearPlane: 0.52
   m_BlockerSampleCount: 24
   m_FilterSampleCount: 16
   m_MinFilterSize: 0.1
@@ -241,21 +240,95 @@ MonoBehaviour:
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
   m_ObsoleteContactShadows: 0
---- !u!114 &7754348942025454668
+--- !u!1001 &3713177317643060196
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -15.301629
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.387
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.812
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000021855694
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: df50f026062067d459c4c2c932533649, type: 2}
+    - target: {fileID: 919132149155446097, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      propertyPath: m_Name
+      value: Ceiling Chandelier Point Light
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1661549980431515256}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5790331857288128946}
+  m_SourcePrefab: {fileID: 100100000, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+--- !u!4 &3750762253295182863 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+  m_PrefabInstance: {fileID: 3713177317643060196}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4559528250093223605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a0a262865073b7640b2e2e479a41f706, type: 3}
+  m_PrefabInstance: {fileID: 3713177317643060196}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5790331857288128946
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998752054707506925}
+  m_GameObject: {fileID: 4559528250093223605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc5d7b9889ae42941bcdf892487656bf, type: 3}
+  m_Script: {fileID: 11500000, guid: ccaf9892df0fea64dbea943058d78dc5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OilLampFlicker
-  flickerSpeed: 2
-  flickerAmount: 0.7
-  randomJitter: 0.1
-  swayAmount: 1
-  swaySpeed: 1
-  swayChaos: 0.3
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectSway
+  swayAmount: 5
+  swaySpeed: 0.2
+  swayChaos: 1
