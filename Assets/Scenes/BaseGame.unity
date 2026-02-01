@@ -1124,6 +1124,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4980655234546001203, guid: 53bacf518e055cc4e88557bd64f0e417, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6309914519692546297, guid: 53bacf518e055cc4e88557bd64f0e417, type: 3}
       propertyPath: m_Name
       value: DeathPanel
