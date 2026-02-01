@@ -4733,7 +4733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16
+      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4741,23 +4741,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -28.550001
+      value: -25.550001
       objectReference: {fileID: 0}
     - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8535535
+      value: 0.82860243
       objectReference: {fileID: 0}
     - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.35355338
+      value: 0.4086214
       objectReference: {fileID: 0}
     - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.35355338
+      value: 0.34321833
       objectReference: {fileID: 0}
     - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.1464466
+      value: -0.16925652
       objectReference: {fileID: 0}
     - target: {fileID: 4580953000672792337, guid: c2707eff33e18374e92e7d5cb91a9904, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8456,7 +8456,7 @@ MonoBehaviour:
   - {fileID: 1507340799}
   - {fileID: 1841587577}
   spawnDuringLevel: 1
-  spawnInterval: 5
+  spawnInterval: 1.5
   fmodEncounterComplete: {fileID: 0}
 --- !u!4 &1732628209
 Transform:
