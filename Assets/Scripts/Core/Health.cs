@@ -1,4 +1,5 @@
 using System;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -30,6 +31,10 @@ public class Health : MonoBehaviour
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private bool isPlayer;
 
+    [Header("FMOD (player only)")]
+    [Tooltip("Optional FMOD event played on Start when this is the player. Has a 'health' parameter (0–1).")]
+    [SerializeField] private FmodEventAsset healthMusicEvent;
+
     [Header("Events")]
     [SerializeField] private UnityEvent onDeath;
 
@@ -42,6 +47,8 @@ public class Health : MonoBehaviour
 
     private float currentHealth;
     private bool isDead;
+    private EventInstance healthMusicInstance;
+    private const string HealthParamName = "health";
 
     public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
@@ -72,7 +79,40 @@ public class Health : MonoBehaviour
     private void OnDisable()
     {
         if (IsPlayer)
+        {
             EventBus.ClearPlayerHealthProvider();
+            StopAndReleaseHealthMusic();
+        }
+    }
+
+    private void Start()
+    {
+        if (IsPlayer && healthMusicEvent != null && !healthMusicEvent.IsNull)
+            StartHealthMusic();
+    }
+
+    private void StartHealthMusic()
+    {
+        if (!FMODUnity.RuntimeManager.IsInitialized) return;
+        healthMusicInstance = FMODUnity.RuntimeManager.CreateInstance(healthMusicEvent.EventReference);
+        if (!healthMusicInstance.isValid()) return;
+        UpdateHealthMusicParameter();
+        healthMusicInstance.start();
+    }
+
+    private void UpdateHealthMusicParameter()
+    {
+        if (!healthMusicInstance.isValid()) return;
+        float t = maxHealth > 0f ? Mathf.Clamp01(currentHealth / maxHealth) : 0f;
+        healthMusicInstance.setParameterByName(HealthParamName, t);
+    }
+
+    private void StopAndReleaseHealthMusic()
+    {
+        if (!healthMusicInstance.isValid()) return;
+        healthMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        healthMusicInstance.release();
+        healthMusicInstance.clearHandle();
     }
 
     /// <summary>
@@ -95,7 +135,10 @@ public class Health : MonoBehaviour
         var info = new DamageInfo(amount, knockbackSourcePosition, knockbackMultiplier);
         Damaged?.Invoke(info);
         if (IsPlayer)
+        {
             EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
+            UpdateHealthMusicParameter();
+        }
         // Treat zero or near-zero as death (avoids floating-point edge cases)
         if (currentHealth <= 0f || currentHealth < 0.001f)
         {
@@ -130,7 +173,10 @@ public class Health : MonoBehaviour
         if (isDead || amount <= 0f) return;
         currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
         if (IsPlayer)
+        {
             EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
+            UpdateHealthMusicParameter();
+        }
     }
 
     /// <summary>
@@ -142,6 +188,9 @@ public class Health : MonoBehaviour
         isDead = false;
         currentHealth = maxHealth;
         if (IsPlayer)
+        {
             EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
+            UpdateHealthMusicParameter();
+        }
     }
 }

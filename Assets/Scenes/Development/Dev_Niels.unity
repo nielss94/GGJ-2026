@@ -3404,11 +3404,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812836613}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &826873333 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3761131184560597000, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
-  m_PrefabInstance: {fileID: 1871054114}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &836276925
 GameObject:
   m_ObjectHideFlags: 0
@@ -9655,17 +9650,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6625419317496930953, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
-      propertyPath: flyToTarget
-      value: 
-      objectReference: {fileID: 826873333}
     - target: {fileID: 8045543100017386537, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8045543100017386537, guid: a54aa81f7805f4e098bcc2e3e8ab8320, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10447,6 +10434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 1
   isPlayer: 0
+  healthMusicEvent: {fileID: 0}
   onDeath:
     m_PersistentCalls:
       m_Calls: []

@@ -919,7 +919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1147164317180401782
 Transform:
   m_ObjectHideFlags: 0
@@ -1048,6 +1048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
   isPlayer: 1
+  healthMusicEvent: {fileID: 11400000, guid: adb778e739cbb044291bb7434ca1e036, type: 2}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -1445,7 +1446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MaskAttachmentReceiver
   maskTransform: {fileID: 4957499016491780412}
-  flyToTarget: {fileID: 0}
+  flyToTarget: {fileID: 3761131184560597000}
   flyToHeightOffset: 1
   splineSetups:
   - dropType: {fileID: 11400000, guid: 998b74f2fd66d4cccbb2b37b0a9aec93, type: 2}
