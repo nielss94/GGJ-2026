@@ -26,6 +26,10 @@ public class MainMenu : MonoBehaviour
 
     public void OnStartGameClicked()
     {
+        if (RunStats.Instance != null)
+            RunStats.Instance.ResetRun();
+        if (LevelProgressionManager.Instance != null)
+            LevelProgressionManager.Instance.ResetPlayerForNewRun();
         if (UIManager.Instance != null)
             UIManager.Instance.ShowGameHUD();
         if (LevelProgressionManager.Instance != null)
