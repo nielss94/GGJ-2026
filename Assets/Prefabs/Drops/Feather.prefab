@@ -138,12 +138,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DroppableItem
   dropAnimDuration: 0.35
   spawnScale: 0.3
-  bounceHeight: 0.4
-  flySpeed: 5
-  slowDownDistance: 2
-  attachDistance: 0.05
+  bounceHeight: 1
+  flySpeed: 3
+  slowDownDistance: 1
+  attachDistance: 2
+  arcHeight: 4
   settleRotationDuration: 0.6
-  settleRotationEase: 6
+  settleRotationEase: 1
 --- !u!1001 &1510688714585737214
 PrefabInstance:
   m_ObjectHideFlags: 0

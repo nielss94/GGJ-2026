@@ -94,4 +94,16 @@ public static class EventBus
     public static event Action LevelComplete;
 
     public static void RaiseLevelComplete() => LevelComplete?.Invoke();
+
+    /// <summary>Raised when the player uses the ultimate ability (blast wave). For VFX, audio, etc.</summary>
+    public static event Action UltimateUsed;
+
+    public static void RaiseUltimateUsed() => UltimateUsed?.Invoke();
+
+    /// <summary>Optional: set by UltimateAbility so UI/glow can read charge without a direct reference. Returns (current drops, required drops).</summary>
+    public static Func<(int current, int required)> GetUltimateCharge;
+
+    public static void SetUltimateChargeProvider(Func<(int current, int required)> provider) => GetUltimateCharge = provider;
+
+    public static void ClearUltimateChargeProvider() => GetUltimateCharge = null;
 }
