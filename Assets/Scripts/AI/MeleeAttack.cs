@@ -57,6 +57,9 @@ public class MeleeAttack : MonoBehaviour
     /// <summary>Current melee attack range (for movement/decals).</summary>
     public float AttackRange => attackRange;
 
+    /// <summary>Duration of the telegraph/channel phase (for decal wind-up).</summary>
+    public float TelegraphDuration => telegraphDuration;
+
     /// <summary>Hit zone center in world (for decal placement).</summary>
     public Vector3 HitZoneCenterWorld => GetHitZoneCenterWorld();
 

@@ -28,6 +28,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _COLORMAP
   - _MATERIAL_AFFECTS_ALBEDO
   - _MATERIAL_AFFECTS_MASKMAP
   - _MATERIAL_AFFECTS_NORMAL
@@ -37,15 +38,13 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
   stringTagMap: {}
-  disabledShaderPasses:
-  - DecalMeshForwardEmissive
-  - DecalProjectorForwardEmissive
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseColorMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7bafc38843f10c04c87b37817543c611, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveColorMap:
@@ -67,7 +66,7 @@ Material:
     - _AORemapMin: 0
     - _AffectAO: 0
     - _AffectAlbedo: 1
-    - _AffectEmission: 0
+    - _AffectEmission: 1
     - _AffectMetal: 1
     - _AffectNormal: 1
     - _AffectSmoothness: 1
@@ -84,7 +83,7 @@ Material:
     - _DecalStencilWriteMask: 16
     - _DrawOrder: 0
     - _EmissiveExposureWeight: 1
-    - _EmissiveIntensity: 1
+    - _EmissiveIntensity: 2
     - _EmissiveIntensityUnit: 0
     - _MaskBlendSrc: 1
     - _Metallic: 0
@@ -95,11 +94,11 @@ Material:
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
     - _Unity_Identify_HDRP_Decal: 1
-    - _UseEmissiveIntensity: 0
+    - _UseEmissiveIntensity: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissiveColor: {r: 1.0014949, g: 0.035775356, b: 0.035775356, a: 2}
     - _EmissiveColorHDR: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissiveColorLDR: {r: 0.735849, g: 0.14231041, b: 0.14231041, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -350,6 +350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
   isPlayer: 0
+  healthMusicEvent: {fileID: 0}
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -422,8 +423,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeTelegraphDecal
   telegraphVisual: {fileID: 6662106935207587811}
   telegraphRenderer: {fileID: 0}
-  attackWindowVisual: {fileID: 5926156491418015899}
-  attackWindowRenderer: {fileID: 0}
+  telegraphWindUpVisual: {fileID: 5926156491418015899}
+  telegraphWindUpRenderer: {fileID: 0}
+  windUpStartScale: 0.05
   decalSizeOverride: 0
   flatOnGround: 1
   groundOffset: 0.02
