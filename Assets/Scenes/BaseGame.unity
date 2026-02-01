@@ -627,13 +627,32 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1092417050}
+<<<<<<< HEAD
+=======
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8858a428a36e6e24f98be6ae030a51e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputBlockerDebugUI
+--- !u!114 &1092417054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092417050}
+>>>>>>> origin
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c38d5609fafe2ff449fa742297b1a50a, type: 3}
   m_Name: 
+<<<<<<< HEAD
   m_EditorClassIdentifier: Assembly-CSharp::FillUltimateDebug
   triggerKeyEnabled: 1
   triggerKey: 35
+=======
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementDebugCheck
+>>>>>>> origin
 --- !u!1 &1164690926
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,6 +856,14 @@ PrefabInstance:
     - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
       propertyPath: 'levelVariations.Array.data[0]'
       value: Level_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
+      propertyPath: 'levelVariations.Array.data[2]'
+      value: Level_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854384679118469754, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
+      propertyPath: 'levelVariations.Array.data[3]'
+      value: Level_04
       objectReference: {fileID: 0}
     - target: {fileID: 3881695909100255512, guid: 8ad798f6d2bbf411ea85640b12788911, type: 3}
       propertyPath: m_Name

@@ -505,8 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitFlash
   flashDuration: 0.08
-  flashEmissionNits: 100
-  emissionIntensityPropertyName: _EmissiveIntensity
+  flashEmissionNits: 3
   renderers: []
 --- !u!114 &-7285485811345475363
 MonoBehaviour:

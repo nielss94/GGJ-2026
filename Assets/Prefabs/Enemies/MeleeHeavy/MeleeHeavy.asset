@@ -26,3 +26,4 @@ MonoBehaviour:
   rangedProjectileSpeed: 12
   rangedAttackRange: 15
   rangedTelegraphDuration: 0.3
+  armored: 1

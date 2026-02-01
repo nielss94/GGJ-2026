@@ -479,11 +479,19 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
             }
 
             float knockbackForce = stats != null ? stats.KnockbackForce : 1f;
+            bool willDie = health.CurrentHealth <= finalDamage;
             health.TakeDamage(finalDamage, PlayerTransform.position, knockbackForce);
             damaged.Add(health);
             if (enableLogging && !isCrit) Debug.Log($"[LightAttack] Hit {c.gameObject.name} for {finalDamage} damage.");
             if (fmodOnHit != null && !fmodOnHit.IsNull && AudioService.Instance != null)
-                AudioService.Instance.PlayOneShot(fmodOnHit, c.ClosestPoint(GetHitboxOrigin()));
+            {
+                var applier = c.GetComponentInParent<EnemyTypeApplier>();
+                var enemyType = applier != null ? applier.Type : null;
+                string enemyHittype = willDie ? "enemy_dies" : (enemyType != null && enemyType.Armored ? "armored" : "regular");
+                var labelParams = new Dictionary<string, string> { { "enemy_hittype", enemyHittype } };
+                var intParams = new Dictionary<string, int> { { "critical", isCrit ? 1 : 0 } };
+                AudioService.Instance.PlayOneShotAtPositionWithParameters(fmodOnHit, c.ClosestPoint(GetHitboxOrigin()), labelParams, intParams);
+            }
         }
 
         return damaged.Count;
