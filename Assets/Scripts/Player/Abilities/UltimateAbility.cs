@@ -33,6 +33,7 @@ public class UltimateAbility : PlayerAbility
     [SerializeField] private PlayerStats playerStats;
 
     private bool isBlastActive;
+    private int debugExtraDrops;
 
     private void Awake()
     {
@@ -51,11 +52,22 @@ public class UltimateAbility : PlayerAbility
         isBlastActive = false;
     }
 
-    private (int current, int required) GetUltimateCharge()
+    /// <summary>Debug: add enough charge to use the ultimate once. Called by FillUltimateDebug.</summary>
+    public void DebugFillUltimateCharge()
+    {
+        debugExtraDrops = Mathf.Max(debugExtraDrops, dropsRequired);
+    }
+
+    private int GetEffectiveDropCount()
     {
         var receiver = ResolveReceiver();
-        int current = receiver != null ? receiver.GetTotalAttachedCount() : 0;
-        return (current, dropsRequired);
+        int real = receiver != null ? receiver.GetTotalAttachedCount() : 0;
+        return real + debugExtraDrops;
+    }
+
+    private (int current, int required) GetUltimateCharge()
+    {
+        return (GetEffectiveDropCount(), dropsRequired);
     }
 
     public override bool CanPerform
@@ -63,17 +75,17 @@ public class UltimateAbility : PlayerAbility
         get
         {
             if (isBlastActive) return false;
-            var receiver = ResolveReceiver();
-            return receiver != null && receiver.GetTotalAttachedCount() >= dropsRequired;
+            return GetEffectiveDropCount() >= dropsRequired;
         }
     }
 
     public override bool TryPerform()
     {
         var receiver = ResolveReceiver();
-        if (receiver == null || receiver.GetTotalAttachedCount() < dropsRequired || isBlastActive)
+        if (receiver == null || GetEffectiveDropCount() < dropsRequired || isBlastActive)
             return false;
 
+        debugExtraDrops = 0;
         receiver.ClearAllAttached();
         EventBus.RaiseUltimateUsed();
         isBlastActive = true;

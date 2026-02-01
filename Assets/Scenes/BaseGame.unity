@@ -584,7 +584,6 @@ GameObject:
   - component: {fileID: 1092417052}
   - component: {fileID: 1092417051}
   - component: {fileID: 1092417053}
-  - component: {fileID: 1092417054}
   m_Layer: 0
   m_Name: DebugStuff
   m_TagString: Untagged
@@ -628,27 +627,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1092417050}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8858a428a36e6e24f98be6ae030a51e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputBlockerDebugUI
-  showByDefault: 0
-  _show: 0
---- !u!114 &1092417054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1092417050}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 376ad402428328e43b28fbafa69ec453, type: 3}
+  m_Script: {fileID: 11500000, guid: c38d5609fafe2ff449fa742297b1a50a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementDebugCheck
-  delaySeconds: 1.5
-  logOnce: 1
+  m_EditorClassIdentifier: Assembly-CSharp::FillUltimateDebug
+  triggerKeyEnabled: 1
+  triggerKey: 35
 --- !u!1 &1164690926
 GameObject:
   m_ObjectHideFlags: 0
