@@ -1,67 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1405944938523645483
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7577937992956859193}
-  - component: {fileID: 8970236348118924100}
-  m_Layer: 7
-  m_Name: TelegraphDecal2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7577937992956859193
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1405944938523645483}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4530325506260033812}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8970236348118924100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1405944938523645483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.DecalProjector
-  m_Material: {fileID: 2100000, guid: c546c26aa56a3457cbb2c175c4658c47, type: 2}
-  m_DrawDistance: 1000
-  m_FadeScale: 0.9
-  m_StartAngleFade: 180
-  m_EndAngleFade: 180
-  m_UVScale: {x: 1, y: 1}
-  m_UVBias: {x: 0, y: 0}
-  m_AffectsTransparency: 0
-  m_TransparentTextureResolution:
-    m_Override: 256
-    m_UseOverride: 1
-    m_Level: 0
-  m_DecalLayerMask: 1
-  m_ScaleMode: 0
-  m_Offset: {x: 0, y: 0, z: 0}
-  m_Size: {x: 1, y: 1, z: 1}
-  m_FadeFactor: 1
-  m_Version: 3
 --- !u!1 &1943071527504384703
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,13 +131,13 @@ GameObject:
   - component: {fileID: 1012473572634576439}
   - component: {fileID: -2296621646114750256}
   - component: {fileID: 6271211890732130023}
-  - component: {fileID: 2203206081751695596}
-  - component: {fileID: -837520875910850123}
-  - component: {fileID: -3020474435104422798}
-  - component: {fileID: -2485359517474477540}
-  - component: {fileID: -7285485811345475363}
+  - component: {fileID: -4598927087755072705}
+  - component: {fileID: 314939295844022831}
+  - component: {fileID: 8812460241649811547}
+  - component: {fileID: 2329270247828542848}
+  - component: {fileID: -3791649489230799970}
   m_Layer: 7
-  m_Name: HeavyMeleeEnemyTest
+  m_Name: MeleeLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,13 +153,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.14636, y: 0, z: 16.48436}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 280273252554067701}
+  - {fileID: 8432035619079212598}
   - {fileID: 1085426406673642128}
-  - {fileID: 1863800336420053394}
-  - {fileID: 7577937992956859193}
+  - {fileID: 8776257840497219988}
+  - {fileID: 3919389595707376658}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-22709031785708111
@@ -236,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e6b4891b2407747854e0b4ec61d6b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTypeApplier
-  type: {fileID: 11400000, guid: 111a0b16a65a34a0894e063f57e34ca0, type: 2}
+  type: {fileID: 11400000, guid: eae92a5c81557a348a4ce00b4da87f96, type: 2}
 --- !u!195 &5080526275173526206
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -246,7 +184,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5233339675524473751}
   m_Enabled: 1
   m_AgentTypeID: -1372625422
-  m_Radius: 0.525
+  m_Radius: 0.35
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -255,7 +193,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2.25
+  m_Height: 1.5
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -320,15 +258,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
   damage: 10
   cooldown: 1
-  attackRange: 2.85
-  telegraphDuration: 0.6
-  attackActiveDuration: 0.375
+  attackRange: 1.8
+  telegraphDuration: 0.4
+  attackActiveDuration: 0.25
   hitZoneShape: 0
-  hitZoneOffset: 1.35
-  hitZoneHeightOffset: 0.45
-  hitZoneRadius: 1.2
-  hitZoneHalfExtents: {x: 0.75, y: 0.75, z: 0.75}
-  drawGizmos: 1
+  hitZoneOffset: 0.9
+  hitZoneHeightOffset: 0.3
+  hitZoneRadius: 0.8
+  hitZoneHalfExtents: {x: 0.5, y: 0.5, z: 0.5}
+  drawGizmos: 0
   hitLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -336,7 +274,7 @@ MonoBehaviour:
   onTelegraphStarted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -3020474435104422798}
+      - m_Target: {fileID: 8812460241649811547}
         m_TargetAssemblyTypeName: MeleeTelegraphDecal, Assembly-CSharp
         m_MethodName: ShowTelegraph
         m_Mode: 1
@@ -351,7 +289,7 @@ MonoBehaviour:
   onTelegraphEnded:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -3020474435104422798}
+      - m_Target: {fileID: 8812460241649811547}
         m_TargetAssemblyTypeName: MeleeTelegraphDecal, Assembly-CSharp
         m_MethodName: HideTelegraph
         m_Mode: 1
@@ -366,7 +304,7 @@ MonoBehaviour:
   onAttackWindowOpened:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -3020474435104422798}
+      - m_Target: {fileID: 8812460241649811547}
         m_TargetAssemblyTypeName: MeleeTelegraphDecal, Assembly-CSharp
         m_MethodName: ShowAttackWindow
         m_Mode: 1
@@ -381,7 +319,7 @@ MonoBehaviour:
   onAttackWindowEnded:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -3020474435104422798}
+      - m_Target: {fileID: 8812460241649811547}
         m_TargetAssemblyTypeName: MeleeTelegraphDecal, Assembly-CSharp
         m_MethodName: HideAttackWindow
         m_Mode: 1
@@ -440,7 +378,7 @@ MonoBehaviour:
   dropDatabase: {fileID: 11400000, guid: 3bd9fcaca37a1448d8d0e3c14b81ad3e, type: 2}
   maskReceiver: {fileID: 0}
   spawnOffset: {x: 0, y: 0.5, z: 0}
---- !u!114 &2203206081751695596
+--- !u!114 &-4598927087755072705
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -452,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3d4e5f60718293a4b5c6d7e8f901a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackState
---- !u!114 &-837520875910850123
+--- !u!114 &314939295844022831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -468,7 +406,7 @@ MonoBehaviour:
   blockLayers:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &-3020474435104422798
+--- !u!114 &8812460241649811547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -480,9 +418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3d4e5f60718293a4b5c6d7e8f901a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeTelegraphDecal
-  telegraphVisual: {fileID: 6591002767531790221}
+  telegraphVisual: {fileID: 6662106935207587811}
   telegraphRenderer: {fileID: 0}
-  attackWindowVisual: {fileID: 1405944938523645483}
+  attackWindowVisual: {fileID: 5926156491418015899}
   attackWindowRenderer: {fileID: 0}
   decalSizeOverride: 0
   flatOnGround: 1
@@ -491,7 +429,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   decalProjectionDepth: 1
---- !u!114 &-2485359517474477540
+--- !u!114 &2329270247828542848
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -506,7 +444,7 @@ MonoBehaviour:
   flashDuration: 0.08
   colorPropertyName: _BaseColor
   renderers: []
---- !u!114 &-7285485811345475363
+--- !u!114 &-3791649489230799970
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -545,6 +483,68 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &5926156491418015899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3919389595707376658}
+  - component: {fileID: 8214513991736427031}
+  m_Layer: 7
+  m_Name: TelegraphDecal2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3919389595707376658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5926156491418015899}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4530325506260033812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8214513991736427031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5926156491418015899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.DecalProjector
+  m_Material: {fileID: 2100000, guid: c546c26aa56a3457cbb2c175c4658c47, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_TransparentTextureResolution:
+    m_Override: 256
+    m_UseOverride: 1
+    m_Level: 0
+  m_DecalLayerMask: 1
+  m_ScaleMode: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_FadeFactor: 1
+  m_Version: 3
 --- !u!1 &6290256332954324988
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,7 +659,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &6591002767531790221
+--- !u!1 &6662106935207587811
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -667,8 +667,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1863800336420053394}
-  - component: {fileID: 2022656826906966658}
+  - component: {fileID: 8776257840497219988}
+  - component: {fileID: 1759183720713538908}
   m_Layer: 7
   m_Name: TelegraphDecal1
   m_TagString: Untagged
@@ -676,13 +676,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1863800336420053394
+--- !u!4 &8776257840497219988
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6591002767531790221}
+  m_GameObject: {fileID: 6662106935207587811}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -691,13 +691,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4530325506260033812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2022656826906966658
+--- !u!114 &1759183720713538908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6591002767531790221}
+  m_GameObject: {fileID: 6662106935207587811}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
@@ -837,7 +837,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1001 &3888310789177520466
+--- !u!1001 &5993902566217365239
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -845,75 +845,83 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4530325506260033812}
     m_Modifications:
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4422083667443688733, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - target: {fileID: 3270129775257592443, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       propertyPath: m_Name
-      value: CH_Heavytor
+      value: CH_MeleeGoblin
       objectReference: {fileID: 0}
+    - target: {fileID: 3270129775257592443, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803423314441573469, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1dab0e7e45e8abe48b8dd5193f5d074a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4422083667443688733, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 3270129775257592443, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3689074249559110190}
-  m_SourcePrefab: {fileID: 100100000, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
---- !u!4 &280273252554067701 stripped
+      addedObject: {fileID: 6418783536089780461}
+  m_SourcePrefab: {fileID: 100100000, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
+--- !u!4 &8432035619079212598 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3897220090197311399, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
-  m_PrefabInstance: {fileID: 3888310789177520466}
+  m_CorrespondingSourceObject: {fileID: 2750016127346702529, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
+  m_PrefabInstance: {fileID: 5993902566217365239}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &623866906150376527 stripped
+--- !u!1 &9101575921648276620 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 4422083667443688733, guid: 5eea075e5abd38e4a87266062aac9abe, type: 3}
-  m_PrefabInstance: {fileID: 3888310789177520466}
+  m_CorrespondingSourceObject: {fileID: 3270129775257592443, guid: 6d11d19ee2b1a8e4b8f17e49b6ee6816, type: 3}
+  m_PrefabInstance: {fileID: 5993902566217365239}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &3689074249559110190
+--- !u!136 &6418783536089780461
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 623866906150376527}
+  m_GameObject: {fileID: 9101575921648276620}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
