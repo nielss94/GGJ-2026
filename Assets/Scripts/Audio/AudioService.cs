@@ -11,6 +11,8 @@ public class AudioService : MonoBehaviour
     public static AudioService Instance { get; private set; }
 
     public FmodEventAsset fmodMusic;
+    [Tooltip("Optional FMOD event played when the level is cleared (all monsters dead, EventBus.LevelComplete). e.g. enemies_cleared.")]
+    [SerializeField] private FmodEventAsset fmodLevelCleared;
 
     private const string PausedParam = "Paused";
     private const float MaxVibe = 4f;
@@ -54,6 +56,8 @@ public class AudioService : MonoBehaviour
     private void OnLevelComplete()
     {
         SetLevelState(LevelState.Stop);
+        if (fmodLevelCleared != null && !fmodLevelCleared.IsNull)
+            PlayOneShot(fmodLevelCleared);
     }
 
     private void OnDestroy()
