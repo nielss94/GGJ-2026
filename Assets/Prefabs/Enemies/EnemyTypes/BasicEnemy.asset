@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71640181e958c50458105591ef3bdba8, type: 3}
   m_Name: BasicEnemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyType
-  displayName: Enemy
+  displayName: Melee
+  powerCost: 1
   maxHealth: 50
   moveSpeed: 3.5
   contactDamage: 10

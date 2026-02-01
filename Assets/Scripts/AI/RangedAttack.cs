@@ -36,6 +36,8 @@ public class RangedAttack : MonoBehaviour
     [Header("Telegraph events (optional)")]
     [Tooltip("Fired when telegraph/channel starts. Use for aim warning VFX or sound.")]
     [SerializeField] private UnityEvent onTelegraphStarted;
+    [Tooltip("Fired when telegraph ends and shot is fired.")]
+    [SerializeField] private UnityEvent onTelegraphEnded;
 
     /// <summary>Set damage, fire interval, range, and projectile speed from EnemyType (e.g. via EnemyTypeApplier).</summary>
     public void SetFromEnemyType(float damage, float fireInterval, float projectileSpeedValue, float rangeValue = -1f)
@@ -81,6 +83,7 @@ public class RangedAttack : MonoBehaviour
             {
                 if (attackState != null)
                     attackState.IsChanneling = false;
+                onTelegraphEnded?.Invoke();
                 if (cachedTargetForTelegraph != null)
                     FireAt(cachedTargetForTelegraph);
                 cachedTargetForTelegraph = null;
