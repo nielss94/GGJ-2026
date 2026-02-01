@@ -78,7 +78,10 @@ MonoBehaviour:
   mainMenuSceneName: MainMenu
   cinemachineActivePriority: 20
   levelVariations:
+  - Level_01
   - Level_02
+  - Level_03
+  - Level_04
   baseBudget: 20
   budgetIncrementPerLevel: 5
 --- !u!114 &1042797650766024778
