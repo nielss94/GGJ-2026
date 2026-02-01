@@ -26,6 +26,10 @@ public class UltimateAbility : PlayerAbility
     [Tooltip("Layers to exclude (e.g. Player).")]
     [SerializeField] private LayerMask excludeLayers;
 
+    [Header("Blast visual")]
+    [Tooltip("Prefab to instantiate at blast origin (e.g. Quad with BlastWaveInstance). Expands then destroys itself.")]
+    [SerializeField] private GameObject blastWavePrefab;
+
     [Header("References")]
     [Tooltip("Receiver that holds attached drops. If unset, resolved from player at runtime.")]
     [SerializeField] private MaskAttachmentReceiver dropReceiver;
@@ -109,6 +113,15 @@ public class UltimateAbility : PlayerAbility
         Vector3 origin = PlayerTransform.position;
         blastOrigin = origin;
         currentBlastRadius = 0f;
+
+        if (blastWavePrefab != null)
+        {
+            GameObject instance = Instantiate(blastWavePrefab, origin, Quaternion.identity);
+            var blastVisual = instance.GetComponentInChildren<BlastWaveInstance>();
+            if (blastVisual != null)
+                blastVisual.Init(blastDuration, blastRadius);
+        }
+
         float knockbackForce = GetKnockbackForce();
 
         // Collect all potential targets within full radius (with their distance)

@@ -884,7 +884,7 @@ MonoBehaviour:
   preferredSlot: 3
   playerRigidbodyOverride: {fileID: 0}
   dropsRequired: 20
-  blastRadius: 8
+  blastRadius: 20
   blastDuration: 0.6
   blastDamage: 50
   damageableLayers:
@@ -893,6 +893,7 @@ MonoBehaviour:
   excludeLayers:
     serializedVersion: 2
     m_Bits: 0
+  blastWavePrefab: {fileID: 7088847061453121866, guid: 53e5dd984a629fe449290e9aa71cdff0, type: 3}
   dropReceiver: {fileID: 0}
   playerStats: {fileID: 0}
 --- !u!1 &8045543100017386537
