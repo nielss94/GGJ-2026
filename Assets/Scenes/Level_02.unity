@@ -8401,6 +8401,7 @@ MonoBehaviour:
   - {fileID: 1841587577}
   spawnDuringLevel: 1
   spawnInterval: 5
+  fmodEncounterComplete: {fileID: 0}
 --- !u!4 &1732628209
 Transform:
   m_ObjectHideFlags: 0
