@@ -29,6 +29,8 @@ public class DamageNumberPopup : MonoBehaviour
     [Header("Normal hit")]
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private float normalScale = 1f;
+    [Tooltip("HDR intensity multiplier for the face on TextMeshPro/Mobile/Distance Field. Values > 1 bloom in HDR.")]
+    [SerializeField] [Min(0f)] private float faceHdrIntensity = 1f;
 
     [Header("Crit")]
     [SerializeField] private Color critColor = new Color(1f, 0.85f, 0.2f);
@@ -74,6 +76,7 @@ public class DamageNumberPopup : MonoBehaviour
             text.text = displayValue.ToString();
             text.color = isCrit ? critColor : normalColor;
             SetRenderOnTop(text);
+            SetFaceHdrIntensity(text, faceHdrIntensity);
         }
 
         float scale = isCrit ? critScale : normalScale;
@@ -115,5 +118,18 @@ public class DamageNumberPopup : MonoBehaviour
         Material mat = tmp.materialForRendering;
         if (mat != null && mat.HasProperty("unity_GUIZTestMode"))
             mat.SetInt("unity_GUIZTestMode", (int)CompareFunction.Always);
+    }
+
+    /// <summary>Sets HDR intensity on the face color for TextMeshPro/Mobile/Distance Field by scaling _FaceColor RGB.</summary>
+    private static void SetFaceHdrIntensity(TMP_Text tmp, float intensity)
+    {
+        if (tmp == null || intensity <= 0f) return;
+        Material mat = tmp.fontMaterial;
+        if (mat == null || !mat.HasProperty("_FaceColor")) return;
+        Color face = mat.GetColor("_FaceColor");
+        face.r *= intensity;
+        face.g *= intensity;
+        face.b *= intensity;
+        mat.SetColor("_FaceColor", face);
     }
 }
