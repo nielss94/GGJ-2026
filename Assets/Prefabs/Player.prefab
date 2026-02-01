@@ -622,6 +622,7 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: 35845fe01580c41289b024647b1d1c53, type: 3}
   moveSpeed: 7.5
   rotationSpeed: 0.8
+  inputDeadZone: 0.15
 --- !u!54 &5766441260869216408
 Rigidbody:
   m_ObjectHideFlags: 0
