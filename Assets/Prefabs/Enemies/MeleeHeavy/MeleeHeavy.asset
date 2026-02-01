@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: MeleeHeavy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyType
   displayName: Heavy Melee
-  powerCost: 6
-  maxHealth: 75
-  moveSpeed: 2.5
-  contactDamage: 25
-  contactCooldown: 1.8
+  powerCost: 8
+  maxHealth: 68
+  moveSpeed: 3.2
+  contactDamage: 24
+  contactCooldown: 3
   meleeAttackRange: 2.85
   meleeTelegraphDuration: 0.6
   meleeAttackActiveDuration: 0.375
