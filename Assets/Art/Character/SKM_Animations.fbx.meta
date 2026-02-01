@@ -59,6 +59,35 @@ ModelImporter:
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0.9
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      internalID: -998496362607748373
+      firstFrame: 50
+      lastFrame: 350
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0.9
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -270,16 +299,6 @@ ModelImporter:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: SKM_Body
-      parentName: SKM_Animations(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: SKM_Cloth
-      parentName: SKM_Animations(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
     - name: Slave_Rig_Grp
       parentName: SKM_Animations(Clone)
       position: {x: -0, y: 0, z: 0}
@@ -348,7 +367,7 @@ ModelImporter:
     - name: Spine_4_Slave_Jnt
       parentName: Spine_3_Slave_Jnt
       position: {x: -0.20535016, y: 1.2878587e-16, z: 1.7481675e-17}
-      rotation: {x: 0.00036615875, y: -0.00038754978, z: -0.24540402, w: 0.96942073}
+      rotation: {x: 0.00036615878, y: -0.0003875498, z: -0.24540403, w: 0.9694208}
       scale: {x: 1, y: 1, z: 1}
     - name: Head_Slave_Jnt
       parentName: Spine_4_Slave_Jnt
@@ -383,7 +402,7 @@ ModelImporter:
     - name: R_Shoulder_Slave_Jnt
       parentName: R_Clavicle_Ctrl_Jnt2
       position: {x: 0.2098988, y: 2.987832e-14, z: 2.2022384e-14}
-      rotation: {x: 0.31408957, y: 0.14870742, z: 0.06939731, w: 0.9351032}
+      rotation: {x: 0.31381616, y: 0.14757743, z: 0.06607011, w: 0.9356148}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Elbow_Slave_Jnt
       parentName: R_Shoulder_Slave_Jnt
