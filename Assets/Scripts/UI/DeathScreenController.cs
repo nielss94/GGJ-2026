@@ -91,6 +91,7 @@ public class DeathScreenController : MonoBehaviour
         {
             LevelProgressionManager.Instance.UnloadCurrentLevel(() =>
             {
+                LevelProgressionManager.Instance.LoadMainMenuScene();
                 if (UIManager.Instance != null)
                     UIManager.Instance.ShowMainMenu();
             });
