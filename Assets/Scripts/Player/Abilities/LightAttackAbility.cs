@@ -309,7 +309,7 @@ public class LightAttackAbility : PlayerAbility
             var health = c.GetComponentInParent<Health>();
             if (health == null || health.IsDead || damaged.Contains(health)) continue;
 
-            health.TakeDamage(damageAmount);
+            health.TakeDamage(damageAmount, PlayerTransform.position, 1f);
             damaged.Add(health);
             if (enableLogging) Debug.Log($"[LightAttack] Hit {c.gameObject.name} for {damageAmount} damage.");
             if (fmodOnHit != null && !fmodOnHit.IsNull && AudioService.Instance != null)

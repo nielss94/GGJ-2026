@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerMovement : MonoBehaviour
 {
-    private const float MoveInputThreshold = 0.1f;
+    private const float MoveInputThreshold = 0.01f;
 
     [Header("References")]
     [SerializeField] private GameObject model;
@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField][Range(0.01f, 1f)] private float rotationSpeed = 0.15f;
+    [SerializeField][Range(0f, 0.5f)] private float inputDeadZone = 0.15f;
 
     private Rigidbody rb;
     private InputAction moveAction;
@@ -62,7 +63,17 @@ public class PlayerMovement : MonoBehaviour
         }
         if (moveAction != null)
         {
-            moveInput = moveAction.ReadValue<Vector2>();
+            Vector2 raw = moveAction.ReadValue<Vector2>();
+            float mag = raw.magnitude;
+            if (mag <= inputDeadZone)
+            {
+                moveInput = Vector2.zero;
+            }
+            else
+            {
+                float rescaled = (mag - inputDeadZone) / (1f - inputDeadZone);
+                moveInput = raw.normalized * Mathf.Clamp01(rescaled);
+            }
         }
     }
 
@@ -100,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
             rb.MovePosition(transform.position + WorldMoveDirection * moveSpeed * Time.deltaTime);
         }
 
-        if (moveInput.sqrMagnitude > MoveInputThreshold * MoveInputThreshold && model != null)
+        if (WorldMoveDirection.sqrMagnitude > MoveInputThreshold && model != null)
         {
             model.transform.rotation = Quaternion.Slerp(
                 model.transform.rotation,

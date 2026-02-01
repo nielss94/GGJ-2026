@@ -3,6 +3,23 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
+/// Context passed when this Health takes damage. Used for hit feedback (flash) and knockback.
+/// </summary>
+public struct DamageInfo
+{
+    public float Amount;
+    public Vector3? KnockbackSourcePosition;
+    public float KnockbackMultiplier;
+
+    public DamageInfo(float amount, Vector3? knockbackSourcePosition = null, float knockbackMultiplier = 1f)
+    {
+        Amount = amount;
+        KnockbackSourcePosition = knockbackSourcePosition;
+        KnockbackMultiplier = knockbackMultiplier;
+    }
+}
+
+/// <summary>
 /// Simple health component. Use on player and enemies. When current health reaches zero, invokes OnDeath
 /// and, if IsPlayer is set, raises EventBus.PlayerDied. When IsPlayer, raises EventBus.PlayerHealthChanged on change
 /// and registers a health provider so UI can get initial value without a direct reference.
@@ -34,6 +51,9 @@ public class Health : MonoBehaviour
     /// <summary>Raised when this Health dies. Use for local listeners (e.g. level enemy registration).</summary>
     public event Action Died;
 
+    /// <summary>Raised when this Health takes damage (before death check). Use for hit flash, knockback, etc.</summary>
+    public event Action<DamageInfo> Damaged;
+
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -59,9 +79,20 @@ public class Health : MonoBehaviour
     /// </summary>
     public bool TakeDamage(float amount)
     {
+        return TakeDamage(amount, null, 1f);
+    }
+
+    /// <summary>
+    /// Apply damage with optional knockback context. Use for player attacks so enemies can flash and be knocked back.
+    /// knockbackMultiplier can later be driven by a player stat upgrade.
+    /// </summary>
+    public bool TakeDamage(float amount, Vector3? knockbackSourcePosition, float knockbackMultiplier = 1f)
+    {
         if (isDead || amount <= 0f) return false;
 
         currentHealth = Mathf.Max(0f, currentHealth - amount);
+        var info = new DamageInfo(amount, knockbackSourcePosition, knockbackMultiplier);
+        Damaged?.Invoke(info);
         if (isPlayer)
             EventBus.RaisePlayerHealthChanged(currentHealth, maxHealth);
         if (currentHealth <= 0f)

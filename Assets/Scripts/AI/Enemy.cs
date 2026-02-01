@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// Core enemy component. Holds the shared player reference so movement and attack behaviours
-/// don't each need to find the player. Add this when using composition (ChaseMovement + ContactDamage, etc.).
+/// don't each need to find the player. Add this when using composition (ChaseMovement + MeleeAttack, etc.).
 /// Optional: add Health here for enemies that can take damage.
 /// </summary>
 public class Enemy : MonoBehaviour

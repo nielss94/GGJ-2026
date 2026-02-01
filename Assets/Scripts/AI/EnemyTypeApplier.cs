@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 /// <summary>
 /// Optional: apply an EnemyType ScriptableObject to this GameObject at Start. Sets Health, NavMeshAgent speed,
-/// telegraph/range config, and, if present, ContactDamage (melee) and RangedAttack (ranged). Ensures EnemySight
+/// telegraph/range config, and, if present, MeleeAttack (melee) and RangedAttack (ranged). Ensures EnemySight
 /// and EnemyAttackState exist for telegraphed attacks and line-of-sight.
 /// </summary>
 public class EnemyTypeApplier : MonoBehaviour
@@ -28,10 +28,10 @@ public class EnemyTypeApplier : MonoBehaviour
         if (!TryGetComponent(out EnemyAttackState _))
             gameObject.AddComponent<EnemyAttackState>();
 
-        if (TryGetComponent(out ContactDamage contact))
+        if (TryGetComponent(out MeleeAttack melee))
         {
-            contact.SetDamageAndCooldown(type.ContactDamage, type.ContactCooldown);
-            contact.SetTelegraphConfig(type.MeleeAttackRange, type.MeleeTelegraphDuration, type.MeleeAttackActiveDuration);
+            melee.SetDamageAndCooldown(type.ContactDamage, type.ContactCooldown);
+            melee.SetTelegraphConfig(type.MeleeAttackRange, type.MeleeTelegraphDuration, type.MeleeAttackActiveDuration);
         }
 
         if (TryGetComponent(out RangedAttack ranged))
@@ -43,7 +43,7 @@ public class EnemyTypeApplier : MonoBehaviour
         if (TryGetComponent(out ChaseMovement chase))
         {
             float stopRange = 0f;
-            if (GetComponent<ContactDamage>() != null)
+            if (GetComponent<MeleeAttack>() != null)
                 stopRange = type.MeleeAttackRange;
             else if (GetComponent<RangedAttack>() != null)
                 stopRange = type.RangedAttackRange;
