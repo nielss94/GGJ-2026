@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// Sets the first child's Animator MoveSpeed parameter from this NavMeshAgent's velocity magnitude.
-/// Add to the enemy root (same GameObject as NavMeshAgent). Animator must be on the first child.
+/// Sets the Animator MoveSpeed parameter from this NavMeshAgent's velocity magnitude, and Attack trigger when attacking.
+/// Add to the enemy root (same GameObject as NavMeshAgent). Prefers Animator on the first child; falls back to any child (e.g. Ranged with model as third child).
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAnimatorDriver : MonoBehaviour
@@ -26,6 +26,8 @@ public class EnemyAnimatorDriver : MonoBehaviour
             var firstChild = transform.GetChild(0);
             _animator = firstChild.GetComponent<Animator>();
         }
+        if (_animator == null)
+            _animator = GetComponentInChildren<Animator>();
         _moveSpeedHash = Animator.StringToHash(moveSpeedParam);
         _attackTriggerHash = Animator.StringToHash(attackTriggerParam);
     }
