@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Ranged
   m_EditorClassIdentifier: Assembly-CSharp::EnemyType
   displayName: Ranged
+  powerCost: 1
   maxHealth: 40
   moveSpeed: 3.5
   contactDamage: 10
-  contactCooldown: 1
+  contactCooldown: 3
   meleeAttackRange: 1.8
   meleeTelegraphDuration: 0.4
   meleeAttackActiveDuration: 0.25
   rangedDamage: 18
-  rangedFireInterval: 1.2
-  rangedProjectileSpeed: 14
+  rangedFireInterval: 3
+  rangedProjectileSpeed: 8
   rangedAttackRange: 12
   rangedTelegraphDuration: 0.5
