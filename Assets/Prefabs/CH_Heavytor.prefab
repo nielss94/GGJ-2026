@@ -8,17 +8,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9115399429233148659, guid: f1eec34411a23dc4a87c2f1ba7c32a60, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1df27f328a644ed4bb04b91316193771, type: 2}
     - target: {fileID: -8679921383154817045, guid: f1eec34411a23dc4a87c2f1ba7c32a60, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.19537
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1eec34411a23dc4a87c2f1ba7c32a60, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.02951
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1eec34411a23dc4a87c2f1ba7c32a60, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.30739
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1eec34411a23dc4a87c2f1ba7c32a60, type: 3}
       propertyPath: m_LocalRotation.w
@@ -48,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6856047091820150144, guid: f1eec34411a23dc4a87c2f1ba7c32a60, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9261c4ca7e6363f45b8a5df1df023348, type: 2}
     - target: {fileID: 919132149155446097, guid: f1eec34411a23dc4a87c2f1ba7c32a60, type: 3}
       propertyPath: m_Name
       value: CH_Heavytor
@@ -56,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 95d36568f64ed184892a188bda787196, type: 2}
+    - target: {fileID: 7613533915009598915, guid: f1eec34411a23dc4a87c2f1ba7c32a60, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3a82223798b8ee645b480007bc0921f2, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
