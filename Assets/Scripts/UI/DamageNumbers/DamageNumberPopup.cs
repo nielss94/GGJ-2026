@@ -35,6 +35,8 @@ public class DamageNumberPopup : MonoBehaviour
     [Header("Crit")]
     [SerializeField] private Color critColor = new Color(1f, 0.85f, 0.2f);
     [SerializeField] private float critScale = 1.4f;
+    [Tooltip("HDR intensity for the face on crits (TextMeshPro/Mobile/Distance Field). Values > 1 bloom in HDR.")]
+    [SerializeField] [Min(0f)] private float critFaceHdrIntensity = 5f;
     [Tooltip("Optional: small scale punch at start for crits.")]
     [SerializeField] private float critPunchDuration = 0.15f;
     [SerializeField] private Ease critPunchEase = Ease.OutBack;
@@ -76,7 +78,7 @@ public class DamageNumberPopup : MonoBehaviour
             text.text = displayValue.ToString();
             text.color = isCrit ? critColor : normalColor;
             SetRenderOnTop(text);
-            SetFaceHdrIntensity(text, faceHdrIntensity);
+            SetFaceHdrIntensity(text, isCrit ? critFaceHdrIntensity : faceHdrIntensity);
         }
 
         float scale = isCrit ? critScale : normalScale;
