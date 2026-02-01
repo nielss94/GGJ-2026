@@ -147,6 +147,11 @@ public class DroppableItem : MonoBehaviour
 
     private void OnReachedMask()
     {
+        foreach (var ps in GetComponentsInChildren<ParticleSystem>())
+        {
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+
         if (targetReceiver != null)
             targetReceiver.Attach(this);
     }

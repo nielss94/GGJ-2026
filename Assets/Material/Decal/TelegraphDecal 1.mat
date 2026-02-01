@@ -29,6 +29,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORMAP
+  - _EMISSIVEMAP
   - _MATERIAL_AFFECTS_ALBEDO
   - _MATERIAL_AFFECTS_MASKMAP
   - _MATERIAL_AFFECTS_NORMAL
@@ -48,7 +49,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveColorMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b52cf9a7f9aa9458c8ad3fd957a7cca7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -83,7 +84,7 @@ Material:
     - _DecalStencilWriteMask: 16
     - _DrawOrder: 0
     - _EmissiveExposureWeight: 1
-    - _EmissiveIntensity: 2
+    - _EmissiveIntensity: 3
     - _EmissiveIntensityUnit: 0
     - _MaskBlendSrc: 1
     - _Metallic: 0
@@ -97,8 +98,8 @@ Material:
     - _UseEmissiveIntensity: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissiveColor: {r: 1.0014949, g: 0.035775356, b: 0.035775356, a: 2}
+    - _EmissiveColor: {r: 2.0710227, g: 0.24486025, b: 0.24486025, a: 3}
     - _EmissiveColorHDR: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissiveColorLDR: {r: 0.735849, g: 0.14231041, b: 0.14231041, a: 1}
+    - _EmissiveColorLDR: {r: 0.8490566, g: 0.31639373, b: 0.31639373, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

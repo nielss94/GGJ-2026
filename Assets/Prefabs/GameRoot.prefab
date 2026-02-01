@@ -61,6 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fmodMusic: {fileID: 11400000, guid: 092a0545357744838b6bb2236ff6155d, type: 2}
+  fmodLevelCleared: {fileID: 11400000, guid: 8b0aa37962e209746a5f498061679d04, type: 2}
 --- !u!114 &2854384679118469754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelProgressionManager
   playerTransform: {fileID: 0}
   mainMenuSceneName: MainMenu
+  cinemachineActivePriority: 20
   levelVariations:
   - Level_02
   baseBudget: 20
