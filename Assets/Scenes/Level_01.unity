@@ -10457,7 +10457,7 @@ MonoBehaviour:
   - {fileID: 1419966173}
   - {fileID: 1766015646}
   spawnDuringLevel: 1
-  spawnInterval: 5
+  spawnInterval: 1.5
   fmodEncounterComplete: {fileID: 0}
 --- !u!4 &1151176094
 Transform:
