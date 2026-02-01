@@ -501,6 +501,7 @@ Transform:
   m_Children:
   - {fileID: 5867297786077719209}
   - {fileID: 5700637127844627495}
+  - {fileID: 4816203554333233647}
   m_Father: {fileID: 1147164317180401782}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2567174598560298497
@@ -833,6 +834,68 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7201652497589359932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4816203554333233647}
+  - component: {fileID: 7952810338611200415}
+  m_Layer: 6
+  m_Name: UltimateAbility
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4816203554333233647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7201652497589359932}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3329017028835715742}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7952810338611200415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7201652497589359932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a0b4616552591c49819baf84f85bad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UltimateAbility
+  level: 1
+  abilityName: Ability
+  description: 
+  preferredSlot: 3
+  playerRigidbodyOverride: {fileID: 0}
+  dropsRequired: 20
+  blastRadius: 20
+  blastDuration: 0.6
+  blastDamage: 50
+  damageableLayers:
+    serializedVersion: 2
+    m_Bits: 439
+  excludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  blastWavePrefab: {fileID: 7088847061453121866, guid: 53e5dd984a629fe449290e9aa71cdff0, type: 3}
+  dropReceiver: {fileID: 0}
+  playerStats: {fileID: 0}
 --- !u!1 &8045543100017386537
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,7 +1002,7 @@ MonoBehaviour:
   abilitySlotA: {fileID: 3699979859993747153}
   abilitySlotB: {fileID: 0}
   abilitySlotX: {fileID: 3495186614016676912}
-  abilitySlotY: {fileID: 0}
+  abilitySlotY: {fileID: 7952810338611200415}
 --- !u!114 &2203496732461088381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1382,6 +1445,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MaskAttachmentReceiver
   maskTransform: {fileID: 4957499016491780412}
+  flyToTarget: {fileID: 0}
+  flyToHeightOffset: 1
   splineSetups:
   - dropType: {fileID: 11400000, guid: 998b74f2fd66d4cccbb2b37b0a9aec93, type: 2}
     splineContainer: {fileID: 7227536947250835354}

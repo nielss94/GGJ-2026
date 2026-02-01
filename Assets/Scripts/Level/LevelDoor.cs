@@ -22,6 +22,12 @@ public class LevelDoor : MonoBehaviour
     [Tooltip("When using Animator: seconds to wait before the door trigger zone becomes active.")]
     [SerializeField] private float animatorOpenDelay = 1f;
 
+    [Header("Audio")]
+    [Tooltip("Optional FMOD event played when the door opens (sinks into ground).")]
+    [SerializeField] private FmodEventAsset fmodDoorOpen;
+    [Tooltip("Optional FMOD event played when the player goes through this door to the next level.")]
+    [SerializeField] private FmodEventAsset fmodDoorTransition;
+
     private string nextSceneName;
     private bool isOpen;
     private Vector3 sinkVisualStartPosition;
@@ -45,6 +51,8 @@ public class LevelDoor : MonoBehaviour
     public void Open()
     {
         if (isOpen) return;
+        if (fmodDoorOpen != null && AudioService.Instance != null)
+            AudioService.Instance.PlayOneShot(fmodDoorOpen, transform.position);
         if (animator != null)
         {
             animator.SetTrigger(openTrigger);
@@ -82,6 +90,8 @@ public class LevelDoor : MonoBehaviour
     public void Choose()
     {
         if (!isOpen) return;
+        if (fmodDoorTransition != null && AudioService.Instance != null)
+            AudioService.Instance.PlayOneShot(fmodDoorTransition, transform.position);
         if (LevelProgressionManager.Instance != null && !string.IsNullOrEmpty(nextSceneName))
             LevelProgressionManager.Instance.LoadLevel(nextSceneName);
     }
