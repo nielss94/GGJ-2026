@@ -142,6 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
   isPlayer: 0
+  healthMusicEvent: {fileID: 0}
+  fmodPlayerHit: {fileID: 0}
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -663,6 +665,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6400078538469988638}
     m_Modifications:
+    - target: {fileID: 1692796641414158612, guid: 7420fbbce155ab04fb729a30b1efb19f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8406beb61dcd7f341a392ef7f881bd5b, type: 2}
+    - target: {fileID: 7366997278025218366, guid: 7420fbbce155ab04fb729a30b1efb19f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c859dbe615b7c59448b3cd51d844dd59, type: 2}
     - target: {fileID: 8249947936413737434, guid: 7420fbbce155ab04fb729a30b1efb19f, type: 3}
       propertyPath: m_Name
       value: CH_Mage
