@@ -144,8 +144,30 @@ public class LevelProgressionManager : MonoBehaviour
         currentLevelScene = SceneManager.GetSceneByName(sceneName);
         levelDepth++;
 
+        DisablePlayerAndCameraInScene(currentLevelScene.Value);
         MovePlayerToSpawn(currentLevelScene.Value);
         isLoading = false;
+    }
+
+    /// <summary>
+    /// Disables player and main camera in the given scene so BaseGame's are used when loading additively.
+    /// Level scenes can keep these for standalone testing; they are only disabled when loaded by the game.
+    /// </summary>
+    private void DisablePlayerAndCameraInScene(Scene scene)
+    {
+        foreach (var root in scene.GetRootGameObjects())
+        {
+            foreach (var t in root.GetComponentsInChildren<Transform>(true))
+            {
+                if (t.CompareTag("Player"))
+                    t.gameObject.SetActive(false);
+            }
+            foreach (var cam in root.GetComponentsInChildren<Camera>(true))
+            {
+                if (cam.CompareTag("MainCamera"))
+                    cam.gameObject.SetActive(false);
+            }
+        }
     }
 
     private void MovePlayerToSpawn(Scene scene)
