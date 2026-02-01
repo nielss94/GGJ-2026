@@ -3663,6 +3663,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pillar_SQ_Bottom (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7719426161952446144, guid: b59cb082f17eb1a4d87316430830aa86, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
