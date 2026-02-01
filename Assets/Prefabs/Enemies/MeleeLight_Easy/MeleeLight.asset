@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyType
   displayName: Melee
   powerCost: 1
-  maxHealth: 50
+  maxHealth: 36
   moveSpeed: 5.4
-  contactDamage: 10
-  contactCooldown: 1
+  contactDamage: 6
+  contactCooldown: 1.5
   meleeAttackRange: 1.8
   meleeTelegraphDuration: 0.4
   meleeAttackActiveDuration: 0.25
@@ -26,3 +26,4 @@ MonoBehaviour:
   rangedProjectileSpeed: 12
   rangedAttackRange: 15
   rangedTelegraphDuration: 0.3
+  armored: 0
