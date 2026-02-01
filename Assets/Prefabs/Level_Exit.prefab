@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c48d3b50b1f54148aab7c6d4cac83d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelDoor
-  sinkVisual: {fileID: 0}
+  sinkVisual: {fileID: 2889764765379139143}
   sinkHeight: 7
   sinkDuration: 1
   animator: {fileID: 0}

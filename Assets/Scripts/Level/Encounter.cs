@@ -126,6 +126,8 @@ public class Encounter : MonoBehaviour
         if (health == null || tracked.Contains(health)) return;
         tracked.Add(health);
         health.Died += OnTrackedDied;
+        if (tracked.Count == 1 && AudioService.Instance != null)
+            AudioService.Instance.SetLevelState(AudioService.LevelState.Go);
     }
 
     private void OnTrackedDied()

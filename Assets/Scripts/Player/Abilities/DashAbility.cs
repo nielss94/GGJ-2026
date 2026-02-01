@@ -95,48 +95,83 @@ public class DashAbility : PlayerAbility
         return true;
     }
 
+    private void OnDisable()
+    {
+        if (isDashing)
+        {
+            EventBus.RaisePlayerInputUnblockRequested(this);
+            isDashing = false;
+        }
+    }
+
     private IEnumerator PerformDashCoroutine(Rigidbody rb, Vector3 direction)
     {
         isDashing = true;
         EventBus.RaisePlayerDashStarted(this);
         EventBus.RaisePlayerInputBlockRequested(this);
 
-        var playerMovement = PlayerTransform.GetComponent<PlayerMovement>();
-        if (playerMovement != null && playerMovement.ModelTransform != null)
-            playerMovement.ModelTransform.rotation = Quaternion.LookRotation(direction);
-
-        if (AudioService.Instance != null && fmodDash != null && !fmodDash.IsNull)
-            AudioService.Instance.PlayOneShot(fmodDash, PlayerTransform.position);
-        // TODO: i-frames during dash — e.g. add EventBus.InvincibilityRequested(object source, bool invincible) and raise it here / at end; have health/damage script subscribe and ignore damage while any source has requested invincibility (same pattern as PlayerInputBlocker).
-
-        float remainingDistance = dashDistance;
-
-        while (remainingDistance > 0.001f)
+        try
         {
-            yield return new WaitForFixedUpdate();
-            float step = Time.fixedDeltaTime;
-            float desiredDistance = Mathf.Min(dashSpeed * step, remainingDistance);
-            float actualDistance = desiredDistance;
+            var playerMovement = PlayerTransform.GetComponent<PlayerMovement>();
+            if (playerMovement != null && playerMovement.ModelTransform != null)
+                playerMovement.ModelTransform.rotation = Quaternion.LookRotation(direction);
 
-            if (desiredDistance > 0.001f && rb.SweepTest(direction, out RaycastHit hit, desiredDistance))
+            if (AudioService.Instance != null && fmodDash != null && !fmodDash.IsNull)
+                AudioService.Instance.PlayOneShot(fmodDash, PlayerTransform.position);
+            // TODO: i-frames during dash — e.g. add EventBus.InvincibilityRequested(object source, bool invincible) and raise it here / at end; have health/damage script subscribe and ignore damage while any source has requested invincibility (same pattern as PlayerInputBlocker).
+
+            float remainingDistance = dashDistance;
+            float elapsed = 0f;
+            const float noProgressThreshold = 0.0001f;
+            int noProgressFrames = 0;
+
+            while (remainingDistance > 0.001f)
             {
-                if (!hit.collider.isTrigger)
+                yield return new WaitForFixedUpdate();
+                float step = Time.fixedDeltaTime;
+                elapsed += step;
+
+                // Safety: end dash after max duration so we never block input forever (e.g. stuck in geometry).
+                if (elapsed >= dashDuration * 2f)
+                    break;
+
+                float desiredDistance = Mathf.Min(dashSpeed * step, remainingDistance);
+                float actualDistance = desiredDistance;
+
+                if (desiredDistance > 0.001f && rb != null && rb.SweepTest(direction, out RaycastHit hit, desiredDistance))
                 {
-                    actualDistance = Mathf.Max(0f, hit.distance - wallHitBuffer);
-                    bool farEnoughToCountAsWallHit = hit.distance >= minWallHitDistanceToEndDash;
-                    if (stopDashOnWallHit && farEnoughToCountAsWallHit)
+                    if (!hit.collider.isTrigger)
                     {
-                        rb.MovePosition(rb.position + direction * actualDistance);
-                        break;
+                        actualDistance = Mathf.Max(0f, hit.distance - wallHitBuffer);
+                        bool farEnoughToCountAsWallHit = hit.distance >= minWallHitDistanceToEndDash;
+                        if (stopDashOnWallHit && farEnoughToCountAsWallHit)
+                        {
+                            rb.MovePosition(rb.position + direction * actualDistance);
+                            break;
+                        }
                     }
                 }
+
+                rb.MovePosition(rb.position + direction * actualDistance);
+                remainingDistance -= actualDistance;
+
+                // Safety: if we're not making progress (stuck in/between tiles), end dash so input unblocks.
+                if (actualDistance < noProgressThreshold && desiredDistance > noProgressThreshold)
+                {
+                    noProgressFrames++;
+                    if (noProgressFrames >= 3)
+                        break;
+                }
+                else
+                {
+                    noProgressFrames = 0;
+                }
             }
-
-            rb.MovePosition(rb.position + direction * actualDistance);
-            remainingDistance -= actualDistance;
         }
-
-        EventBus.RaisePlayerInputUnblockRequested(this);
-        isDashing = false;
+        finally
+        {
+            EventBus.RaisePlayerInputUnblockRequested(this);
+            isDashing = false;
+        }
     }
 }
