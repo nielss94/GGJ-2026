@@ -21,8 +21,8 @@ public class DroppableItem : MonoBehaviour
     [SerializeField] private float flySpeed = 4f;
     [Tooltip("When closer than this, speed eases out so the item glides in instead of snapping. Ghost-like.")]
     [SerializeField] private float slowDownDistance = 2f;
-    [Tooltip("Distance to target at which the item is considered arrived and attaches.")]
-    [SerializeField] private float attachDistance = 0.05f;
+    [Tooltip("Distance to target at which the item is considered arrived and attaches. Checked every frame so moving targets still attach.")]
+    [SerializeField] private float attachDistance = 0.2f;
     [Tooltip("Peak height of the arc (world units). Height is computed from current distance so the path arcs over obstacles.")]
     [SerializeField] private float arcHeight = 2f;
 
@@ -113,6 +113,15 @@ public class DroppableItem : MonoBehaviour
 
         Vector3 target = targetManager.FlyToPosition;
 
+        // Attach as soon as we're within range (stops particles and attaches even if progress hasn't hit 1)
+        if (Vector3.Distance(transform.position, target) <= attachDistance)
+        {
+            isFlyingTowardsMask = false;
+            transform.position = target;
+            OnReachedMask();
+            return;
+        }
+
         // Ease-out near target: speed scales down so it glides in softly (ghost-like)
         float distanceToTarget = flyTotalDistance * (1f - flyProgress);
         float speedMultiplier = 1f;
@@ -149,6 +158,8 @@ public class DroppableItem : MonoBehaviour
     {
         foreach (var ps in GetComponentsInChildren<ParticleSystem>())
         {
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            ps.gameObject.SetActive(false);
             Destroy(ps.gameObject);
         }
 

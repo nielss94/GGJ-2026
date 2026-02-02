@@ -22,7 +22,10 @@ public class FillUltimateDebug : MonoBehaviour
     /// <summary>Call from a UI button or elsewhere. Gives enough charge to use the ultimate once.</summary>
     public void FillUltimate()
     {
-        var ability = FindFirstObjectByType<UltimateAbility>();
+        var player = LevelProgressionManager.Instance?.DesignatedPlayer;
+        var ability = player != null ? player.GetComponentInChildren<UltimateAbility>(true) : null;
+        if (ability == null)
+            ability = FindFirstObjectByType<UltimateAbility>();
         if (ability != null)
             ability.DebugFillUltimateCharge();
     }

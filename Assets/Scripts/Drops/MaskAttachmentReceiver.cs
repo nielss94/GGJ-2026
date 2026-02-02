@@ -33,10 +33,10 @@ public class MaskAttachmentReceiver : MonoBehaviour
             : Mask.position + Vector3.up * flyToHeightOffset;
 
     /// <summary>Count of attached items per drop type (for redistribution when using spline).</summary>
-    private readonly Dictionary<DropTypeId, int> attachedCountByType = new Dictionary<DropTypeId, int>();
+    private readonly Dictionary<string, int> attachedCountByTypeId = new Dictionary<string, int>();
 
-    /// <summary>Attached item instances per type, in order (for slot placement and spline redistribution).</summary>
-    private readonly Dictionary<DropTypeId, List<Transform>> attachedByType = new Dictionary<DropTypeId, List<Transform>>();
+    /// <summary>Attached item instances per type (keyed by DropTypeId.Id so different asset instances match).</summary>
+    private readonly Dictionary<string, List<Transform>> attachedByTypeId = new Dictionary<string, List<Transform>>();
 
     private void Awake()
     {
@@ -53,17 +53,18 @@ public class MaskAttachmentReceiver : MonoBehaviour
             return;
 
         DropTypeId type = item.DropType;
+        string typeId = type.Id;
 
-        if (!attachedByType.TryGetValue(type, out var list))
+        if (!attachedByTypeId.TryGetValue(typeId, out var list))
         {
             list = new List<Transform>();
-            attachedByType[type] = list;
-            attachedCountByType[type] = 0;
+            attachedByTypeId[typeId] = list;
+            attachedCountByTypeId[typeId] = 0;
         }
 
         int index = list.Count;
         list.Add(item.transform);
-        attachedCountByType[type] = list.Count;
+        attachedCountByTypeId[typeId] = list.Count;
 
         Quaternion rotationBeforePlace = item.transform.rotation;
 
@@ -72,7 +73,7 @@ public class MaskAttachmentReceiver : MonoBehaviour
             // Parent under spline container so feathers move with the spline (e.g. when using SplineFollowTarget)
             Transform parent = spline.SplineTransform != null ? spline.SplineTransform : Mask;
             item.transform.SetParent(parent, worldPositionStays: true);
-            RedistributeSpline(type, spline);
+            RedistributeSpline(typeId, spline);
             item.AnimateSettleRotation(rotationBeforePlace, item.SettleRotationDuration);
             return;
         }
@@ -92,15 +93,19 @@ public class MaskAttachmentReceiver : MonoBehaviour
 
     private bool TryGetSplineSetup(DropTypeId type, out SplineAttachmentSetup setup)
     {
-        if (splineSetups != null)
+        if (type == null || splineSetups == null)
         {
-            foreach (var s in splineSetups)
+            setup = null;
+            return false;
+        }
+
+        string typeId = type.Id;
+        foreach (var s in splineSetups)
+        {
+            if (s != null && s.DropType != null && s.DropType.Id == typeId && s.HasValidSpline)
             {
-                if (s != null && s.DropType == type)
-                {
-                    setup = s;
-                    return true;
-                }
+                setup = s;
+                return true;
             }
         }
 
@@ -110,15 +115,19 @@ public class MaskAttachmentReceiver : MonoBehaviour
 
     private bool TryGetSlotSetup(DropTypeId type, out SlotAttachmentSetup setup)
     {
-        if (slotSetups != null)
+        if (type == null || slotSetups == null)
         {
-            foreach (var s in slotSetups)
+            setup = null;
+            return false;
+        }
+
+        string typeId = type.Id;
+        foreach (var s in slotSetups)
+        {
+            if (s != null && s.DropType != null && s.DropType.Id == typeId)
             {
-                if (s != null && s.DropType == type)
-                {
-                    setup = s;
-                    return true;
-                }
+                setup = s;
+                return true;
             }
         }
 
@@ -126,9 +135,9 @@ public class MaskAttachmentReceiver : MonoBehaviour
         return false;
     }
 
-    private void RedistributeSpline(DropTypeId type, SplineAttachmentSetup spline)
+    private void RedistributeSpline(string typeId, SplineAttachmentSetup spline)
     {
-        if (!attachedByType.TryGetValue(type, out var list) || list.Count == 0)
+        if (!attachedByTypeId.TryGetValue(typeId, out var list) || list.Count == 0)
             return;
 
         int count = list.Count;
@@ -146,14 +155,15 @@ public class MaskAttachmentReceiver : MonoBehaviour
     /// <summary>Number of attached items of this type. Useful for UI or ultimate ability.</summary>
     public int GetAttachedCount(DropTypeId type)
     {
-        return attachedByType.TryGetValue(type, out var list) ? list.Count : 0;
+        if (type == null) return 0;
+        return attachedByTypeId.TryGetValue(type.Id, out var list) ? list.Count : 0;
     }
 
     /// <summary>Total number of attached drops across all types. Used for ultimate ability charge.</summary>
     public int GetTotalAttachedCount()
     {
         int total = 0;
-        foreach (var list in attachedByType.Values)
+        foreach (var list in attachedByTypeId.Values)
         {
             if (list != null)
                 total += list.Count;
@@ -164,7 +174,8 @@ public class MaskAttachmentReceiver : MonoBehaviour
     /// <summary>All attached transforms for a type. Read-only.</summary>
     public IReadOnlyList<Transform> GetAttached(DropTypeId type)
     {
-        return attachedByType.TryGetValue(type, out var list) ? list : (IReadOnlyList<Transform>)new List<Transform>();
+        if (type == null) return (IReadOnlyList<Transform>)new List<Transform>();
+        return attachedByTypeId.TryGetValue(type.Id, out var list) ? list : (IReadOnlyList<Transform>)new List<Transform>();
     }
 
     /// <summary>
@@ -173,7 +184,7 @@ public class MaskAttachmentReceiver : MonoBehaviour
     /// </summary>
     public void ClearAllAttached()
     {
-        foreach (var list in attachedByType.Values)
+        foreach (var list in attachedByTypeId.Values)
         {
             if (list == null) continue;
             foreach (Transform t in list)
@@ -183,6 +194,6 @@ public class MaskAttachmentReceiver : MonoBehaviour
             }
             list.Clear();
         }
-        attachedCountByType.Clear();
+        attachedCountByTypeId.Clear();
     }
 }

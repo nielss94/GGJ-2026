@@ -110,7 +110,10 @@ public static class EventBus
 
     public static void RaiseUltimateUsed() => UltimateUsed?.Invoke();
 
-    /// <summary>Optional: set by UltimateAbility so UI/glow can read charge without a direct reference. Returns (current drops, required drops).</summary>
+    /// <summary>
+    /// Optional: set by the designated player's UltimateAbility when enabled. Returns (current drops, required drops).
+    /// Prefer reading from LevelProgressionManager.DesignatedPlayer -> UltimateAbility.GetCharge() for UI so the source is explicit.
+    /// </summary>
     public static Func<(int current, int required)> GetUltimateCharge;
 
     public static void SetUltimateChargeProvider(Func<(int current, int required)> provider) => GetUltimateCharge = provider;

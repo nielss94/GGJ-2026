@@ -28,6 +28,12 @@ public class SplineAttachmentSetup
 
     public DropTypeId DropType => dropType;
 
+    /// <summary>True if this setup can actually place items (has a non-null container with at least one spline).</summary>
+    public bool HasValidSpline =>
+        splineContainer != null
+        && splineContainer.Splines != null
+        && splineContainer.Splines.Count > 0;
+
     /// <summary>Transform items should be parented to when using this spline (so they move with the spline).</summary>
     public Transform SplineTransform => splineContainer != null ? splineContainer.transform : null;
 

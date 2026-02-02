@@ -66,13 +66,21 @@ public class UltimateAbility : PlayerAbility
 
     private void OnEnable()
     {
-        EventBus.SetUltimateChargeProvider(GetUltimateCharge);
+        if (IsDesignatedPlayerAbility())
+            EventBus.SetUltimateChargeProvider(GetUltimateCharge);
     }
 
     private void OnDisable()
     {
-        EventBus.ClearUltimateChargeProvider();
+        if (IsDesignatedPlayerAbility())
+            EventBus.ClearUltimateChargeProvider();
         isBlastActive = false;
+    }
+
+    private bool IsDesignatedPlayerAbility()
+    {
+        var manager = LevelProgressionManager.Instance;
+        return manager != null && manager.DesignatedPlayer != null && PlayerTransform == manager.DesignatedPlayer;
     }
 
     /// <summary>Debug: add enough charge to use the ultimate once. Called by FillUltimateDebug.</summary>
@@ -88,9 +96,15 @@ public class UltimateAbility : PlayerAbility
         return real + debugExtraDrops;
     }
 
-    private (int current, int required) GetUltimateCharge()
+    /// <summary>Current charge (drops collected) and required drops to use the ultimate. Use for UI (e.g. UltimateChargeDisplay).</summary>
+    public (int current, int required) GetCharge()
     {
         return (GetEffectiveDropCount(), dropsRequired);
+    }
+
+    private (int current, int required) GetUltimateCharge()
+    {
+        return GetCharge();
     }
 
     public override bool CanPerform
