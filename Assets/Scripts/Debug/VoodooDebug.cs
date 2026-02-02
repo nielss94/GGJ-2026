@@ -12,9 +12,6 @@ public class VoodooDebug : MonoBehaviour
     [SerializeField] private InputActionAsset inputActions;
 
     [Header("Debug controls")]
-    [SerializeField]
-    [TextArea(2, 8)]
-    private string controlSummary = "Assign Input Actions to see bindings.";
 
     private InputAction openUpgradePanelAction;
     private string cachedGuiText;
@@ -32,19 +29,6 @@ public class VoodooDebug : MonoBehaviour
             }
         }
     }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        if (inputActions != null)
-        {
-            var debugMap = inputActions.FindActionMap("Debug");
-            if (debugMap != null)
-                controlSummary = BuildControlSummary(debugMap);
-        }
-    }
-#endif
-
     private static string BuildControlSummary(InputActionMap debugMap)
     {
         var sb = new StringBuilder();

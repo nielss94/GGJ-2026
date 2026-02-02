@@ -10,7 +10,6 @@ public abstract class PlayerAbility : MonoBehaviour
     public int level = 1;
     [Header("Ability Info")]
     [SerializeField] protected string abilityName = "Ability";
-    [SerializeField][TextArea(1, 3)] private string description = "";
 
     [Header("Slot (used when manager auto-assigns)")]
     [Tooltip("If PlayerAbilityManager has Auto-Assign enabled, this ability is assigned to this button slot.")]

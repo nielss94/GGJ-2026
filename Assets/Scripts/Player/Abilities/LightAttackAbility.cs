@@ -73,8 +73,6 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
     [SerializeField] private GameObject[] attackSpritePerSwing = new GameObject[3];
     [Tooltip("Base scale per plane (set in engine, e.g. -1 on X to flip). Final scale = this * Size (upgrades). Leave at (1,1,1) for no flip.")]
     [SerializeField] private Vector3[] attackPlaneBaseScale = new Vector3[] { Vector3.one, Vector3.one, Vector3.one };
-    [Tooltip("Distance in front of the player to place the sprite when shown (meters).")]
-    [SerializeField] private float spriteShowOffset = 0.6f;
 
     [Header("Debug")]
     [Tooltip("Draw hitbox in Scene view when this object is selected.")]
