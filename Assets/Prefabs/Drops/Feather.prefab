@@ -4976,12 +4976,12 @@ MonoBehaviour:
   dropAnimDuration: 0.35
   spawnScale: 0.3
   bounceHeight: 1
-  flySpeed: 3
+  flySpeed: 7
   slowDownDistance: 1
-  attachDistance: 2
+  attachDistance: 0.5
   arcHeight: 4
   settleRotationDuration: 0.6
-  settleRotationEase: 1
+  settleRotationEase: 2
 --- !u!1001 &1510688714585737214
 PrefabInstance:
   m_ObjectHideFlags: 0
