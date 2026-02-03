@@ -179,15 +179,28 @@ public class LevelProgressionManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Resets the player's Health to full. Call when starting a new run after death (before LoadFirstLevel).
-    /// Uses the assigned player transform to find the Health component.
+    /// Resets the player for a new run: health to full, stats and ability upgrades to base, and clears collected drops.
+    /// Call when starting a new run after death (before LoadFirstLevel).
     /// </summary>
     public void ResetPlayerForNewRun()
     {
         if (playerTransform == null) return;
+
         var health = playerTransform.GetComponent<Health>();
         if (health != null)
             health.ResetToFull();
+
+        var stats = playerTransform.GetComponent<PlayerStats>();
+        if (stats != null)
+            stats.ResetToBase();
+
+        var abilityManager = playerTransform.GetComponentInChildren<PlayerAbilityManager>(true);
+        if (abilityManager != null)
+            abilityManager.ResetAllAbilitiesToBase();
+
+        var dropManager = playerTransform.GetComponentInChildren<PlayerDropManager>(true);
+        if (dropManager != null)
+            dropManager.ClearAllDrops();
     }
 
     private void AssignNextLevelsToDoors()

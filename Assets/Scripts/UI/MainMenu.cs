@@ -24,6 +24,19 @@ public class MainMenu : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(firstSelected);
     }
 
+    private void Update()
+    {
+        if (!gameObject.activeInHierarchy || firstSelected == null || !firstSelected.activeInHierarchy)
+            return;
+        var eventSystem = EventSystem.current;
+        if (eventSystem == null) return;
+        if (MenuKeyboardNavigation.IsSelectionInMenu(transform))
+            return;
+        if (!MenuKeyboardNavigation.WasNavigationOrSubmitPressed())
+            return;
+        eventSystem.SetSelectedGameObject(firstSelected);
+    }
+
     public void OnStartGameClicked()
     {
         if (RunStats.Instance != null)

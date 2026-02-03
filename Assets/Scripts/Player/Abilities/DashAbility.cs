@@ -44,6 +44,14 @@ public class DashAbility : PlayerAbility
     public bool IsDashing => isDashing;
 
     private bool isDashing;
+    private float baseDashDistance;
+    private float baseDashSpeed;
+
+    private void Awake()
+    {
+        baseDashDistance = dashDistance;
+        baseDashSpeed = dashSpeed;
+    }
 
     private void Reset()
     {
@@ -60,6 +68,13 @@ public class DashAbility : PlayerAbility
     {
         TryApplyUpgrade(dashDistanceStatId, statId, value, v => dashDistance += v);
         TryApplyUpgrade(dashSpeedStatId, statId, value, v => dashSpeed += v);
+    }
+
+    public override void ResetToBase()
+    {
+        dashDistance = baseDashDistance;
+        dashSpeed = baseDashSpeed;
+        base.ResetToBase();
     }
 
     public override bool CanPerform => !isDashing && base.CanPerform;

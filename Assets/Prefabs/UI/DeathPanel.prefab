@@ -730,6 +730,7 @@ GameObject:
   - component: {fileID: 5889556962509840088}
   - component: {fileID: 7240375959042150025}
   - component: {fileID: 6345450603021250931}
+  - component: {fileID: 9199990001}
   m_Layer: 5
   m_Name: MainMenuButton
   m_TagString: Untagged
@@ -851,6 +852,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9199990001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7308367211183058890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e8c9d0f1a2b3c4d5e6f7a8b9c0d1e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MenuButtonSelectionAnimator
+  selectedScale: 1.05
+  animationDuration: 0.15
+  selectSound: {fileID: 0}
 --- !u!1 &7378612929370110190
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,6 +916,7 @@ GameObject:
   - component: {fileID: 637572027609648762}
   - component: {fileID: 4610891243286257030}
   - component: {fileID: 4536088214351814728}
+  - component: {fileID: 9199990002}
   m_Layer: 5
   m_Name: NewRunButton
   m_TagString: Untagged
@@ -1021,3 +1038,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9199990002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8712085328808547380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e8c9d0f1a2b3c4d5e6f7a8b9c0d1e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MenuButtonSelectionAnimator
+  selectedScale: 1.05
+  animationDuration: 0.15
+  selectSound: {fileID: 0}

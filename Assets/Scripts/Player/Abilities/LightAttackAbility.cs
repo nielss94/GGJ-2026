@@ -159,6 +159,19 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
     /// <summary>Buffered next swing index (1 or 2). -1 = none. Only one buffer at a time; cannot buffer attack1 during attack3.</summary>
     private int bufferedSwingIndex = -1;
 
+    private float baseSize;
+    private float baseAttackSpeed;
+    private float baseCooldown;
+    private float baseDamage;
+
+    private void Awake()
+    {
+        baseSize = size;
+        baseAttackSpeed = attackSpeed;
+        baseCooldown = cooldown;
+        baseDamage = damage;
+    }
+
     private void Reset()
     {
         preferredSlot = PlayerAbilityManager.AbilitySlot.X;
@@ -213,6 +226,15 @@ public class LightAttackAbility : PlayerAbility, IInputBufferable
         TryApplyUpgrade(attackSpeedStatId, statId, value, v => attackSpeed += v);
         TryApplyUpgrade(cooldownStatId, statId, value, v => cooldown += v);
         TryApplyUpgrade(damageStatId, statId, value, v => damage += v);
+    }
+
+    public override void ResetToBase()
+    {
+        size = baseSize;
+        attackSpeed = baseAttackSpeed;
+        cooldown = baseCooldown;
+        damage = baseDamage;
+        base.ResetToBase();
     }
 
     public override bool CanPerform

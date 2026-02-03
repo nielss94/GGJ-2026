@@ -181,4 +181,15 @@ public class PlayerAbilityManager : MonoBehaviour
             _ => null
         };
     }
+
+    /// <summary>
+    /// Resets all slotted abilities to base state (level 1, base values). Call when starting a new run (e.g. after death).
+    /// </summary>
+    public void ResetAllAbilitiesToBase()
+    {
+        abilitySlotA?.ResetToBase();
+        abilitySlotB?.ResetToBase();
+        abilitySlotX?.ResetToBase();
+        abilitySlotY?.ResetToBase();
+    }
 }

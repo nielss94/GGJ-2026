@@ -132,6 +132,17 @@ public class UpgradePanel : MonoBehaviour
         eventSystem.SetSelectedGameObject(toSelect);
     }
 
+    private void Update()
+    {
+        if (!gameObject.activeSelf || spawnedCards.Count == 0)
+            return;
+        if (MenuKeyboardNavigation.IsSelectionInMenu(transform))
+            return;
+        if (!MenuKeyboardNavigation.WasNavigationOrSubmitPressed())
+            return;
+        SelectDefaultCard();
+    }
+
     private void OnCardChosen(UpgradeOffer chosen)
     {
         if (hasChosen || chosen == null)

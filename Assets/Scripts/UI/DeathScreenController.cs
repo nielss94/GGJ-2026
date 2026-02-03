@@ -71,6 +71,19 @@ public class DeathScreenController : MonoBehaviour
         SetVisible(active);
     }
 
+    private void Update()
+    {
+        if (container == null || !container.activeSelf || firstSelected == null || !firstSelected.activeInHierarchy)
+            return;
+        var eventSystem = EventSystem.current;
+        if (eventSystem == null) return;
+        if (MenuKeyboardNavigation.IsSelectionInMenu(container.transform))
+            return;
+        if (!MenuKeyboardNavigation.WasNavigationOrSubmitPressed())
+            return;
+        eventSystem.SetSelectedGameObject(firstSelected);
+    }
+
     private static string FormatRecap(RunRecap recap)
     {
         return $"Levels completed: {recap.LevelsCompleted}\nEnemies defeated: {recap.EnemiesKilled}\nTime survived: {recap.FormatTime()}";

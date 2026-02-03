@@ -972,7 +972,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DashAbility
   level: 1
   abilityName: Dash
-  description: DASH
   preferredSlot: 0
   playerRigidbodyOverride: {fileID: 0}
   dashDistanceStatId: {fileID: 11400000, guid: 6d638d9c3753043bc812e065247f5641, type: 2}
@@ -1603,7 +1602,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UltimateAbility
   level: 1
   abilityName: Ability
-  description: 
   preferredSlot: 3
   playerRigidbodyOverride: {fileID: 0}
   dropsRequired: 20
@@ -1882,7 +1880,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LightAttackAbility
   level: 1
   abilityName: Light Attack
-  description: ATAK
   preferredSlot: 2
   playerRigidbodyOverride: {fileID: 0}
   sizeStatId: {fileID: 11400000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 2}
@@ -1918,7 +1915,6 @@ MonoBehaviour:
   - {x: 0.54922, y: 0.54922, z: -0.54922}
   - {x: 0.54922, y: 0.54922, z: 0.54922}
   - {x: 0.87000006, y: 0.87, z: -0.87000006}
-  spriteShowOffset: 0
   drawHitboxGizmo: 1
   enableLogging: 0
   fmodSwing: {fileID: 11400000, guid: e9dca65d3960f9b4c82dc61235c28904, type: 2}

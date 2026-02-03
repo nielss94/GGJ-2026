@@ -118,4 +118,14 @@ public abstract class PlayerAbility : MonoBehaviour
     /// Called when the player triggers this ability (button pressed). Return true if the ability was performed.
     /// </summary>
     public abstract bool TryPerform();
+
+    /// <summary>
+    /// Resets this ability to base state (level 1, base values). Override to restore upgradeable fields then call base.
+    /// Call when starting a new run (e.g. after death).
+    /// </summary>
+    public virtual void ResetToBase()
+    {
+        level = 1;
+        ApplyLevel();
+    }
 }

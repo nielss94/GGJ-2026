@@ -89,4 +89,14 @@ public class PlayerStats : MonoBehaviour
     {
         return CritChance > 0f && Random.value < CritChance;
     }
+
+    /// <summary>
+    /// Resets all stats to base values and clears upgrade levels. Call when starting a new run (e.g. after death).
+    /// </summary>
+    public void ResetToBase()
+    {
+        critChance = baseCritChance;
+        knockbackForce = baseKnockbackForce;
+        levels.Clear();
+    }
 }

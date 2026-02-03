@@ -89,6 +89,12 @@ public class UltimateAbility : PlayerAbility
         debugExtraDrops = Mathf.Max(debugExtraDrops, dropsRequired);
     }
 
+    public override void ResetToBase()
+    {
+        debugExtraDrops = 0;
+        base.ResetToBase();
+    }
+
     private int GetEffectiveDropCount()
     {
         var manager = ResolveDropManager();
