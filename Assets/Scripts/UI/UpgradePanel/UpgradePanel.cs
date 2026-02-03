@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using PrimeTween;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -31,11 +33,28 @@ public class UpgradePanel : MonoBehaviour
     [Tooltip("Ratio of ability vs stat upgrades (0 = all stat, 1 = all ability).")]
     [SerializeField][Range(0f, 1f)] private float abilityRatio = 0.5f;
 
+    [Header("Slide-in")]
+    [Tooltip("RectTransform to animate. If unset, uses this GameObject's RectTransform.")]
+    [SerializeField] private RectTransform panelRootForSlide;
+    [Tooltip("Offset from final position: panel starts at restPosition + this and slides in. E.g. (1200,0) from right, (-1200,0) from left, (0,800) from top.")]
+    [SerializeField] private Vector2 slideInOffset = new Vector2(0f, 600f);
+    [Tooltip("Duration of the slide-in animation in seconds.")]
+    [SerializeField] private float slideInDuration = 0.35f;
+
+    [Header("UI input lock")]
+    [Tooltip("Seconds before the panel accepts input (clicks/submit). Prevents accidental choice when spamming dash. 0 = immediate. Set e.g. to half of slide duration so input enables halfway for fast users.")]
+    [SerializeField] private float uiInputLockDuration = 0.2f;
+
     [Header("Sounds")]
     [SerializeField] private FmodEventAsset openSound;
 
     private readonly List<Card> spawnedCards = new List<Card>();
     private bool hasChosen;
+    private bool uiInputLocked;
+    private Vector2 restAnchoredPosition;
+    private bool restAnchoredPositionCached;
+    private Tween slideTween;
+    private Coroutine inputLockCoroutine;
 
     private void Awake()
     {
@@ -57,19 +76,78 @@ public class UpgradePanel : MonoBehaviour
     public void Open()
     {
         hasChosen = false;
+        if (inputLockCoroutine != null)
+        {
+            StopCoroutine(inputLockCoroutine);
+            inputLockCoroutine = null;
+        }
+        slideTween.Stop();
         gameObject.SetActive(true);
         EventBus.RaiseGameplayPaused();
         EventBus.RaisePlayerInputBlockRequested(this);
         PlayOpenSound();
         SpawnCards();
+
+        // No card selected yet so buffered submit doesn't pick one
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
+        uiInputLocked = true;
+
+        RectTransform rt = GetSlideRect();
+        if (rt != null)
+        {
+            if (!restAnchoredPositionCached)
+            {
+                restAnchoredPosition = rt.anchoredPosition;
+                restAnchoredPositionCached = true;
+            }
+            Vector2 startPos = restAnchoredPosition + slideInOffset;
+            rt.anchoredPosition = startPos;
+            if (slideInDuration > 0f)
+            {
+                slideTween = Tween.Custom(0f, 1f, slideInDuration, t =>
+                {
+                    if (rt != null)
+                        rt.anchoredPosition = Vector2.Lerp(startPos, restAnchoredPosition, t);
+                }, Ease.OutQuad);
+            }
+            else
+            {
+                rt.anchoredPosition = restAnchoredPosition;
+            }
+        }
+
+        inputLockCoroutine = StartCoroutine(UnlockInputAfterDelay());
     }
 
     public void Close()
     {
+        if (inputLockCoroutine != null)
+        {
+            StopCoroutine(inputLockCoroutine);
+            inputLockCoroutine = null;
+        }
+        slideTween.Stop();
         gameObject.SetActive(false);
         EventBus.RaiseGameplayResumed();
         EventBus.RaisePlayerInputUnblockRequested(this);
         UnsubscribeAndClearCards();
+    }
+
+    private RectTransform GetSlideRect()
+    {
+        if (panelRootForSlide != null)
+            return panelRootForSlide;
+        return transform as RectTransform;
+    }
+
+    private IEnumerator UnlockInputAfterDelay()
+    {
+        if (uiInputLockDuration > 0f)
+            yield return new WaitForSeconds(uiInputLockDuration);
+        uiInputLocked = false;
+        SelectDefaultCard();
+        inputLockCoroutine = null;
     }
 
     public void Toggle()
@@ -116,7 +194,7 @@ public class UpgradePanel : MonoBehaviour
             spawnedCards.Add(card);
         }
 
-        SelectDefaultCard();
+        // Selection is set when UI input unlocks so buffered submit doesn't pick a card
     }
 
     private void SelectDefaultCard()
@@ -136,6 +214,8 @@ public class UpgradePanel : MonoBehaviour
     {
         if (!gameObject.activeSelf || spawnedCards.Count == 0)
             return;
+        if (uiInputLocked)
+            return;
         if (MenuKeyboardNavigation.IsSelectionInMenu(transform))
             return;
         if (!MenuKeyboardNavigation.WasNavigationOrSubmitPressed())
@@ -145,7 +225,7 @@ public class UpgradePanel : MonoBehaviour
 
     private void OnCardChosen(UpgradeOffer chosen)
     {
-        if (hasChosen || chosen == null)
+        if (uiInputLocked || hasChosen || chosen == null)
             return;
         hasChosen = true;
         EventBus.RaiseUpgradeChosen(chosen);
