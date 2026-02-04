@@ -48,4 +48,9 @@ public class MainMenu : MonoBehaviour
         if (LevelProgressionManager.Instance != null)
             LevelProgressionManager.Instance.LoadFirstLevel();
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
