@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MaskTransparent
+  m_Name: M_MaskTransparent
   m_Shader: {fileID: 4800000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

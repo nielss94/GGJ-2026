@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FmodEventAsset
   eventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1741358963
+      Data2: 1336585954
+      Data3: -1287282816
+      Data4: -292723290
+    Path: event:/Ult
