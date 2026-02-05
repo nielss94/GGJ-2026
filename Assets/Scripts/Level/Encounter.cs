@@ -16,7 +16,7 @@ public class Encounter : MonoBehaviour
     [SerializeField][Range(0f, 1f)] private float initialSpendRatio = 0.7f;
 
     [Header("Spawning")]
-    [Tooltip("Seconds to wait after the level loads before spawning the first wave. Gives the player a moment before enemies appear.")]
+    [Tooltip("Initial spawn delay: seconds to wait after the level loads before spawning the first wave. 0 = spawn immediately.")]
     [SerializeField] private float spawnStartDelay = 1f;
     [Tooltip("Prefabs to spawn (must have Health and EnemyTypeApplier for cost).")]
     [SerializeField] private GameObject[] enemyPrefabs = Array.Empty<GameObject>();
@@ -28,12 +28,15 @@ public class Encounter : MonoBehaviour
     [SerializeField] private float spawnInterval = 5f;
 
     [Header("Audio")]
+    [Tooltip("Optional FMOD event played when the first enemy spawns in this level (at spawn position).")]
+    [SerializeField] private FmodEventAsset fmodEnemySpawn;
     [Tooltip("Optional FMOD event played when the encounter completes.")]
     [SerializeField] private FmodEventAsset fmodEncounterComplete;
 
     private float remainingBudget;
     private readonly HashSet<Health> tracked = new HashSet<Health>();
     private bool completed;
+    private bool hasPlayedFirstSpawnSound;
 
     /// <summary>Remaining power budget. Decremented when spawning; encounter completes when this is 0 and all tracked are dead.</summary>
     public float RemainingBudget => remainingBudget;
@@ -50,6 +53,7 @@ public class Encounter : MonoBehaviour
 
     private void Start()
     {
+        hasPlayedFirstSpawnSound = false;
         if (LevelProgressionManager.Instance != null)
             SetBudget(LevelProgressionManager.Instance.GetBudgetForCurrentLevel());
         remainingBudget = budget;
@@ -110,6 +114,11 @@ public class Encounter : MonoBehaviour
         {
             Track(health);
             remainingBudget -= cost;
+            if (!hasPlayedFirstSpawnSound && fmodEnemySpawn != null && !fmodEnemySpawn.IsNull && AudioService.Instance != null)
+            {
+                AudioService.Instance.PlayOneShot(fmodEnemySpawn, position);
+                hasPlayedFirstSpawnSound = true;
+            }
             return true;
         }
 
