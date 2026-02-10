@@ -559,12 +559,12 @@ MonoBehaviour:
   RealChannelSettings: []
   Plugins: []
   MasterBanks:
-  - Master
+  - Desktop/Master
   Banks:
-  - EnemySounds
-  - Musicbank
-  - Player
-  - UI
+  - Desktop/EnemySounds
+  - Desktop/Musicbank
+  - Desktop/Player
+  - Desktop/UI
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
